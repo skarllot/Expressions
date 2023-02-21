@@ -17,9 +17,9 @@
     <Copyright>Copyright © Fabricio Godoy</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <NeutralLanguage>en</NeutralLanguage>
-    <RepositoryUrl>https://github.com/skarllot/Specification</RepositoryUrl>
+    <RepositoryUrl>https://github.com/skarllot/Expressions</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageProjectUrl>https://github.com/skarllot/Specification</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/skarllot/Expressions</PackageProjectUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
