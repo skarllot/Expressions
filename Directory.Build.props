@@ -13,7 +13,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Description>Provides base for specifications to a DDD model</Description>
     <Authors>Fabricio Godoy</Authors>
     <Copyright>Copyright © Fabricio Godoy</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -21,9 +20,6 @@
     <RepositoryUrl>https://github.com/skarllot/Specification</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>https://github.com/skarllot/Specification</PackageProjectUrl>
-    <PackageTags>
-      spec;specification;ddd;domain;ef;efcore;core;query;command
-    </PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">

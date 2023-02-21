@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="a115d3b3-3c88-4abb-86a3-020daaf0b723" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Expressions/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Expressions/.idea/aws.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Expressions/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Expressions/.idea/indexLayout.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Expressions/.idea/sonarlint.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Expressions/.idea/sonarlint/issuestore/0/3/0398ccd0f49298b10a3d76a47800d2ebecd49859" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Expressions/.idea/sonarlint/issuestore/1/1/1195a59426e3fd4d9bbcf5a94ea3a9ec33607c0d" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Expressions/.idea/sonarlint/issuestore/3/9/3984f0035d401b5c761bb2681507909e8b87b964" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Expressions/.idea/sonarlint/issuestore/5/f/5fcd675b026f47a0d269d0901fb923d54327f77e" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Expressions/.idea/sonarlint/issuestore/6/2/626a747c8694eaae66f2afb3d1a745b045782c70" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Expressions/.idea/sonarlint/issuestore/7/0/70b265be070a69f05d7e46713bfd3e29536248f9" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Expressions/.idea/sonarlint/issuestore/7/7/774331d516fa4bd224936f1aab5540e033c35cb7" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Expressions/.idea/sonarlint/issuestore/8/9/8925387828c85389439414005a75ba13b95e2dca" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Expressions/.idea/sonarlint/issuestore/8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Expressions/.idea/sonarlint/issuestore/9/d/9d5da643c764b5df5e06d0d7f287f2a60d3b0253" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Expressions/.idea/sonarlint/issuestore/9/f/9f718ca910402d6e5c85057a96b6847498134fb0" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Expressions/.idea/sonarlint/issuestore/a/2/a27413f18e83d5dbaac83bbe1f3aec1ce226c6fe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Expressions/.idea/sonarlint/issuestore/d/6/d603d9775ab52e44a39f160cd08aaf2e38d71153" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Expressions/.idea/sonarlint/issuestore/e/3/e3aec71c9697faacffb804401fb5c9831cad38e3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Expressions/.idea/sonarlint/issuestore/f/a/faac0cad51eee3f77b57deb9ace118a52a28c0e1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Expressions/.idea/sonarlint/issuestore/f/c/fcce857b432ba3fd4c18ef662811ee364181de65" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Expressions/.idea/sonarlint/issuestore/f/e/fee601201ef492221c5d6288f723e7fd154bc3a9" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Expressions/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Expressions/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Expressions.sln.DotSettings" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Expressions.Tests/Expressions.Tests.csproj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Expressions.Tests/SpecificationOfTTest.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Expressions.Tests/SpecificationTest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Specification/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Specification/.idea/aws.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Specification/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Specification/.idea/indexLayout.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Specification/.idea/sonarlint/issuestore/index.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Specification/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Directory.Build.props" beforeDir="false" afterPath="$PROJECT_DIR$/Directory.Build.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Specification.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Expressions.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Specification.EntityFrameworkCore/EFCoreReadRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Expressions.EntityFrameworkCore/Repositories/EFCoreReadRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Specification.EntityFrameworkCore/Shims.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Expressions.EntityFrameworkCore/Shims.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Specification.EntityFrameworkCore/Specification.EntityFrameworkCore.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Expressions.EntityFrameworkCore/Expressions.EntityFrameworkCore.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Specification/AllQuery.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Expressions/Queries/AllQuery.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Specification/AllSpecification.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Expressions/AllSpecification.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Specification/AnonymousQuery.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Expressions/Queries/AnonymousQuery.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Specification/AnonymousSpecification.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Expressions/AnonymousSpecification.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Specification/ChangeTracking.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Expressions/Repositories/ChangeTracking.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Specification/EnumerableExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Expressions/EnumerableExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Specification/IReadRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Expressions/Repositories/IReadRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Specification/IRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Expressions/Repositories/IRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Specification/Query.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Expressions/Queries/Query.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Specification/Query{TSource,TResult}.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Expressions/Queries/Query{TSource,TResult}.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Specification/Query{T}.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Expressions/Queries/Query{T}.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Specification/ReplaceParameterExpressionVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Expressions/ReplaceParameterExpressionVisitor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Specification/Specification.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Expressions/Specification.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Specification/Specification.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Expressions/Expressions.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Specification/Specification{T}.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Expressions/Specification{T}.cs" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+    </option>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/10d6fa5bb525569bac76d6f21c6eac467465e1ec10a39a4c6ee7b138735b13/LambdaExpression.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/443cdabc6a7137e985ae6d3bf4eb99551c7c385ed0b03a82dda9723882a56/MulticastDelegate.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/7ebcb6f79535ad3b2e14a3a9f8686f8bf7fd6ed4455163aa9788bc0518ee892/EnumerableQuery.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/81ed92f37980bf22415131b7e1966d7f2a67267bdedb3fd7d350f6a7fd1933/Delegate.CoreCLR.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/af5e8f58e0cd43a56f652468b1080bbdbf4276e50cddad25571e6f22556715/EntityFrameworkQueryableExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d2b60674f3b5ef49d23f8128ac988fd6c59e49f0c19b383143182268f392/Queryable.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f5a2ccf8d64e7aa05089a63a768244d9f2dc55854b3a5ab1b61126bdc8f7ebe2/ToCollection.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/Expressions/Specification.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/tests/Expressions.Tests/SpecificationTest.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
+  <component name="ProjectId" id="2LxPrnxKHqoYH9du04GNkq0nQpw" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;C:\\Users\\skarl\\AppData\\Roaming\\JetBrains\\Rider2022.3\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\skarl\\AppData\\Roaming\\JetBrains\\Rider2022.3\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\skarl\\AppData\\Local\\Symbols\\src&quot;
+    ]
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a115d3b3-3c88-4abb-86a3-020daaf0b723" name="Changes" comment="" />
+      <created>1676809966644</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1676809966644</updated>
+      <workItem from="1676809968839" duration="804000" />
+      <workItem from="1676810874507" duration="15325000" />
+      <workItem from="1676993013821" duration="4678000" />
+    </task>
+    <task id="LOCAL-00001" summary="Initial definition of specification, query and repository">
+      <created>1676831193813</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1676831193813</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Initial definition of specification, query and repository" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial definition of specification, query and repository" />
+  </component>
+</project>

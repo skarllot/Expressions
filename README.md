@@ -1,2 +1,2 @@
-# Specification
-Provides base for specifications to a DDD model
+# Expressions
+Provides base for specifications and queries using expression trees that work with repositories.
