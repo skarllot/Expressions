@@ -30,7 +30,7 @@ public class DbQuery<TSource, TResult> : IQuery<TResult>
         try
         {
             return await GetDbSet()
-                .Query(_queryModel)
+                .Apply(_queryModel)
                 .AnyAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
@@ -46,7 +46,7 @@ public class DbQuery<TSource, TResult> : IQuery<TResult>
         try
         {
             return await GetDbSet()
-                .Query(_queryModel)
+                .Apply(_queryModel)
                 .LongCountAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
@@ -62,7 +62,7 @@ public class DbQuery<TSource, TResult> : IQuery<TResult>
         try
         {
             return await GetDbSet(_tracking)
-                .Query(_queryModel)
+                .Apply(_queryModel)
                 .FirstOrDefaultAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
@@ -73,12 +73,12 @@ public class DbQuery<TSource, TResult> : IQuery<TResult>
         }
     }
 
-    public async Task<List<TResult>> ListAsync(CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<TResult>> ToListAsync(CancellationToken cancellationToken = default)
     {
         try
         {
             return await GetDbSet(_tracking)
-                .Query(_queryModel)
+                .Apply(_queryModel)
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
@@ -94,7 +94,7 @@ public class DbQuery<TSource, TResult> : IQuery<TResult>
         try
         {
             return await GetDbSet(_tracking)
-                .Query(_queryModel)
+                .Apply(_queryModel)
                 .SingleOrDefaultAsync(cancellationToken)
                 .ConfigureAwait(false);
         }

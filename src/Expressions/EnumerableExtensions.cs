@@ -4,11 +4,11 @@ namespace Raiqub.Expressions;
 
 public static class EnumerableExtensions
 {
-    public static IEnumerable<TResult> Query<TSource, TResult>(
+    public static IEnumerable<TResult> Apply<TSource, TResult>(
         this IEnumerable<TSource> source,
         QueryModel<TSource, TResult> queryModel) => queryModel.Execute(source);
 
-    public static IQueryable<TResult> Query<TSource, TResult>(
+    public static IQueryable<TResult> Apply<TSource, TResult>(
         this IQueryable<TSource> queryable,
         QueryModel<TSource, TResult> queryModel) => queryModel.Execute(queryable);
 
