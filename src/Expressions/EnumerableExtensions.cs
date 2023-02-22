@@ -6,11 +6,11 @@ public static class EnumerableExtensions
 {
     public static IEnumerable<TResult> Query<TSource, TResult>(
         this IEnumerable<TSource> source,
-        Query<TSource, TResult> query) => query.Execute(source);
+        QueryModel<TSource, TResult> queryModel) => queryModel.Execute(source);
 
     public static IQueryable<TResult> Query<TSource, TResult>(
         this IQueryable<TSource> queryable,
-        Query<TSource, TResult> query) => query.Execute(queryable);
+        QueryModel<TSource, TResult> queryModel) => queryModel.Execute(queryable);
 
     public static IEnumerable<T> Where<T>(this IEnumerable<T> source, Specification<T> specification) =>
         source.Where(specification.IsSatisfiedBy);

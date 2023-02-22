@@ -1,10 +1,10 @@
 ﻿namespace Raiqub.Expressions.Queries;
 
-internal sealed class AnonymousQuery<T> : Query<T>
+internal sealed class AnonymousQueryModel<T> : QueryModel<T>
 {
     private readonly IEnumerable<Specification<T>> _specifications;
 
-    public AnonymousQuery(IEnumerable<Specification<T>> specifications)
+    public AnonymousQueryModel(IEnumerable<Specification<T>> specifications)
     {
         _specifications = specifications;
     }

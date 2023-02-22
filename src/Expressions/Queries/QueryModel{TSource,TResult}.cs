@@ -2,26 +2,26 @@
 
 namespace Raiqub.Expressions.Queries;
 
-public abstract class Query<TSource, TResult>
+public abstract class QueryModel<TSource, TResult>
 {
     private readonly IEnumerable<Specification<TSource>> _restrictions;
 
-    protected Query()
+    protected QueryModel()
     {
         _restrictions = Enumerable.Empty<Specification<TSource>>();
     }
 
-    protected Query(params Specification<TSource>[] restrictions)
+    protected QueryModel(params Specification<TSource>[] restrictions)
         : this((IEnumerable<Specification<TSource>>)restrictions)
     {
     }
 
-    protected Query(IEnumerable<Specification<TSource>> restrictions)
+    protected QueryModel(IEnumerable<Specification<TSource>> restrictions)
     {
         _restrictions = restrictions.ToList();
     }
 
-    public virtual ChangeTracking DefaultChangeTracking => ChangeTracking.Default;
+    public virtual ChangeTracking? DefaultChangeTracking => null;
 
     private Specification<TSource> CombinedSpecification =>
         Specification.And(GetPreconditions().Concat(_restrictions));
