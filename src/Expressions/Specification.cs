@@ -25,7 +25,9 @@ public static class Specification
 
     public static Specification<T> And<T>(IEnumerable<Specification<T>> specifications)
     {
-        return specifications.Aggregate(AllSpecification<T>.Instance, static (x, y) => x.And(y));
+        return specifications.Aggregate(
+            AllSpecification<T>.Instance,
+            static (x, y) => ReferenceEquals(x, AllSpecification<T>.Instance) ? y : x.And(y));
     }
 
     public static Specification<T> And<T>(params Specification<T>[] specifications)
@@ -58,7 +60,9 @@ public static class Specification
 
     public static Specification<T> Or<T>(IEnumerable<Specification<T>> specifications)
     {
-        return specifications.Aggregate(AllSpecification<T>.Instance, static (x, y) => x.Or(y));
+        return specifications.Aggregate(
+            AllSpecification<T>.Instance,
+            static (x, y) => ReferenceEquals(x, AllSpecification<T>.Instance) ? y : x.Or(y));
     }
 
     public static Specification<T> Or<T>(params Specification<T>[] specifications)

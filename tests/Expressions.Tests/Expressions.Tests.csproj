@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
     <IsPackable>false</IsPackable>
+    <TargetFrameworks>net472;net5.0;net6.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
+    <AssemblyAttribute Condition="'$(TargetFramework)' != 'net472'" Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
     <Using Include="Xunit" />
   </ItemGroup>
 

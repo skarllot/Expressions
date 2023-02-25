@@ -1,6 +1,6 @@
-﻿using System.Linq.Expressions;
-using FluentAssertions;
-using Xunit.Sdk;
+﻿using FluentAssertions;
+using Raiqub.Expressions.Tests.Examples;
+using Raiqub.Expressions.Tests.Stubs;
 
 namespace Raiqub.Expressions.Tests;
 
@@ -47,6 +47,41 @@ public class SpecificationTest
 
     [Theory]
     [InlineData("John Dee")]
+    [InlineData("john dee")]
+    [InlineData("johndee")]
+    public void AndShouldReturnTrueForEmptyCollection(string input)
+    {
+        var specification1 = Specification.And<string>();
+        var specification2 = Specification.And(Enumerable.Empty<Specification<string>>());
+
+        bool result1 = specification1.IsSatisfiedBy(input);
+        bool result2 = specification2.IsSatisfiedBy(input);
+
+        result1.Should().BeTrue();
+        result2.Should().BeTrue();
+    }
+
+    [Fact]
+    public void AndShouldEvaluateCollectionCorrectly()
+    {
+        var specification = Specification.And(
+            Specification.Create<string>(s => s.Length == 4),
+            Specification.Create<string>(s => s[0] == 'j'),
+            Specification.Create<string>(s => s[1] == 'o'),
+            Specification.Create<string>(s => s[2] == 'h'),
+            Specification.Create<string>(s => s[3] == 'n'));
+
+        bool result1 = specification.IsSatisfiedBy("john");
+        bool result2 = specification.IsSatisfiedBy("joh");
+        bool result3 = specification.IsSatisfiedBy("johm");
+
+        result1.Should().BeTrue();
+        result2.Should().BeFalse();
+        result3.Should().BeFalse();
+    }
+
+    [Theory]
+    [InlineData("John Dee")]
     [InlineData("john moor")]
     [InlineData("john")]
     public void OrShouldEvaluateFirstOnly(string input)
@@ -69,6 +104,43 @@ public class SpecificationTest
 
         bool result = specification.IsSatisfiedBy(input);
         result.Should().BeTrue();
+    }
+
+    [Theory]
+    [InlineData("John Dee")]
+    [InlineData("john dee")]
+    [InlineData("johndee")]
+    public void OrShouldReturnTrueForEmptyCollection(string input)
+    {
+        var specification1 = Specification.Or<string>();
+        var specification2 = Specification.Or(Enumerable.Empty<Specification<string>>());
+
+        bool result1 = specification1.IsSatisfiedBy(input);
+        bool result2 = specification2.IsSatisfiedBy(input);
+
+        result1.Should().BeTrue();
+        result2.Should().BeTrue();
+    }
+
+    [Fact]
+    public void OrShouldEvaluateCollectionCorrectly()
+    {
+        var specification = Specification.Or(
+            Specification.Create<string>(s => s.Length == 4),
+            Specification.Create<string>(s => s[0] == 'j'),
+            Specification.Create<string>(s => s[1] == 'o'),
+            Specification.Create<string>(s => s[2] == 'h'),
+            Specification.Create<string>(s => s[3] == 'n'));
+
+        bool result1 = specification.IsSatisfiedBy("john");
+        bool result2 = specification.IsSatisfiedBy("xuxu");
+        bool result3 = specification.IsSatisfiedBy("lanne");
+        bool result4 = specification.IsSatisfiedBy("lame word");
+
+        result1.Should().BeTrue();
+        result2.Should().BeTrue();
+        result3.Should().BeTrue();
+        result4.Should().BeFalse();
     }
 
     [Theory]
@@ -96,34 +168,5 @@ public class SpecificationTest
 
         bool result = specification.IsSatisfiedBy(input);
         result.Should().BeTrue();
-    }
-
-    private sealed class StringBeginsWithJohnSpecification : Specification<string>
-    {
-        public override Expression<Func<string, bool>> ToExpression()
-        {
-            return input => input.StartsWith("john", StringComparison.InvariantCultureIgnoreCase);
-        }
-    }
-
-    private sealed class StringEndsWithDeeSpecification : Specification<string>
-    {
-        public override Expression<Func<string, bool>> ToExpression()
-        {
-            return input => input.EndsWith("dee", StringComparison.InvariantCultureIgnoreCase);
-        }
-    }
-
-    private sealed class ProhibitedSpecification : Specification<string>
-    {
-        public override Expression<Func<string, bool>> ToExpression()
-        {
-            return input => InternalExpression();
-        }
-
-        private static bool InternalExpression()
-        {
-            throw new XunitException("The expression should not be evaluated");
-        }
     }
 }
