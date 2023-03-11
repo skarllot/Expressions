@@ -1,6 +1,4 @@
-﻿using Raiqub.Expressions.Repositories;
-
-namespace Raiqub.Expressions.Queries;
+﻿namespace Raiqub.Expressions.Queries;
 
 public abstract class QueryModel<TSource, TResult>
 {
@@ -20,8 +18,6 @@ public abstract class QueryModel<TSource, TResult>
     {
         _restrictions = restrictions.ToList();
     }
-
-    public virtual ChangeTracking? DefaultChangeTracking => null;
 
     private Specification<TSource> CombinedSpecification =>
         Specification.And(GetPreconditions().Concat(_restrictions));

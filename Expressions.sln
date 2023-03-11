@@ -18,6 +18,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D47941D6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expressions", "src\Expressions\Expressions.csproj", "{CC54C0A1-1E81-4D00-9EB0-C2D7711A574D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expressions.Reading", "src\Expressions.Reading\Expressions.Reading.csproj", "{5AB270B2-0F3E-4B79-908A-DBB2B5E18D3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expressions.Writing", "src\Expressions.Writing\Expressions.Writing.csproj", "{98856F20-BF80-43CB-B935-39E23BCBCB86}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expressions.EntityFrameworkCore", "src\Expressions.EntityFrameworkCore\Expressions.EntityFrameworkCore.csproj", "{DEB4D174-7CE5-4B5B-AAC5-FDDA39B356F8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expressions.Tests", "tests\Expressions.Tests\Expressions.Tests.csproj", "{1EDF3F9A-EA7F-4093-8F07-A5B5BBAA0E48}"

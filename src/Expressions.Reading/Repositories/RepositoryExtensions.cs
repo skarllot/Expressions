@@ -6,16 +6,16 @@ public static class RepositoryExtensions
 {
     public static IQuery<T> Using<T>(
         this IReadRepository<T> repository,
-        ChangeTracking? tracking = null)
+        IQuerySession? session = null)
     {
-        return repository.Using(QueryModel.Create<T>(), tracking);
+        return repository.Query(QueryModel.Create<T>(), session);
     }
 
     public static IQuery<T> Using<T>(
         this IReadRepository<T> repository,
         Specification<T> specification,
-        ChangeTracking? tracking = null)
+        IQuerySession? session = null)
     {
-        return repository.Using(QueryModel.Create(specification), tracking);
+        return repository.Query(QueryModel.Create(specification), session);
     }
 }

@@ -4,5 +4,5 @@ namespace Raiqub.Expressions.Repositories;
 
 public interface IReadRepository<T>
 {
-    IQuery<TResult> Using<TResult>(QueryModel<T, TResult> queryModel, ChangeTracking? tracking = null);
+    IQuery<TResult> Query<TResult>(QueryModel<T, TResult> queryModel, IQuerySession? session = null);
 }
