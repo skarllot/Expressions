@@ -1,6 +1,10 @@
 ﻿namespace Raiqub.Expressions.Repositories;
 
-public interface ISession : IQuerySession
+public interface ISession
 {
-    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+    void Open(ChangeTracking? tracking = null);
+
+    void OpenForQuery();
+
+    Task SaveChangesAsync(CancellationToken cancellationToken = default);
 }

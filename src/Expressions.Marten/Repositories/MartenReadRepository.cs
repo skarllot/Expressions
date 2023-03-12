@@ -1,5 +1,4 @@
-﻿using Marten;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Raiqub.Expressions.Queries;
 using Raiqub.Expressions.Repositories;
 
@@ -8,20 +7,22 @@ namespace Raiqub.Expressions.Marten.Repositories;
 public class MartenReadRepository<T> : IReadRepository<T>
 {
     private readonly ILogger<MartenReadRepository<T>> _logger;
-    private readonly IDocumentStore _documentStore;
+    private readonly MartenSession _session;
 
-    public MartenReadRepository(ILogger<MartenReadRepository<T>> logger, IDocumentStore documentStore)
+    public MartenReadRepository(ILogger<MartenReadRepository<T>> logger, MartenSession session)
     {
         _logger = logger;
-        _documentStore = documentStore;
+        _session = session;
     }
 
-    public IQuery<TResult> Using<TResult>(QueryModel<T, TResult> queryModel, ChangeTracking? tracking = null)
+    public ISession Session => _session;
+
+    public IQuery<TResult> Query<TResult>(QueryModel<T, TResult> queryModel, ChangeTracking? tracking = null)
     {
         return new MartenQuery<T, TResult>(
             _logger,
-            _documentStore,
+            _session,
             queryModel,
-            tracking ?? queryModel.DefaultChangeTracking ?? ChangeTracking.Default);
+            tracking ?? ChangeTracking.Default);
     }
 }

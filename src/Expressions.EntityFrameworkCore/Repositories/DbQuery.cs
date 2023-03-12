@@ -36,7 +36,7 @@ public class DbQuery<TSource, TResult> : IQuery<TResult>
         }
         catch (Exception exception) when (exception is not OperationCanceledException)
         {
-            _logger.LogError(exception, "Error trying to query whether any element exists");
+            QueryLog.AnyError(_logger, exception);
             throw;
         }
     }
@@ -52,7 +52,7 @@ public class DbQuery<TSource, TResult> : IQuery<TResult>
         }
         catch (Exception exception) when (exception is not OperationCanceledException)
         {
-            _logger.LogError(exception, "Error trying to count elements");
+            QueryLog.CountError(_logger, exception);
             throw;
         }
     }
@@ -68,7 +68,7 @@ public class DbQuery<TSource, TResult> : IQuery<TResult>
         }
         catch (Exception exception) when (exception is not OperationCanceledException)
         {
-            _logger.LogError(exception, "Error trying to query the first element");
+            QueryLog.FirstError(_logger, exception);
             throw;
         }
     }
@@ -84,7 +84,7 @@ public class DbQuery<TSource, TResult> : IQuery<TResult>
         }
         catch (Exception exception) when (exception is not OperationCanceledException)
         {
-            _logger.LogError(exception, "Error trying to list found elements");
+            QueryLog.ListError(_logger, exception);
             throw;
         }
     }
@@ -100,7 +100,7 @@ public class DbQuery<TSource, TResult> : IQuery<TResult>
         }
         catch (Exception exception) when (exception is not OperationCanceledException)
         {
-            _logger.LogError(exception, "Error trying to query the single element");
+            QueryLog.SingleError(_logger, exception);
             throw;
         }
     }

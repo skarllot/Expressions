@@ -2,7 +2,9 @@
 
 namespace Raiqub.Expressions.Repositories;
 
-public interface IReadRepository<T>
+public interface IReadRepository<T> : IAsyncDisposable, IDisposable
 {
-    IQuery<TResult> Query<TResult>(QueryModel<T, TResult> queryModel, IQuerySession? session = null);
+    ISession Session { get; }
+
+    IQuery<TResult> Query<TResult>(QueryModel<T, TResult> queryModel, ChangeTracking? tracking = null);
 }

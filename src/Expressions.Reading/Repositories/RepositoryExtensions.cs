@@ -4,18 +4,18 @@ namespace Raiqub.Expressions.Repositories;
 
 public static class RepositoryExtensions
 {
-    public static IQuery<T> Using<T>(
+    public static IQuery<T> Query<T>(
         this IReadRepository<T> repository,
-        IQuerySession? session = null)
+        ChangeTracking? tracking = null)
     {
-        return repository.Query(QueryModel.Create<T>(), session);
+        return repository.Query(QueryModel.Create<T>(), tracking);
     }
 
-    public static IQuery<T> Using<T>(
+    public static IQuery<T> Query<T>(
         this IReadRepository<T> repository,
         Specification<T> specification,
-        IQuerySession? session = null)
+        ChangeTracking? tracking = null)
     {
-        return repository.Query(QueryModel.Create(specification), session);
+        return repository.Query(QueryModel.Create(specification), tracking);
     }
 }

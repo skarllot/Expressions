@@ -10,20 +10,46 @@ public class DbReadRepository<TDbContext, TEntity> : IReadRepository<TEntity>
     where TEntity : class
 {
     private readonly ILogger<DbReadRepository<TDbContext, TEntity>> _logger;
-    private readonly DbContext _dbContext;
+    private readonly DbSession<TDbContext> _session;
 
-    public DbReadRepository(ILogger<DbReadRepository<TDbContext, TEntity>> logger, TDbContext dbContext)
+    public DbReadRepository(ILogger<DbReadRepository<TDbContext, TEntity>> logger, DbSession<TDbContext> session)
     {
         _logger = logger;
-        _dbContext = dbContext;
+        _session = session;
     }
 
-    public IQuery<TResult> Using<TResult>(QueryModel<TEntity, TResult> queryModel, ChangeTracking? tracking = null)
+    public ISession Session => _session;
+
+    public IQuery<TResult> Query<TResult>(QueryModel<TEntity, TResult> queryModel, ChangeTracking? tracking = null)
     {
         return new DbQuery<TEntity, TResult>(
             _logger,
-            _dbContext,
+            _session.DbContext,
             queryModel,
-            tracking ?? queryModel.DefaultChangeTracking ?? ChangeTracking.Default);
+            tracking ?? _session.Tracking ?? ChangeTracking.Default);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await DisposeAsyncCore().ConfigureAwait(false);
+        Dispose(disposing: false);
+        GC.SuppressFinalize(this);
+    }
+
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual ValueTask DisposeAsyncCore()
+    {
+        // Nothing to clean
+        return new ValueTask();
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        // Nothing to clean
     }
 }
