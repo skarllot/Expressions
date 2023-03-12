@@ -1,4 +1,4 @@
-﻿using Helpdesk.Relational.Incidents.GetIncidentShortInfo;
+﻿using Helpdesk.Relational.Incidents.GetShortInfo;
 using Raiqub.Expressions.Repositories;
 
 namespace Helpdesk.Relational.Incidents.Api.v1.GetAllOfCustomer;

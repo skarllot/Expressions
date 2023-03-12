@@ -1,7 +1,7 @@
 ﻿using Raiqub.Expressions;
 using Raiqub.Expressions.Queries;
 
-namespace Helpdesk.Relational.Incidents.GetIncidentShortInfo;
+namespace Helpdesk.Relational.Incidents.GetShortInfo;
 
 public class GetIncidentShortInfoQueryModel : QueryModel<Incident, IncidentShortInfo>
 {

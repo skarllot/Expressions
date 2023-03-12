@@ -10,59 +10,95 @@ using Helpdesk.Relational.Incidents.Resolve;
 
 namespace Helpdesk.Relational.Incidents;
 
-public record Incident(
-    Guid Id,
-    Guid CustomerId,
-    Contact Contact,
-    string Description,
-    Guid LoggedBy,
-    DateTimeOffset LoggedAt,
-    IncidentStatus Status = IncidentStatus.Pending,
-    bool HasOutstandingResponseToCustomer = false,
-    IncidentCategory? Category = null,
-    Guid? CategorisedBy = null,
-    DateTimeOffset? CategorisedAt = null,
-    IncidentPriority? Priority = null,
-    Guid? PrioritisedBy = null,
-    DateTimeOffset? PrioritisedAt = null,
-    Guid? AgentId = null,
-    DateTimeOffset? AssignedAt = null,
-    int Version = 1)
+public class Incident
 {
+    private readonly List<IncidentResponse> _responses;
+
+    private Incident(
+        Guid id,
+        Guid customerId,
+        Contact contact,
+        string description,
+        Guid loggedBy,
+        DateTimeOffset loggedAt)
+    {
+        Id = id;
+        CustomerId = customerId;
+        Contact = contact;
+        Description = description;
+        LoggedBy = loggedBy;
+        LoggedAt = loggedAt;
+        Status = IncidentStatus.Pending;
+        HasOutstandingResponseToCustomer = false;
+        _responses = new List<IncidentResponse>();
+    }
+
+    public Guid Id { get; }
+    public Guid CustomerId { get; }
+    public Contact Contact { get; }
+    public string Description { get; }
+    public Guid LoggedBy { get; }
+    public DateTimeOffset LoggedAt { get; }
+    public IncidentStatus Status { get; private set; }
+    public bool HasOutstandingResponseToCustomer { get; private set; }
+    public IncidentCategory? Category { get; private set; }
+    public Guid? CategorisedBy { get; private set; }
+    public DateTimeOffset? CategorisedAt { get; private set; }
+    public IncidentPriority? Priority { get; private set; }
+    public Guid? PrioritisedBy { get; private set; }
+    public DateTimeOffset? PrioritisedAt { get; private set; }
+    public Guid? AgentId { get; private set; }
+    public DateTimeOffset? AssignedAt { get; private set; }
+
+    public IReadOnlyList<IncidentResponse> Responses => _responses;
+
     public static Incident Create(IncidentLogged logged) =>
         new(logged.IncidentId, logged.CustomerId, logged.Contact, logged.Description, logged.LoggedBy, logged.LoggedAt);
 
-    public Incident Apply(IncidentCategorised categorised) =>
-        this with
-        {
-            Category = categorised.Category,
-            CategorisedBy = categorised.CategorisedBy,
-            CategorisedAt = categorised.CategorisedAt
-        };
+    public void Apply(IncidentCategorised categorised)
+    {
+        Category = categorised.Category;
+        CategorisedBy = categorised.CategorisedBy;
+        CategorisedAt = categorised.CategorisedAt;
+    }
 
-    public Incident Apply(IncidentPrioritised prioritised) =>
-        this with
-        {
-            Priority = prioritised.Priority,
-            PrioritisedBy = prioritised.PrioritisedBy,
-            PrioritisedAt = prioritised.PrioritisedAt
-        };
+    public void Apply(IncidentPrioritised prioritised)
+    {
+        Priority = prioritised.Priority;
+        PrioritisedBy = prioritised.PrioritisedBy;
+        PrioritisedAt = prioritised.PrioritisedAt;
+    }
 
-    public Incident Apply(AgentAssignedToIncident agentAssigned) =>
-        this with { AgentId = agentAssigned.AgentId, AssignedAt = agentAssigned.AssignedAt };
+    public void Apply(AgentAssignedToIncident agentAssigned)
+    {
+        AgentId = agentAssigned.AgentId;
+        AssignedAt = agentAssigned.AssignedAt;
+    }
 
-    public Incident Apply(AgentRespondedToIncident agentResponded) =>
-        this with { HasOutstandingResponseToCustomer = false };
+    public void Apply(AgentRespondedToIncident agentResponded)
+    {
+        HasOutstandingResponseToCustomer = false;
+        _responses.Add(agentResponded.Response);
+    }
 
-    public Incident Apply(CustomerRespondedToIncident customerResponded) =>
-        this with { HasOutstandingResponseToCustomer = true };
+    public void Apply(CustomerRespondedToIncident customerResponded)
+    {
+        HasOutstandingResponseToCustomer = true;
+        _responses.Add(customerResponded.Response);
+    }
 
-    public Incident Apply(IncidentResolved resolved) =>
-        this with { Status = IncidentStatus.Resolved };
+    public void Apply(IncidentResolved resolved)
+    {
+        Status = IncidentStatus.Resolved;
+    }
 
-    public Incident Apply(ResolutionAcknowledgedByCustomer acknowledged) =>
-        this with { Status = IncidentStatus.ResolutionAcknowledgedByCustomer };
+    public void Apply(ResolutionAcknowledgedByCustomer acknowledged)
+    {
+        Status = IncidentStatus.ResolutionAcknowledgedByCustomer;
+    }
 
-    public Incident Apply(IncidentClosed closed) =>
-        this with { Status = IncidentStatus.Closed };
+    public void Apply(IncidentClosed closed)
+    {
+        Status = IncidentStatus.Closed;
+    }
 }
