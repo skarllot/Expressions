@@ -1,10 +1,11 @@
 ﻿using Raiqub.Expressions.Queries;
+using Raiqub.Expressions.Sessions;
 
 namespace Raiqub.Expressions.Repositories;
 
-public interface IReadRepository<T> : IAsyncDisposable, IDisposable
+public interface IReadRepository<in TContext, TEntity>
 {
-    ISession Session { get; }
-
-    IQuery<TResult> Query<TResult>(QueryModel<T, TResult> queryModel, ChangeTracking? tracking = null);
+    IQuery<TResult> Query<TResult>(
+        QueryModel<TEntity, TResult> queryModel,
+        IReadSession<TContext>? session = null);
 }

@@ -1,28 +1,32 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Marten;
+using Microsoft.Extensions.Logging;
+using Raiqub.Expressions.Marten.Sessions;
 using Raiqub.Expressions.Queries;
 using Raiqub.Expressions.Repositories;
+using Raiqub.Expressions.Sessions;
 
 namespace Raiqub.Expressions.Marten.Repositories;
 
-public class MartenReadRepository<T> : IReadRepository<T>
+public class MartenReadRepository<TContext, TEntity> : IReadRepository<TContext, TEntity>
+    where TContext : class, IDocumentStore
 {
-    private readonly ILogger<MartenReadRepository<T>> _logger;
-    private readonly MartenSession _session;
+    private readonly ILogger<MartenReadRepository<TContext, TEntity>> _logger;
+    private readonly TContext _context;
 
-    public MartenReadRepository(ILogger<MartenReadRepository<T>> logger, MartenSession session)
+    public MartenReadRepository(ILogger<MartenReadRepository<TContext, TEntity>> logger, TContext context)
     {
         _logger = logger;
-        _session = session;
+        _context = context;
     }
 
-    public ISession Session => _session;
-
-    public IQuery<TResult> Query<TResult>(QueryModel<T, TResult> queryModel, ChangeTracking? tracking = null)
+    public IQuery<TResult> Query<TResult>(
+        QueryModel<TEntity, TResult> queryModel,
+        IReadSession<TContext>? session = null)
     {
-        return new MartenQuery<T, TResult>(
+        return new MartenQuery<TEntity, TResult>(
             _logger,
-            _session,
-            queryModel,
-            tracking ?? ChangeTracking.Default);
+            _context,
+            (session as MartenReadSession<TContext>)?.Session ?? _context.QuerySession(),
+            queryModel);
     }
 }

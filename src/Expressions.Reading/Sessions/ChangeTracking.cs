@@ -1,4 +1,4 @@
-﻿namespace Raiqub.Expressions.Repositories;
+﻿namespace Raiqub.Expressions.Sessions;
 
 /// <summary>Defines how change tracker will handle returned entities.</summary>
 public enum ChangeTracking

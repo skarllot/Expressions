@@ -1,13 +1,14 @@
 ﻿using Helpdesk.Relational.Incidents.GetDetails;
 using Raiqub.Expressions.Repositories;
+using Raiqub.Expressions.Sessions;
 
 namespace Helpdesk.Relational.Incidents.Api.v1.GetDetails;
 
 public class GetIncidentDetailsHandler
 {
-    private readonly IReadRepository<Incident> _incidentRepository;
+    private readonly IReadRepository<IDefaultContext, Incident> _incidentRepository;
 
-    public GetIncidentDetailsHandler(IReadRepository<Incident> incidentRepository)
+    public GetIncidentDetailsHandler(IReadRepository<IDefaultContext, Incident> incidentRepository)
     {
         _incidentRepository = incidentRepository;
     }

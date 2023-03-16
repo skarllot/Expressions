@@ -8,25 +8,25 @@ namespace Raiqub.Expressions.Marten.Repositories;
 public class MartenQuery<TSource, TResult> : IQuery<TResult>
 {
     private readonly ILogger _logger;
-    private readonly MartenSession _session;
+    private readonly IDocumentStore _documentStore;
+    private readonly IQuerySession? _session;
     private readonly QueryModel<TSource, TResult> _queryModel;
-    private readonly ChangeTracking _tracking;
 
     public MartenQuery(
         ILogger logger,
-        MartenSession session,
-        QueryModel<TSource, TResult> queryModel,
-        ChangeTracking tracking)
+        IDocumentStore documentStore,
+        IQuerySession? session,
+        QueryModel<TSource, TResult> queryModel)
     {
         _logger = logger;
+        _documentStore = documentStore;
         _session = session;
         _queryModel = queryModel;
-        _tracking = tracking;
     }
 
     public async Task<bool> AnyAsync(CancellationToken cancellationToken = default)
     {
-        var disposable = _session.GetOrOpenForQuery(out var session);
+        var disposable = GetOrOpenForQuery(out var session);
 
         try
         {
@@ -50,7 +50,7 @@ public class MartenQuery<TSource, TResult> : IQuery<TResult>
 
     public async Task<long> CountAsync(CancellationToken cancellationToken = default)
     {
-        var disposable = _session.GetOrOpenForQuery(out var session);
+        var disposable = GetOrOpenForQuery(out var session);
 
         try
         {
@@ -74,7 +74,7 @@ public class MartenQuery<TSource, TResult> : IQuery<TResult>
 
     public async Task<TResult?> FirstOrDefaultAsync(CancellationToken cancellationToken = default)
     {
-        var disposable = _session.GetOrOpenForQuery(out var session);
+        var disposable = GetOrOpenForQuery(out var session);
 
         try
         {
@@ -98,57 +98,61 @@ public class MartenQuery<TSource, TResult> : IQuery<TResult>
 
     public async Task<IReadOnlyList<TResult>> ToListAsync(CancellationToken cancellationToken = default)
     {
-        var session = CreateSession(_tracking);
-        await using (session.ConfigureAwait(false))
+        var disposable = GetOrOpenForQuery(out var session);
+
+        try
         {
-            try
-            {
-                return await session
-                    .Query<TSource>()
-                    .Apply(_queryModel)
-                    .ToListAsync(cancellationToken)
-                    .ConfigureAwait(false);
-            }
-            catch (Exception exception) when (exception is not OperationCanceledException)
-            {
-                _logger.LogError(exception, "Error trying to list found elements");
-                throw;
-            }
+            return await session
+                .Query<TSource>()
+                .Apply(_queryModel)
+                .ToListAsync(cancellationToken)
+                .ConfigureAwait(false);
+        }
+        catch (Exception exception) when (exception is not OperationCanceledException)
+        {
+            QueryLog.ListError(_logger, exception);
+            throw;
+        }
+        finally
+        {
+            if (disposable is not null)
+                await disposable.DisposeAsync().ConfigureAwait(false);
         }
     }
 
     public async Task<TResult?> SingleOrDefaultAsync(CancellationToken cancellationToken = default)
     {
-        var session = CreateSession(_tracking);
-        await using (session.ConfigureAwait(false))
+        var disposable = GetOrOpenForQuery(out var session);
+
+        try
         {
-            try
-            {
-                return await session
-                    .Query<TSource>()
-                    .Apply(_queryModel)
-                    .SingleOrDefaultAsync(cancellationToken)
-                    .ConfigureAwait(false);
-            }
-            catch (Exception exception) when (exception is not OperationCanceledException)
-            {
-                _logger.LogError(exception, "Error trying to query the single element");
-                throw;
-            }
+            return await session
+                .Query<TSource>()
+                .Apply(_queryModel)
+                .SingleOrDefaultAsync(cancellationToken)
+                .ConfigureAwait(false);
+        }
+        catch (Exception exception) when (exception is not OperationCanceledException)
+        {
+            QueryLog.SingleError(_logger, exception);
+            throw;
+        }
+        finally
+        {
+            if (disposable is not null)
+                await disposable.DisposeAsync().ConfigureAwait(false);
         }
     }
 
-    protected IQuerySession CreateSession(ChangeTracking tracking = ChangeTracking.Default)
+    private IAsyncDisposable? GetOrOpenForQuery(out IQuerySession session)
     {
-        return tracking switch
+        if (_session is not null)
         {
-            ChangeTracking.Default => _documentStore.OpenSession(),
-            ChangeTracking.Enable => _documentStore.OpenSession(DocumentTracking.DirtyTracking),
-            ChangeTracking.IdentityResolution => _documentStore.OpenSession(),
-            ChangeTracking.Disable => _documentStore.OpenSession(DocumentTracking.None),
-            _ => throw new ArgumentException(
-                $"The specified change tracking mode is not supported: {tracking}",
-                nameof(tracking))
-        };
+            session = _session;
+            return null;
+        }
+
+        session = _documentStore.QuerySession();
+        return session;
     }
 }

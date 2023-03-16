@@ -2,54 +2,31 @@
 using Microsoft.Extensions.Logging;
 using Raiqub.Expressions.Queries;
 using Raiqub.Expressions.Repositories;
+using Raiqub.Expressions.Sessions;
 
 namespace Raiqub.Expressions.EntityFrameworkCore.Repositories;
 
-public class DbReadRepository<TDbContext, TEntity> : IReadRepository<TEntity>
-    where TDbContext : DbContext
+public class DbReadRepository<TContext, TEntity> : IReadRepository<TContext, TEntity>
+    where TContext : DbContext
     where TEntity : class
 {
-    private readonly ILogger<DbReadRepository<TDbContext, TEntity>> _logger;
-    private readonly DbSession<TDbContext> _session;
+    private readonly ILogger<DbReadRepository<TContext, TEntity>> _logger;
+    private readonly TContext _context;
 
-    public DbReadRepository(ILogger<DbReadRepository<TDbContext, TEntity>> logger, DbSession<TDbContext> session)
+    public DbReadRepository(ILogger<DbReadRepository<TContext, TEntity>> logger, TContext context)
     {
         _logger = logger;
-        _session = session;
+        _context = context;
     }
 
-    public ISession Session => _session;
-
-    public IQuery<TResult> Query<TResult>(QueryModel<TEntity, TResult> queryModel, ChangeTracking? tracking = null)
+    public IQuery<TResult> Query<TResult>(
+        QueryModel<TEntity, TResult> queryModel,
+        IReadSession<TContext>? session = null)
     {
         return new DbQuery<TEntity, TResult>(
             _logger,
-            _session.DbContext,
+            session?.Context ?? _context,
             queryModel,
-            tracking ?? _session.Tracking ?? ChangeTracking.Default);
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        await DisposeAsyncCore().ConfigureAwait(false);
-        Dispose(disposing: false);
-        GC.SuppressFinalize(this);
-    }
-
-    public void Dispose()
-    {
-        Dispose(disposing: true);
-        GC.SuppressFinalize(this);
-    }
-
-    protected virtual ValueTask DisposeAsyncCore()
-    {
-        // Nothing to clean
-        return new ValueTask();
-    }
-
-    protected virtual void Dispose(bool disposing)
-    {
-        // Nothing to clean
+            session?.Tracking ?? ChangeTracking.Default);
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Raiqub.Expressions.Queries;
 using Raiqub.Expressions.Repositories;
+using Raiqub.Expressions.Sessions;
 
 namespace Raiqub.Expressions.EntityFrameworkCore.Repositories;
 
