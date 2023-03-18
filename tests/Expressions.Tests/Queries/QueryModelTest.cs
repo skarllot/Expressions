@@ -9,24 +9,36 @@ public class QueryModelTest
     [Fact]
     public void CreateShouldAlwaysReturnAll()
     {
+        string?[] source = { "john", "jane", null, "hugo", "jack" };
         var queryModel = QueryModel.Create<string?>();
 
-        string?[] result = new[] { "john", "jane", null, "hugo", "jack" }
+        string?[] result1 = source
+            .Apply(queryModel)
+            .ToArray();
+        string?[] result2 = source
+            .AsQueryable()
             .Apply(queryModel)
             .ToArray();
 
-        result.Should().Equal("john", "jane", null, "hugo", "jack");
+        result1.Should().Equal("john", "jane", null, "hugo", "jack");
+        result2.Should().Equal("john", "jane", null, "hugo", "jack");
     }
 
     [Fact]
     public void CreateShouldEvaluateSpecificationCorrectly()
     {
+        string[] source = { "john", "jane", "hugo", "jack" };
         var queryModel = QueryModel.Create(new StringBeginsWithJohnSpecification());
 
-        string[] result = new[] { "john", "jane", "hugo", "jack" }
+        string[] result1 = source
+            .Apply(queryModel)
+            .ToArray();
+        string[] result2 = source
+            .AsQueryable()
             .Apply(queryModel)
             .ToArray();
 
-        result.Should().Equal("john");
+        result1.Should().Equal("john");
+        result2.Should().Equal("john");
     }
 }
