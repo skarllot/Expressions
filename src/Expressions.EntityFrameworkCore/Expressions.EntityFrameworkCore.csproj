@@ -38,4 +38,8 @@
     <ProjectReference Include="..\Expressions.Writing\Expressions.Writing.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="6.10.0" />
+  </ItemGroup>
+
 </Project>
