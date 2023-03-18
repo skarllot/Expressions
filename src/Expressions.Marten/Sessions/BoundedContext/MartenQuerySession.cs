@@ -1,36 +1,38 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Marten;
 using Microsoft.Extensions.Logging;
-using Raiqub.Expressions.EntityFrameworkCore.Queries;
+using Raiqub.Expressions.Marten.Queries;
 using Raiqub.Expressions.Queries;
 using Raiqub.Expressions.Repositories;
 using Raiqub.Expressions.Sessions;
 using Raiqub.Expressions.Sessions.BoundedContext;
+using IQuerySession = Marten.IQuerySession;
 
-namespace Raiqub.Expressions.EntityFrameworkCore.Sessions;
+namespace Raiqub.Expressions.Marten.Sessions.BoundedContext;
 
-public class DbSession<TContext> : ISession<TContext>
-    where TContext : DbContext
+public class MartenQuerySession<TContext> : IQuerySession<TContext>
+    where TContext : IDocumentStore
 {
-    private readonly ILogger<DbSession<TContext>> _logger;
+    private readonly ILogger<MartenQuerySession<TContext>> _logger;
+    private readonly IQuerySession _session;
 
-    public DbSession(ILogger<DbSession<TContext>> logger, TContext context, ChangeTracking tracking)
+    public MartenQuerySession(ILogger<MartenQuerySession<TContext>> logger, IQuerySession session, TContext context)
     {
         _logger = logger;
+        _session = session;
         Context = context;
-        Tracking = tracking;
     }
 
     public TContext Context { get; }
-    public ChangeTracking Tracking { get; }
+
+    public virtual ChangeTracking Tracking => ChangeTracking.Disable;
 
     public IQuery<TResult> Query<TEntity, TResult>(IQueryModel<TEntity, TResult> queryModel)
         where TEntity : class
     {
-        return new DbQuery<TEntity, TResult>(
+        return new MartenQuery<TEntity, TResult>(
             _logger,
-            Context,
-            queryModel,
-            Tracking);
+            _session,
+            queryModel);
     }
 
     public async ValueTask DisposeAsync()
@@ -46,19 +48,16 @@ public class DbSession<TContext> : ISession<TContext>
         GC.SuppressFinalize(this);
     }
 
-    public Task SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        return Context.SaveChangesAsync(true, cancellationToken);
-    }
-
     protected virtual ValueTask DisposeAsyncCore()
     {
-        // Nothing to clean
-        return new ValueTask();
+        return _session.DisposeAsync();
     }
 
     protected virtual void Dispose(bool disposing)
     {
-        // Nothing to clean
+        if (disposing)
+        {
+            _session.Dispose();
+        }
     }
 }

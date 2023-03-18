@@ -1,21 +1,20 @@
 ﻿using Helpdesk.Relational.Incidents.GetDetails;
-using Raiqub.Expressions.Repositories;
 using Raiqub.Expressions.Sessions;
 
 namespace Helpdesk.Relational.Incidents.Api.v1.GetDetails;
 
 public class GetIncidentDetailsHandler
 {
-    private readonly IReadRepository<IDefaultContext, Incident> _incidentRepository;
+    private readonly IQuerySession _querySession;
 
-    public GetIncidentDetailsHandler(IReadRepository<IDefaultContext, Incident> incidentRepository)
+    public GetIncidentDetailsHandler(IQuerySession querySession)
     {
-        _incidentRepository = incidentRepository;
+        _querySession = querySession;
     }
 
     public async Task<IncidentDetails?> Execute(GetIncidentDetailsRequest request, CancellationToken cancellationToken)
     {
-        IncidentDetails? result = await _incidentRepository
+        IncidentDetails? result = await _querySession
             .Query(new GetIncidentDetailsQueryModel(request.IncidentId))
             .FirstOrDefaultAsync(cancellationToken);
 

@@ -1,8 +1,6 @@
-﻿namespace Raiqub.Expressions.Sessions;
+﻿namespace Raiqub.Expressions.Sessions.BoundedContext;
 
 public interface ISessionFactory<out TContext>
 {
     ISession<TContext> Create(ChangeTracking? tracking = null);
-
-    IReadSession<TContext> CreateForQuery();
 }

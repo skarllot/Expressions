@@ -1,32 +1,26 @@
 ﻿using Helpdesk.Relational.Incidents.GetShortInfo;
-using Raiqub.Expressions.Repositories;
 using Raiqub.Expressions.Sessions;
 
 namespace Helpdesk.Relational.Incidents.Api.v1.GetAllOfCustomer;
 
 public class GetAllOfCustomerIncidentHandler
 {
-    private readonly ISessionFactory<IDefaultContext> _sessionFactory;
-    private readonly IReadRepository<IDefaultContext, Incident> _incidentRepository;
+    private readonly IQuerySessionFactory _sessionFactory;
 
-    public GetAllOfCustomerIncidentHandler(
-        ISessionFactory<IDefaultContext> sessionFactory,
-        IReadRepository<IDefaultContext, Incident> incidentRepository)
+    public GetAllOfCustomerIncidentHandler(IQuerySessionFactory sessionFactory)
     {
         _sessionFactory = sessionFactory;
-        _incidentRepository = incidentRepository;
     }
 
     public async Task<IReadOnlyList<IncidentShortInfo>> Execute(
         GetAllOfCustomerIncidentRequest request,
         CancellationToken cancellationToken)
     {
-        await using var session = _sessionFactory.CreateForQuery();
+        await using var session = _sessionFactory.Create();
 
-        var incidentShortInfos = await _incidentRepository
+        var incidentShortInfos = await session
             .Query(
-                new GetIncidentShortInfoQueryModel(request.CustomerId, request.PageNumber ?? 1, request.PageSize ?? 10),
-                session)
+                new GetIncidentShortInfoQueryModel(request.CustomerId, request.PageNumber ?? 1, request.PageSize ?? 10))
             .ToListAsync(cancellationToken);
 
         return incidentShortInfos;

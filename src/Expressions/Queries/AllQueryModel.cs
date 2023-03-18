@@ -1,10 +1,10 @@
 ﻿namespace Raiqub.Expressions.Queries;
 
-internal sealed class AllQueryModel<T> : QueryModel<T>
+internal sealed class AllQueryModel<T> : IQueryModel<T>
 {
-    public static readonly QueryModel<T> Instance = new AllQueryModel<T>();
+    public static readonly IQueryModel<T> Instance = new AllQueryModel<T>();
 
-    protected override IEnumerable<Specification<T>> GetPreconditions() => Enumerable.Empty<Specification<T>>();
+    public IQueryable<T> Execute(IQueryable<T> source) => source;
 
-    protected override IQueryable<T> ExecuteCore(IQueryable<T> source) => source;
+    public IEnumerable<T> Execute(IEnumerable<T> source) => source;
 }

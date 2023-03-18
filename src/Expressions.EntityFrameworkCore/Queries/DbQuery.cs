@@ -1,37 +1,36 @@
-﻿using Marten;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Raiqub.Expressions.Queries;
 using Raiqub.Expressions.Repositories;
+using Raiqub.Expressions.Sessions;
 
-namespace Raiqub.Expressions.Marten.Repositories;
+namespace Raiqub.Expressions.EntityFrameworkCore.Queries;
 
-public class MartenQuery<TSource, TResult> : IQuery<TResult>
+public class DbQuery<TSource, TResult> : IQuery<TResult>
+    where TSource : class
 {
     private readonly ILogger _logger;
-    private readonly IDocumentStore _documentStore;
-    private readonly IQuerySession? _session;
-    private readonly QueryModel<TSource, TResult> _queryModel;
+    private readonly DbContext _dbContext;
+    private readonly IQueryModel<TSource, TResult> _queryModel;
+    private readonly ChangeTracking _tracking;
 
-    public MartenQuery(
+    public DbQuery(
         ILogger logger,
-        IDocumentStore documentStore,
-        IQuerySession? session,
-        QueryModel<TSource, TResult> queryModel)
+        DbContext dbContext,
+        IQueryModel<TSource, TResult> queryModel,
+        ChangeTracking tracking)
     {
         _logger = logger;
-        _documentStore = documentStore;
-        _session = session;
+        _dbContext = dbContext;
         _queryModel = queryModel;
+        _tracking = tracking;
     }
 
     public async Task<bool> AnyAsync(CancellationToken cancellationToken = default)
     {
-        var disposable = GetOrOpenForQuery(out var session);
-
         try
         {
-            return await session
-                .Query<TSource>()
+            return await GetDbSet()
                 .Apply(_queryModel)
                 .AnyAsync(cancellationToken)
                 .ConfigureAwait(false);
@@ -41,21 +40,13 @@ public class MartenQuery<TSource, TResult> : IQuery<TResult>
             QueryLog.AnyError(_logger, exception);
             throw;
         }
-        finally
-        {
-            if (disposable is not null)
-                await disposable.DisposeAsync().ConfigureAwait(false);
-        }
     }
 
     public async Task<long> CountAsync(CancellationToken cancellationToken = default)
     {
-        var disposable = GetOrOpenForQuery(out var session);
-
         try
         {
-            return await session
-                .Query<TSource>()
+            return await GetDbSet()
                 .Apply(_queryModel)
                 .LongCountAsync(cancellationToken)
                 .ConfigureAwait(false);
@@ -65,21 +56,13 @@ public class MartenQuery<TSource, TResult> : IQuery<TResult>
             QueryLog.CountError(_logger, exception);
             throw;
         }
-        finally
-        {
-            if (disposable is not null)
-                await disposable.DisposeAsync().ConfigureAwait(false);
-        }
     }
 
     public async Task<TResult?> FirstOrDefaultAsync(CancellationToken cancellationToken = default)
     {
-        var disposable = GetOrOpenForQuery(out var session);
-
         try
         {
-            return await session
-                .Query<TSource>()
+            return await GetDbSet(_tracking)
                 .Apply(_queryModel)
                 .FirstOrDefaultAsync(cancellationToken)
                 .ConfigureAwait(false);
@@ -89,21 +72,13 @@ public class MartenQuery<TSource, TResult> : IQuery<TResult>
             QueryLog.FirstError(_logger, exception);
             throw;
         }
-        finally
-        {
-            if (disposable is not null)
-                await disposable.DisposeAsync().ConfigureAwait(false);
-        }
     }
 
     public async Task<IReadOnlyList<TResult>> ToListAsync(CancellationToken cancellationToken = default)
     {
-        var disposable = GetOrOpenForQuery(out var session);
-
         try
         {
-            return await session
-                .Query<TSource>()
+            return await GetDbSet(_tracking)
                 .Apply(_queryModel)
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(false);
@@ -113,21 +88,13 @@ public class MartenQuery<TSource, TResult> : IQuery<TResult>
             QueryLog.ListError(_logger, exception);
             throw;
         }
-        finally
-        {
-            if (disposable is not null)
-                await disposable.DisposeAsync().ConfigureAwait(false);
-        }
     }
 
     public async Task<TResult?> SingleOrDefaultAsync(CancellationToken cancellationToken = default)
     {
-        var disposable = GetOrOpenForQuery(out var session);
-
         try
         {
-            return await session
-                .Query<TSource>()
+            return await GetDbSet(_tracking)
                 .Apply(_queryModel)
                 .SingleOrDefaultAsync(cancellationToken)
                 .ConfigureAwait(false);
@@ -137,22 +104,23 @@ public class MartenQuery<TSource, TResult> : IQuery<TResult>
             QueryLog.SingleError(_logger, exception);
             throw;
         }
-        finally
-        {
-            if (disposable is not null)
-                await disposable.DisposeAsync().ConfigureAwait(false);
-        }
     }
 
-    private IAsyncDisposable? GetOrOpenForQuery(out IQuerySession session)
+    protected IQueryable<TSource> GetDbSet(ChangeTracking tracking = ChangeTracking.Default)
     {
-        if (_session is not null)
-        {
-            session = _session;
-            return null;
-        }
+        IQueryable<TSource> queryable = _dbContext.Set<TSource>();
 
-        session = _documentStore.QuerySession();
-        return session;
+        queryable = tracking switch
+        {
+            ChangeTracking.Default => queryable,
+            ChangeTracking.Enable => queryable.AsTracking(),
+            ChangeTracking.Disable => queryable.AsNoTracking(),
+            ChangeTracking.IdentityResolution => queryable.AsNoTrackingWithIdentityResolution(),
+            _ => throw new ArgumentException(
+                $"The specified change tracking mode is not supported: {tracking}",
+                nameof(tracking))
+        };
+
+        return queryable;
     }
 }

@@ -2,9 +2,9 @@
 
 public static class QueryModel
 {
-    public static QueryModel<T> Create<T>() =>
+    public static IQueryModel<T> Create<T>() =>
         AllQueryModel<T>.Instance;
 
-    public static QueryModel<T> Create<T>(Specification<T> specification) =>
-        new AnonymousQueryModel<T>(new[] { specification });
+    public static IQueryModel<T> Create<T>(Specification<T> specification) =>
+        new SpecificationQueryModel<T>(specification);
 }

@@ -1,36 +1,32 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Marten;
 using Microsoft.Extensions.Logging;
 using Raiqub.Expressions.Queries;
 using Raiqub.Expressions.Repositories;
-using Raiqub.Expressions.Sessions;
 
-namespace Raiqub.Expressions.EntityFrameworkCore.Repositories;
+namespace Raiqub.Expressions.Marten.Queries;
 
-public class DbQuery<TSource, TResult> : IQuery<TResult>
-    where TSource : class
+public class MartenQuery<TSource, TResult> : IQuery<TResult>
 {
     private readonly ILogger _logger;
-    private readonly DbContext _dbContext;
-    private readonly QueryModel<TSource, TResult> _queryModel;
-    private readonly ChangeTracking _tracking;
+    private readonly IQuerySession _session;
+    private readonly IQueryModel<TSource, TResult> _queryModel;
 
-    public DbQuery(
+    public MartenQuery(
         ILogger logger,
-        DbContext dbContext,
-        QueryModel<TSource, TResult> queryModel,
-        ChangeTracking tracking)
+        IQuerySession session,
+        IQueryModel<TSource, TResult> queryModel)
     {
         _logger = logger;
-        _dbContext = dbContext;
+        _session = session;
         _queryModel = queryModel;
-        _tracking = tracking;
     }
 
     public async Task<bool> AnyAsync(CancellationToken cancellationToken = default)
     {
         try
         {
-            return await GetDbSet()
+            return await _session
+                .Query<TSource>()
                 .Apply(_queryModel)
                 .AnyAsync(cancellationToken)
                 .ConfigureAwait(false);
@@ -46,7 +42,8 @@ public class DbQuery<TSource, TResult> : IQuery<TResult>
     {
         try
         {
-            return await GetDbSet()
+            return await _session
+                .Query<TSource>()
                 .Apply(_queryModel)
                 .LongCountAsync(cancellationToken)
                 .ConfigureAwait(false);
@@ -62,7 +59,8 @@ public class DbQuery<TSource, TResult> : IQuery<TResult>
     {
         try
         {
-            return await GetDbSet(_tracking)
+            return await _session
+                .Query<TSource>()
                 .Apply(_queryModel)
                 .FirstOrDefaultAsync(cancellationToken)
                 .ConfigureAwait(false);
@@ -78,7 +76,8 @@ public class DbQuery<TSource, TResult> : IQuery<TResult>
     {
         try
         {
-            return await GetDbSet(_tracking)
+            return await _session
+                .Query<TSource>()
                 .Apply(_queryModel)
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(false);
@@ -94,7 +93,8 @@ public class DbQuery<TSource, TResult> : IQuery<TResult>
     {
         try
         {
-            return await GetDbSet(_tracking)
+            return await _session
+                .Query<TSource>()
                 .Apply(_queryModel)
                 .SingleOrDefaultAsync(cancellationToken)
                 .ConfigureAwait(false);
@@ -104,23 +104,5 @@ public class DbQuery<TSource, TResult> : IQuery<TResult>
             QueryLog.SingleError(_logger, exception);
             throw;
         }
-    }
-
-    protected IQueryable<TSource> GetDbSet(ChangeTracking tracking = ChangeTracking.Default)
-    {
-        IQueryable<TSource> queryable = _dbContext.Set<TSource>();
-
-        queryable = tracking switch
-        {
-            ChangeTracking.Default => queryable,
-            ChangeTracking.Enable => queryable.AsTracking(),
-            ChangeTracking.Disable => queryable.AsNoTracking(),
-            ChangeTracking.IdentityResolution => queryable.AsNoTrackingWithIdentityResolution(),
-            _ => throw new ArgumentException(
-                $"The specified change tracking mode is not supported: {tracking}",
-                nameof(tracking))
-        };
-
-        return queryable;
     }
 }

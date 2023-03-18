@@ -1,4 +1,4 @@
-﻿namespace Raiqub.Expressions.Repositories;
+﻿namespace Raiqub.Expressions.Queries;
 
 public interface IQuery<T>
 {

@@ -1,6 +1,6 @@
 ﻿namespace Raiqub.Expressions.Sessions;
 
-public interface ISession<out TContext> : IReadSession<TContext>
+public interface ISession : IQuerySession
 {
     Task SaveChangesAsync(CancellationToken cancellationToken = default);
 }

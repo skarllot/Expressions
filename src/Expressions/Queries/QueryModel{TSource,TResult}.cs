@@ -1,6 +1,6 @@
 ﻿namespace Raiqub.Expressions.Queries;
 
-public abstract class QueryModel<TSource, TResult>
+public abstract class QueryModel<TSource, TResult> : IQueryModel<TSource, TResult>
 {
     private readonly IEnumerable<Specification<TSource>> _restrictions;
 
