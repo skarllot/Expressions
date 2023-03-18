@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using Raiqub.Expressions.Marten.Queries;
 using Raiqub.Expressions.Queries;
-using Raiqub.Expressions.Repositories;
 using Raiqub.Expressions.Sessions;
 using Raiqub.Expressions.Sessions.BoundedContext;
 using IQuerySession = Marten.IQuerySession;

@@ -5,7 +5,8 @@ using Raiqub.Expressions.Sessions.BoundedContext;
 
 namespace Raiqub.Expressions.EntityFrameworkCore.Sessions;
 
-public class DbSessionFactory<TContext> : ISessionFactory<TContext>, IQuerySessionFactory<TContext>
+public class DbSessionFactory<TContext>
+    : ISessionFactory<TContext>, IQuerySessionFactory<TContext>, ISessionFactory, IQuerySessionFactory
     where TContext : DbContext
 {
     private readonly ILoggerFactory _loggerFactory;
@@ -17,15 +18,18 @@ public class DbSessionFactory<TContext> : ISessionFactory<TContext>, IQuerySessi
         _context = context;
     }
 
-    public ISession<TContext> Create(ChangeTracking? tracking = null) => new DbSession<TContext>(
+    public DbSession<TContext> Create(ChangeTracking? tracking = null) => new(
         _loggerFactory.CreateLogger<DbSession<TContext>>(),
         _context,
         tracking ?? ChangeTracking.Default);
 
-    public IQuerySession<TContext> CreateForQuery() => new DbSession<TContext>(
-        _loggerFactory.CreateLogger<DbSession<TContext>>(),
-        _context,
-        ChangeTracking.Disable);
+    public DbSession<TContext> CreateForQuery() => Create(ChangeTracking.Disable);
+
+    ISession ISessionFactory.Create(ChangeTracking? tracking) => Create(tracking);
+
+    ISession<TContext> ISessionFactory<TContext>.Create(ChangeTracking? tracking) => Create(tracking);
+
+    IQuerySession IQuerySessionFactory.Create() => CreateForQuery();
 
     IQuerySession<TContext> IQuerySessionFactory<TContext>.Create() => CreateForQuery();
 }

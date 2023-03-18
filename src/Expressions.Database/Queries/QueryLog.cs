@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace Raiqub.Expressions.Repositories;
+namespace Raiqub.Expressions.Queries;
 
 internal static class QueryLog
 {

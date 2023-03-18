@@ -1,7 +1,6 @@
 ﻿using Marten;
 using Microsoft.Extensions.Logging;
 using Raiqub.Expressions.Queries;
-using Raiqub.Expressions.Repositories;
 
 namespace Raiqub.Expressions.Marten.Queries;
 

@@ -2,13 +2,12 @@
 using Microsoft.Extensions.Logging;
 using Raiqub.Expressions.EntityFrameworkCore.Queries;
 using Raiqub.Expressions.Queries;
-using Raiqub.Expressions.Repositories;
 using Raiqub.Expressions.Sessions;
 using Raiqub.Expressions.Sessions.BoundedContext;
 
 namespace Raiqub.Expressions.EntityFrameworkCore.Sessions;
 
-public class DbSession<TContext> : ISession<TContext>
+public class DbSession<TContext> : ISession<TContext>, ISession
     where TContext : DbContext
 {
     private readonly ILogger<DbSession<TContext>> _logger;
