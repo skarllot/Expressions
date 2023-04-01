@@ -129,4 +129,17 @@ public class SpecificationOfTTest
         bool result = specification.IsSatisfiedBy(input);
         result.Should().BeTrue();
     }
+
+    [Fact]
+    public void CastDownShouldWorkWithDerived()
+    {
+        var specification = new BlogPostContentSearchSpecification("john").CastDown<NewsPost>();
+        var input1 = new NewsPost(1, "Test", "My name is john.", "general", "John");
+        var input2 = new NewsPost(1, "Test", "My name is jane.", "general", "Jane");
+
+        bool result1 = specification.IsSatisfiedBy(input1);
+        bool result2 = specification.IsSatisfiedBy(input2);
+        result1.Should().BeTrue();
+        result2.Should().BeFalse();
+    }
 }

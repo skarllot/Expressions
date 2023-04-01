@@ -11,23 +11,12 @@ public static class Specification
 
     public static Specification<T> And<T>(this Specification<T> left, Specification<T> right)
     {
-        var rightExpression = right.ToExpression();
-        var leftExpression = left.ToExpression();
-        var rightParam = rightExpression.Parameters.Single();
-        var leftParam = leftExpression.Parameters.Single();
-
-        var newRight = new ReplaceParameterExpressionVisitor(rightParam, leftParam)
-            .VisitAndConvert(rightExpression.Body, nameof(Expression.AndAlso));
-
-        var andExpression = Expression.AndAlso(leftExpression.Body, newRight);
-        return new AnonymousSpecification<T>(Expression.Lambda<Func<T, bool>>(andExpression, leftParam));
+        return new AnonymousSpecification<T>(left.ToExpression().And(right.ToExpression()));
     }
 
     public static Specification<T> And<T>(IEnumerable<Specification<T>> specifications)
     {
-        return specifications.Aggregate(
-            AllSpecification<T>.Instance,
-            static (x, y) => ReferenceEquals(x, AllSpecification<T>.Instance) ? y : x.And(y));
+        return new AnonymousSpecification<T>(specifications.Select(static s => s.ToExpression()).And());
     }
 
     public static Specification<T> And<T>(params Specification<T>[] specifications)
@@ -37,32 +26,17 @@ public static class Specification
 
     public static Specification<T> Not<T>(this Specification<T> specification)
     {
-        var expression = specification.ToExpression();
-        var leftParam = expression.Parameters.Single();
-
-        var notExpression = Expression.Not(expression.Body);
-        return new AnonymousSpecification<T>(Expression.Lambda<Func<T, bool>>(notExpression, leftParam));
+        return new AnonymousSpecification<T>(specification.ToExpression().Not());
     }
 
     public static Specification<T> Or<T>(this Specification<T> left, Specification<T> right)
     {
-        var rightExpression = right.ToExpression();
-        var leftExpression = left.ToExpression();
-        var rightParam = rightExpression.Parameters.Single();
-        var leftParam = leftExpression.Parameters.Single();
-
-        var newRight = new ReplaceParameterExpressionVisitor(rightParam, leftParam)
-            .VisitAndConvert(rightExpression.Body, nameof(Expression.OrElse));
-
-        var andExpression = Expression.OrElse(leftExpression.Body, newRight);
-        return new AnonymousSpecification<T>(Expression.Lambda<Func<T, bool>>(andExpression, leftParam));
+        return new AnonymousSpecification<T>(left.ToExpression().Or(right.ToExpression()));
     }
 
     public static Specification<T> Or<T>(IEnumerable<Specification<T>> specifications)
     {
-        return specifications.Aggregate(
-            AllSpecification<T>.Instance,
-            static (x, y) => ReferenceEquals(x, AllSpecification<T>.Instance) ? y : x.Or(y));
+        return new AnonymousSpecification<T>(specifications.Select(static s => s.ToExpression()).Or());
     }
 
     public static Specification<T> Or<T>(params Specification<T>[] specifications)

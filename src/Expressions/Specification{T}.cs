@@ -12,6 +12,12 @@ public abstract class Specification<T>
 
     public abstract Expression<Func<T, bool>> ToExpression();
 
+    public Specification<TDerived> CastDown<TDerived>()
+        where TDerived : class, T
+    {
+        return new AnonymousSpecification<TDerived>(ToExpression().CastDown<T, TDerived>());
+    }
+
     public bool IsSatisfiedBy(T entity)
     {
         _predicate ??= ToExpression().Compile();

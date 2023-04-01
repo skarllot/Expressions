@@ -37,5 +37,9 @@ public class BloggingContext : DbContext
         builder.Property(p => p.Content);
 
         builder.HasKey("Id");
+
+        builder.HasDiscriminator<string>("PostType")
+            .HasValue<Post>("Post")
+            .HasValue<VideoPost>("VideoPost");
     }
 }

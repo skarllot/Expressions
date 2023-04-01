@@ -39,7 +39,19 @@ public class QueryModelClassTest
         result2.Should().Equal(("john moor dee", 13));
     }
 
-    public static IEnumerable<string> GetAll()
+    [Fact]
+    public void ShouldFilterWhenUsingCastDownSpecification()
+    {
+        var list = new[] { new NewsPost(1, "First", "The first post", "general", "John") };
+
+        NewsPost[] result = list
+            .Apply(new NewsPostContentSearchQueryModel("first"))
+            .ToArray();
+
+        result.Should().HaveCount(1);
+    }
+
+    private static IEnumerable<string> GetAll()
     {
         yield return "John Dee";
         yield return "John Dee Junior";
