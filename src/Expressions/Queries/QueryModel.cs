@@ -2,6 +2,11 @@
 
 public static class QueryModel
 {
+    /// <summary>
+    /// Returns a query model for the specified type <typeparamref name="T"/> that does nothing.
+    /// </summary>
+    /// <typeparam name="T">The type of the elements of query model.</typeparam>
+    /// <returns>A query model for the specified type <typeparamref name="T"/>.</returns>
     public static IQueryModel<T> Create<T>() =>
         AllQueryModel<T>.Instance;
 
