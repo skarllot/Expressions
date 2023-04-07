@@ -1,8 +1,6 @@
-﻿using Raiqub.Expressions.Queries;
+﻿namespace Raiqub.Expressions.Sessions.BoundedContext;
 
-namespace Raiqub.Expressions.Sessions.BoundedContext;
-
-public interface IQuerySession<out TContext> : IAsyncDisposable, IDisposable
+public interface IQuerySession<out TContext> : IQuerySession
 {
     /// <summary>Gets the bounded context associated with this query session.</summary>
     /// <remarks>
@@ -11,9 +9,4 @@ public interface IQuerySession<out TContext> : IAsyncDisposable, IDisposable
     /// used by all members of the project team and domain experts to communicate about the domain.
     /// </remarks>
     TContext Context { get; }
-
-    ChangeTracking Tracking { get; }
-
-    IQuery<TResult> Query<TEntity, TResult>(IQueryModel<TEntity, TResult> queryModel)
-        where TEntity : class;
 }

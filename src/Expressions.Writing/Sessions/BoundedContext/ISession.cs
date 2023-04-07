@@ -1,6 +1,5 @@
 ﻿namespace Raiqub.Expressions.Sessions.BoundedContext;
 
-public interface ISession<out TContext> : IQuerySession<TContext>
+public interface ISession<out TContext> : IQuerySession<TContext>, ISession
 {
-    Task SaveChangesAsync(CancellationToken cancellationToken = default);
 }
