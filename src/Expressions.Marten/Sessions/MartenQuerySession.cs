@@ -21,10 +21,7 @@ public class MartenQuerySession : IQuerySession
     public IQuery<TResult> Query<TEntity, TResult>(IQueryModel<TEntity, TResult> queryModel)
         where TEntity : class
     {
-        return new MartenQuery<TEntity, TResult>(
-            _logger,
-            _session,
-            queryModel);
+        return new MartenQuery<TEntity, TResult>(_logger, _session, queryModel);
     }
 
     public async ValueTask DisposeAsync()

@@ -135,7 +135,7 @@ await using (var session = sessionFactory.Create())
 {
     var blog = new Blog { Url = "https://example.com" };
     session.Add(blog);
-    session.SaveChangesAsync();
+    await session.SaveChangesAsync();
 }
 ```
 

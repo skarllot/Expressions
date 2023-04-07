@@ -22,6 +22,30 @@ public class DbSession<TContext> : ISession<TContext>, ISession
     public TContext Context { get; }
     public ChangeTracking Tracking { get; }
 
+    public void Add<TEntity>(TEntity entity)
+        where TEntity : class => Context.Add(entity);
+
+    public void AddRange<TEntity>(IEnumerable<TEntity> entities)
+        where TEntity : class => Context.AddRange(entities);
+
+    public async ValueTask AddAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default)
+        where TEntity : class
+    {
+        await Context
+            .AddAsync(entity, cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    public async ValueTask AddRangeAsync<TEntity>(
+        IEnumerable<TEntity> entities,
+        CancellationToken cancellationToken = default)
+        where TEntity : class
+    {
+        await Context
+            .AddRangeAsync(entities, cancellationToken)
+            .ConfigureAwait(false);
+    }
+
     public IQuery<TResult> Query<TEntity, TResult>(IQueryModel<TEntity, TResult> queryModel)
         where TEntity : class
     {
@@ -31,6 +55,20 @@ public class DbSession<TContext> : ISession<TContext>, ISession
             queryModel,
             Tracking);
     }
+
+    public void Remove<TEntity>(TEntity entity) where TEntity : class => Context.Remove(entity);
+
+    public void RemoveRange<TEntity>(IEnumerable<TEntity> entities)
+        where TEntity : class => Context.RemoveRange(entities);
+
+    public Task SaveChangesAsync(CancellationToken cancellationToken = default) =>
+        Context.SaveChangesAsync(true, cancellationToken);
+
+    public void Update<TEntity>(TEntity entity)
+        where TEntity : class => Context.Update(entity);
+
+    public void UpdateRange<TEntity>(IEnumerable<TEntity> entities)
+        where TEntity : class => Context.UpdateRange(entities);
 
     public async ValueTask DisposeAsync()
     {
@@ -43,11 +81,6 @@ public class DbSession<TContext> : ISession<TContext>, ISession
     {
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
-    }
-
-    public Task SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        return Context.SaveChangesAsync(true, cancellationToken);
     }
 
     protected virtual ValueTask DisposeAsyncCore()
