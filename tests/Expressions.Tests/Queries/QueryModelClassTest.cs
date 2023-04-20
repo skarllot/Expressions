@@ -63,7 +63,7 @@ public class QueryModelClassTest
             .ToArray();
         NewsPost[] result2 = list
             .AsQueryable()
-            .Apply(new BlogPostContentSearchQueryModel("first").DownCast(TypeParam.Of<NewsPost>()))
+            .Apply(new BlogPostContentSearchQueryModel("first").DownCast<BlogPost, NewsPost>())
             .ToArray();
 
         result1.Should().HaveCount(1);

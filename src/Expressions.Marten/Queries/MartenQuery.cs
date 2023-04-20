@@ -4,29 +4,24 @@ using Raiqub.Expressions.Queries;
 
 namespace Raiqub.Expressions.Marten.Queries;
 
-public class MartenQuery<TSource, TResult> : IQuery<TResult>
+public class MartenQuery<TResult> : IQuery<TResult>
 {
     private readonly ILogger _logger;
-    private readonly IQuerySession _session;
-    private readonly IQueryModel<TSource, TResult> _queryModel;
+    private readonly IQueryable<TResult> _dataSource;
 
     public MartenQuery(
         ILogger logger,
-        IQuerySession session,
-        IQueryModel<TSource, TResult> queryModel)
+        IQueryable<TResult> dataSource)
     {
         _logger = logger;
-        _session = session;
-        _queryModel = queryModel;
+        _dataSource = dataSource;
     }
 
     public async Task<bool> AnyAsync(CancellationToken cancellationToken = default)
     {
         try
         {
-            return await _session
-                .Query<TSource>()
-                .Apply(_queryModel)
+            return await _dataSource
                 .AnyAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
@@ -41,9 +36,7 @@ public class MartenQuery<TSource, TResult> : IQuery<TResult>
     {
         try
         {
-            return await _session
-                .Query<TSource>()
-                .Apply(_queryModel)
+            return await _dataSource
                 .LongCountAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
@@ -58,9 +51,7 @@ public class MartenQuery<TSource, TResult> : IQuery<TResult>
     {
         try
         {
-            return await _session
-                .Query<TSource>()
-                .Apply(_queryModel)
+            return await _dataSource
                 .FirstOrDefaultAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
@@ -75,9 +66,7 @@ public class MartenQuery<TSource, TResult> : IQuery<TResult>
     {
         try
         {
-            return await _session
-                .Query<TSource>()
-                .Apply(_queryModel)
+            return await _dataSource
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
@@ -92,9 +81,7 @@ public class MartenQuery<TSource, TResult> : IQuery<TResult>
     {
         try
         {
-            return await _session
-                .Query<TSource>()
-                .Apply(_queryModel)
+            return await _dataSource
                 .SingleOrDefaultAsync(cancellationToken)
                 .ConfigureAwait(false);
         }

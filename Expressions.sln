@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".root", ".root", "{7721DE8D
 		README.md = README.md
 		.editorconfig = .editorconfig
 		Directory.Build.props = Directory.Build.props
+		version.json = version.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4695B427-BD61-4FA2-A3F4-995AC92C9B02}"

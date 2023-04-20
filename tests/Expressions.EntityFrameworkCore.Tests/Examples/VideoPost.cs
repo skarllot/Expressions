@@ -8,5 +8,5 @@ public class VideoPost : Post
         VideoUrl = videoUrl;
     }
 
-    public string VideoUrl { get; }
+    public string VideoUrl { get; protected set; }
 }

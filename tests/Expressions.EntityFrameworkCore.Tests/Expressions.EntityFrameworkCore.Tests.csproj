@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="6.10.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
     <PackageReference Include="Portable.System.DateTimeOnly" Version="7.0.1" />
     <PackageReference Include="xunit" Version="2.4.2" />

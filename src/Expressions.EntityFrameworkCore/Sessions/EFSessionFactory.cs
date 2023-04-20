@@ -5,25 +5,25 @@ using Raiqub.Expressions.Sessions.BoundedContext;
 
 namespace Raiqub.Expressions.EntityFrameworkCore.Sessions;
 
-public class DbSessionFactory<TContext>
+public class EFSessionFactory<TContext>
     : ISessionFactory<TContext>, IQuerySessionFactory<TContext>, ISessionFactory, IQuerySessionFactory
     where TContext : DbContext
 {
     private readonly ILoggerFactory _loggerFactory;
     private readonly TContext _context;
 
-    public DbSessionFactory(ILoggerFactory loggerFactory, TContext context)
+    public EFSessionFactory(ILoggerFactory loggerFactory, TContext context)
     {
         _loggerFactory = loggerFactory;
         _context = context;
     }
 
-    public DbSession<TContext> Create(ChangeTracking? tracking = null) => new(
-        _loggerFactory.CreateLogger<DbSession<TContext>>(),
+    public EFSession<TContext> Create(ChangeTracking? tracking = null) => new(
+        _loggerFactory.CreateLogger<EFSession<TContext>>(),
         _context,
         tracking ?? ChangeTracking.Default);
 
-    public DbSession<TContext> CreateForQuery() => Create(ChangeTracking.Disable);
+    public EFSession<TContext> CreateForQuery() => Create(ChangeTracking.Disable);
 
     ISession ISessionFactory.Create(ChangeTracking? tracking) => Create(tracking);
 

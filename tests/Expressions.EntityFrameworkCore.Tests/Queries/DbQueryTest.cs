@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 using Raiqub.Expressions.EntityFrameworkCore.Queries;
 using Raiqub.Expressions.EntityFrameworkCore.Tests.Examples;
-using Raiqub.Expressions.Sessions;
 
 namespace Raiqub.Expressions.EntityFrameworkCore.Tests.Queries;
 
@@ -45,11 +45,9 @@ public sealed class DbQueryTest : SqliteTestBase<BloggingContext>
         exists.Should().BeFalse();
     }
 
-    private DbQuery<Blog, Post> CreateDbQuery(string name) => new(
+    private EFQuery<Post> CreateDbQuery(string name) => new(
         NullLogger.Instance,
-        DbContext,
-        new GetBlogPostsQueryModel(name),
-        ChangeTracking.Disable);
+        DbContext.Set<Blog>().AsNoTracking().Apply(new GetBlogPostsQueryModel(name)));
 
     private static IEnumerable<Blog> GetBlogs()
     {

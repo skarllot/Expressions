@@ -23,10 +23,6 @@ public interface IQueryModel<in TSource, out TResult>
     /// <param name="source">The data source to execute the query on.</param>
     /// <returns>An enumerable collection of type <typeparamref name="TResult"/> that represents the query result.</returns>
     IEnumerable<TResult> Execute(IEnumerable<TSource> source);
-
-#if !NETSTANDARD2_0
-    IQueryModel<TDerived, TResult> SourceAs<TDerived>() where TDerived : class, TSource => this;
-#endif
 }
 
 /// <summary>
@@ -36,7 +32,4 @@ public interface IQueryModel<in TSource, out TResult>
 /// <typeparam name="T">The type of the data source and the query result.</typeparam>
 public interface IQueryModel<T> : IQueryModel<T, T>
 {
-#if !NETSTANDARD2_0
-    IQueryModel<TDerived> DownCast<TDerived>() where TDerived : class, T => new DerivedQueryModel<T, TDerived>(this);
-#endif
 }
