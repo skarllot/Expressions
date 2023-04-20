@@ -6,9 +6,9 @@ using Raiqub.Expressions.EntityFrameworkCore.Tests.Examples;
 
 namespace Raiqub.Expressions.EntityFrameworkCore.Tests.Queries;
 
-public sealed class DbQueryTest : SqliteTestBase<BloggingContext>
+public sealed class EFQueryTest : SqliteTestBase<BloggingContext>
 {
-    public DbQueryTest()
+    public EFQueryTest()
         : base(options => new BloggingContext(options))
     {
         DbContext.AddRange(GetBlogs());
@@ -24,7 +24,7 @@ public sealed class DbQueryTest : SqliteTestBase<BloggingContext>
     [InlineData("Second")]
     public async Task AnyShouldReturnTrue(string name)
     {
-        var dbQuery = CreateDbQuery(name);
+        var dbQuery = CreateQuery(name);
 
         bool exists = await dbQuery.AnyAsync();
 
@@ -38,14 +38,52 @@ public sealed class DbQueryTest : SqliteTestBase<BloggingContext>
     [InlineData("Other")]
     public async Task AnyShouldReturnFalse(string name)
     {
-        var dbQuery = CreateDbQuery(name);
+        var dbQuery = CreateQuery(name);
 
         bool exists = await dbQuery.AnyAsync();
 
         exists.Should().BeFalse();
     }
 
-    private EFQuery<Post> CreateDbQuery(string name) => new(
+    [Fact]
+    public async Task CountAllShouldReturn3()
+    {
+        var efQuery = new EFQuery<Post>(NullLogger.Instance, DbContext.Set<Post>());
+
+        long count = await efQuery.CountAsync();
+
+        count.Should().Be(3);
+    }
+
+    [Theory]
+    [InlineData("First", 2L)]
+    [InlineData("Second", 1L)]
+    [InlineData("Third", 0L)]
+    [InlineData("Fourth", 0L)]
+    public async Task CountShouldReturnExpected(string name, long expected)
+    {
+        var efQuery = CreateQuery(name);
+
+        long count = await efQuery.CountAsync();
+
+        count.Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData("First", "The worst")]
+    [InlineData("Second", "Thank you")]
+    [InlineData("Third", null)]
+    [InlineData("Fourth", null)]
+    public async Task FirstOrDefaultShouldReturnExpected(string name, string? expected)
+    {
+        var efQuery = CreateQuery(name);
+
+        Post? post = await efQuery.FirstOrDefaultAsync();
+
+        post?.Title.Should().Be(expected);
+    }
+
+    private EFQuery<Post> CreateQuery(string name) => new(
         NullLogger.Instance,
         DbContext.Set<Blog>().AsNoTracking().Apply(new GetBlogPostsQueryModel(name)));
 
