@@ -25,7 +25,8 @@ public class EFQuery<TResult> : IQuery<TResult>
                 .AnyAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
-        catch (Exception exception) when (exception is not OperationCanceledException)
+        catch (Exception exception) when (exception is not ArgumentNullException
+                                              and not OperationCanceledException)
         {
             QueryLog.AnyError(_logger, exception);
             throw;
@@ -40,7 +41,8 @@ public class EFQuery<TResult> : IQuery<TResult>
                 .LongCountAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
-        catch (Exception exception) when (exception is not OperationCanceledException)
+        catch (Exception exception) when (exception is not ArgumentNullException
+                                              and not OperationCanceledException)
         {
             QueryLog.CountError(_logger, exception);
             throw;
@@ -55,7 +57,8 @@ public class EFQuery<TResult> : IQuery<TResult>
                 .FirstOrDefaultAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
-        catch (Exception exception) when (exception is not OperationCanceledException)
+        catch (Exception exception) when (exception is not ArgumentNullException
+                                              and not OperationCanceledException)
         {
             QueryLog.FirstError(_logger, exception);
             throw;
@@ -70,7 +73,8 @@ public class EFQuery<TResult> : IQuery<TResult>
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
-        catch (Exception exception) when (exception is not OperationCanceledException)
+        catch (Exception exception) when (exception is not ArgumentNullException
+                                              and not OperationCanceledException)
         {
             QueryLog.ListError(_logger, exception);
             throw;
@@ -85,7 +89,9 @@ public class EFQuery<TResult> : IQuery<TResult>
                 .SingleOrDefaultAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
-        catch (Exception exception) when (exception is not OperationCanceledException)
+        catch (Exception exception) when (exception is not ArgumentNullException
+                                              and not InvalidOperationException
+                                              and not OperationCanceledException)
         {
             QueryLog.SingleError(_logger, exception);
             throw;

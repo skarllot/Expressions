@@ -14,5 +14,6 @@ public class GetBlogPostsQueryModel : QueryModel<Blog, Post>
     }
 
     protected override IQueryable<Post> ExecuteCore(IQueryable<Blog> source) => source
-        .SelectMany(b => b.Posts);
+        .SelectMany(b => b.Posts)
+        .OrderBy(p => p.Timestamp);
 }

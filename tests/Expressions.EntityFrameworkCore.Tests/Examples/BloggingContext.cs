@@ -14,6 +14,8 @@ public class BloggingContext : DbContext
     {
         DefineBlog(modelBuilder.Entity<Blog>());
         DefinePost(modelBuilder.Entity<Post>());
+
+        modelBuilder.AddSqliteDateTimeOffsetConverter(Database);
     }
 
     private static void DefineBlog(EntityTypeBuilder<Blog> builder)

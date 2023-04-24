@@ -13,6 +13,10 @@ public static class QueryModel
     public static IQueryModel<T> Create<T>(Specification<T> specification) =>
         new SpecificationQueryModel<T>(specification);
 
+    public static IQueryModel<TSource, TResult> Create<TSource, TResult>(
+        Func<IQueryable<TSource>, IQueryable<TResult>> queryModel) =>
+        new AnonymousQueryModel<TSource, TResult>(queryModel);
+
     /// <summary>Returns a query model that has been downcasted to the specified derived type.</summary>
     /// <typeparam name="TSource">The source type of the query model.</typeparam>
     /// <typeparam name="TDerived">The derived type of the query model.</typeparam>

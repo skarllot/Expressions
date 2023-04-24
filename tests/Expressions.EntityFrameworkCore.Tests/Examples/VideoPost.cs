@@ -2,8 +2,8 @@
 
 public class VideoPost : Post
 {
-    public VideoPost(string title, string content, string videoUrl)
-        : base(title, content)
+    public VideoPost(string title, string content, string videoUrl, DateTimeOffset timestamp)
+        : base(title, content, timestamp)
     {
         VideoUrl = videoUrl;
     }
