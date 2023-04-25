@@ -1,4 +1,6 @@
-﻿namespace Raiqub.Expressions.EntityFrameworkCore.Tests.Examples;
+﻿using Raiqub.Expressions;
+
+namespace Raiqub.Common.Tests.Examples;
 
 public static class BlogSpecification
 {

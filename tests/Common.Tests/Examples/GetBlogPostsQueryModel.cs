@@ -1,6 +1,7 @@
-﻿using Raiqub.Expressions.Queries;
+﻿using Raiqub.Expressions;
+using Raiqub.Expressions.Queries;
 
-namespace Raiqub.Expressions.EntityFrameworkCore.Tests.Examples;
+namespace Raiqub.Common.Tests.Examples;
 
 public class GetBlogPostsQueryModel : QueryModel<Blog, Post>
 {

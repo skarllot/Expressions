@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Raiqub.Common.Tests.Examples;
 using Raiqub.Expressions.EntityFrameworkCore.Queries;
 using Raiqub.Expressions.EntityFrameworkCore.Tests.Examples;
 using Raiqub.Expressions.Sessions;

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Raiqub.Common.Tests.Examples;
 
 namespace Raiqub.Expressions.EntityFrameworkCore.Tests.Examples;
 
