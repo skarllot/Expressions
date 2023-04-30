@@ -19,7 +19,7 @@ public class Blog
     public Guid Id { get; protected set; }
     public string Name { get; protected set; }
 
-    public IReadOnlyList<Post> Posts => _posts;
+    public List<Post> Posts => _posts;
 
     public void AddPost(Post post) => _posts.Add(post);
 }

@@ -23,7 +23,12 @@ public class MartenQueryTest : PostgresTestBase
 
     private MartenQuery<Post> CreateQuery(IQueryModel<Blog, Post> queryModel) => new(
         NullLogger.Instance,
-        DocumentStore.For(ConnectionString).QuerySession().Query<Blog>().Apply(queryModel));
+        Store.QuerySession().Query<Blog>().Apply(queryModel));
+
+    protected override void InitializeData(IDocumentSession session)
+    {
+        session.Insert(GetBlogs());
+    }
 
     private static IEnumerable<Blog> GetBlogs()
     {
