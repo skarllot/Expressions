@@ -1,36 +1,48 @@
-﻿using DotNet.Testcontainers.Builders;
-using Marten;
+﻿using Marten;
+using MysticMind.PostgresEmbed;
 using Raiqub.Common.Tests.Examples;
 using Raiqub.Expressions.Marten.Tests.Commons;
-using Testcontainers.PostgreSql;
 using Weasel.Core;
 
 namespace Raiqub.Expressions.Marten.Tests;
 
-public abstract class PostgresTestBase : IAsyncLifetime
+public abstract class PostgresTestBase : IAsyncLifetime, IDisposable
 {
-    private readonly PostgreSqlContainer _container =
-        new PostgreSqlBuilder().WithWaitStrategy(Wait.ForUnixContainer()).Build();
+    private readonly PgServer _pgServer = new(pgVersion: "10.7.1");
 
     private IDocumentStore? _store;
 
-    private string ConnectionString => _container.GetConnectionString();
+    private string ConnectionString => $"Server=localhost;Port={_pgServer.PgPort};User Id={_pgServer.PgUser};Password=test;Database={_pgServer.PgDbName};Pooling=false";
 
     protected IDocumentStore Store =>
         _store ?? throw new InvalidOperationException("Document store could not be initialized");
 
     public async Task InitializeAsync()
     {
-        await _container.StartAsync();
+        await _pgServer.StartAsync();
         await PgIsReady.Wait(ConnectionString);
         _store = CreateDocumentStore();
         await InitializeData();
     }
 
-    public async Task DisposeAsync()
+    public Task DisposeAsync()
     {
-        _store?.Dispose();
-        await _container.DisposeAsync();
+        return Task.CompletedTask;
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _store?.Dispose();
+            _pgServer.Dispose();
+        }
     }
 
     protected abstract void InitializeData(IDocumentSession session);
