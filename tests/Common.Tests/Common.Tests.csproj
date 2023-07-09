@@ -1,11 +1,25 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;net6.0;netstandard2.1</TargetFrameworks>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFrameworks>net6.0</TargetFrameworks>
+  </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\..\src\Expressions\Expressions.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <AssemblyAttribute Condition="'$(TargetFramework)' != 'net472'" Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Expressions.Writing\Expressions.Writing.csproj" />
+    <ProjectReference Include="..\..\src\Expressions\Expressions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="6.11.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.19" />
+    <PackageReference Include="MysticMind.PostgresEmbed" Version="2.1.0" />
+    <PackageReference Include="Npgsql" Version="6.0.1" />
+    <PackageReference Include="xunit.core" Version="2.5.0" />
+  </ItemGroup>
 
 </Project>
