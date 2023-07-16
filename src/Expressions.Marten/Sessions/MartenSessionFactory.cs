@@ -32,10 +32,10 @@ public class MartenSessionFactory : ISessionFactory, IQuerySessionFactory
     {
         return tracking switch
         {
-            ChangeTracking.Default => documentStore.OpenSession(),
-            ChangeTracking.Enable => documentStore.OpenSession(DocumentTracking.DirtyTracking),
-            ChangeTracking.IdentityResolution => documentStore.OpenSession(),
-            ChangeTracking.Disable => documentStore.OpenSession(DocumentTracking.None),
+            ChangeTracking.Default => documentStore.LightweightSession(),
+            ChangeTracking.Enable => documentStore.DirtyTrackedSession(),
+            ChangeTracking.IdentityResolution => documentStore.IdentitySession(),
+            ChangeTracking.Disable => documentStore.LightweightSession(),
             _ => throw new ArgumentException(
                 $"The specified change tracking mode is not supported: {tracking}",
                 nameof(tracking))

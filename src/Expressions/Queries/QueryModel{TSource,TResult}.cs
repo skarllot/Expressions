@@ -61,7 +61,8 @@ public abstract class QueryModel<TSource, TResult> : IQueryModel<TSource, TResul
 
     /// <summary>Gets the mandatory preconditions to execute the query.</summary>
     /// <returns>An <see cref="IEnumerable{T}"/> that represents the preconditions for the query model.</returns>
-    protected abstract IEnumerable<Specification<TSource>> GetPreconditions();
+    protected virtual IEnumerable<Specification<TSource>> GetPreconditions() =>
+        Enumerable.Empty<Specification<TSource>>();
 
     /// <summary>
     /// Executes the query model on the specified data source and returns the query result as an <see cref="IQueryable{T}"/>.

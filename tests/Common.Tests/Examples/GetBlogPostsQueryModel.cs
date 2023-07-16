@@ -1,20 +1,12 @@
-﻿using Raiqub.Expressions;
-using Raiqub.Expressions.Queries;
+﻿namespace Raiqub.Common.Tests.Examples;
 
-namespace Raiqub.Common.Tests.Examples;
-
-public class GetBlogPostsQueryModel : QueryModel<Blog, Post>
+public class GetBlogPostsQueryModel : GetBlogPostsAggregateQueryModel
 {
-    public GetBlogPostsQueryModel(string name) => Name = name;
-
-    public string Name { get; }
-
-    protected override IEnumerable<Specification<Blog>> GetPreconditions()
+    public GetBlogPostsQueryModel(string name) : base(name)
     {
-        yield return BlogSpecification.OfName(Name);
     }
 
-    protected override IQueryable<Post> ExecuteCore(IQueryable<Blog> source) => source
-        .SelectMany(b => b.Posts)
+    protected override IQueryable<Post> ExecuteCore(IQueryable<Blog> source) => base
+        .ExecuteCore(source)
         .OrderBy(p => p.Timestamp);
 }

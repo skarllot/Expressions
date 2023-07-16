@@ -53,7 +53,7 @@ public abstract class QueryTestBase
     public async Task CountShouldReturnExpected(string name, long expected)
     {
         await AddBlogs(GetBlogs());
-        var efQuery = CreateQuery(new GetBlogPostsQueryModel(name));
+        var efQuery = CreateQuery(new GetBlogPostsAggregateQueryModel(name));
 
         long count = await efQuery.CountAsync();
 

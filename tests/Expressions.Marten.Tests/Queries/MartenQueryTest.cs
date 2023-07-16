@@ -22,7 +22,9 @@ public sealed class MartenQueryTest : QueryTestBase, IDisposable
         ? new MartenQuery<Post>(
             NullLogger.Instance,
             _databaseHandler.Store.QuerySession().Query<Blog>().Apply(queryModel))
-        : new MartenQuery<Post>(NullLogger.Instance, _databaseHandler.Store.QuerySession().Query<Post>());
+        : new MartenQuery<Post>(
+            NullLogger.Instance,
+            _databaseHandler.Store.QuerySession().Query<Blog>().SelectMany(x => x.Posts));
 
     protected override async Task AddBlogs(IEnumerable<Blog> blogs)
     {
