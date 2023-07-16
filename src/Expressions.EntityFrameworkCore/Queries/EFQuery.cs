@@ -33,18 +33,35 @@ public class EFQuery<TResult> : IQuery<TResult>
         }
     }
 
-    public async Task<long> CountAsync(CancellationToken cancellationToken = default)
+    public async Task<int> CountAsync(CancellationToken cancellationToken = default)
     {
         try
         {
             return await _dataSource
-                .LongCountAsync(cancellationToken)
+                .CountAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
         catch (Exception exception) when (exception is not ArgumentNullException
                                               and not OperationCanceledException)
         {
             QueryLog.CountError(_logger, exception);
+            throw;
+        }
+    }
+
+    public async Task<TResult> FirstAsync(CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            return await _dataSource
+                .FirstAsync(cancellationToken)
+                .ConfigureAwait(false);
+        }
+        catch (Exception exception) when (exception is not ArgumentNullException
+                                              and not InvalidOperationException
+                                              and not OperationCanceledException)
+        {
+            QueryLog.FirstError(_logger, exception);
             throw;
         }
     }
@@ -77,6 +94,23 @@ public class EFQuery<TResult> : IQuery<TResult>
                                               and not OperationCanceledException)
         {
             QueryLog.ListError(_logger, exception);
+            throw;
+        }
+    }
+
+    public async Task<TResult> SingleAsync(CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            return await _dataSource
+                .SingleAsync(cancellationToken)
+                .ConfigureAwait(false);
+        }
+        catch (Exception exception) when (exception is not ArgumentNullException
+                                              and not InvalidOperationException
+                                              and not OperationCanceledException)
+        {
+            QueryLog.SingleError(_logger, exception);
             throw;
         }
     }

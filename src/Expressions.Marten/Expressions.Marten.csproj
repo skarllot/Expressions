@@ -5,8 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Expressions.Database\Expressions.Database.csproj" />
+    <ProjectReference Include="..\Expressions.Database\Expressions.Database.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\Expressions.Writing\Expressions.Writing.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="$(OutputPath)\Raiqub.Expressions.Database.dll" Pack="true" PackagePath="lib/net6.0" Visible="true" />
   </ItemGroup>
 
   <ItemGroup>

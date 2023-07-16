@@ -9,7 +9,7 @@ using Raiqub.Expressions.Queries;
 
 namespace Raiqub.Expressions.EntityFrameworkCore.Tests.Queries;
 
-public sealed class EFQueryTest : QueryTestBase, IDisposable //SqliteTestBase<BloggingContext>
+public sealed class EFQueryTest : QueryTestBase, IDisposable
 {
     private readonly EfSqliteTestDatabaseHandler<BloggingContext> _databaseHandler;
 

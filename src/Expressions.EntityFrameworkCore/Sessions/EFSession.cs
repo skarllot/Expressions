@@ -90,12 +90,15 @@ public class EFSession<TContext> : ISession<TContext>
 
     protected virtual ValueTask DisposeAsyncCore()
     {
-        // Nothing to clean
+        Context.ChangeTracker.Clear();
         return new ValueTask();
     }
 
     protected virtual void Dispose(bool disposing)
     {
-        // Nothing to clean
+        if (disposing)
+        {
+            Context.ChangeTracker.Clear();
+        }
     }
 }

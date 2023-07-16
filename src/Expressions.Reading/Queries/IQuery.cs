@@ -13,7 +13,15 @@ public interface IQuery<T>
     /// <summary>Gets the number of elements in the query result.</summary>
     /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the number of elements in the query result.</returns>
-    Task<long> CountAsync(CancellationToken cancellationToken = default);
+    Task<int> CountAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns the first element of the query result.
+    /// </summary>
+    /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the first element of the query result.</returns>
+    /// <exception cref="InvalidOperationException">Query result contains no elements.</exception>
+    Task<T> FirstAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the first element of the query result, or a default value if the query result contains no elements.
@@ -28,10 +36,21 @@ public interface IQuery<T>
     Task<IReadOnlyList<T>> ToListAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns the only element of the query result, or a default value if the query result contains no elements;
-    /// this method throws an exception if there is more than one element in the sequence.</summary>
+    /// Returns the only element of the query result,
+    /// and throws an exception if there is not exactly one element in the sequence.
+    /// </summary>
     /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains the only element of the query result, or <see langword="null"/> if the query result contains no elements or more than one element.</returns>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the only element of the query result.</returns>
+    /// <exception cref="InvalidOperationException">Query contains more than one element or contains no elements.</exception>
+    /// <exception cref="OperationCanceledException">If the <see cref="CancellationToken" /> is canceled.</exception>
+    Task<T> SingleAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns the only element of the query result, or a default value if the query result contains no elements;
+    /// this method throws an exception if there is more than one element in the sequence.
+    /// </summary>
+    /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the only element of the query result, or <see langword="null"/> if the query result contains no elements.</returns>
     /// <exception cref="InvalidOperationException">Query contains more than one element.</exception>
     /// <exception cref="OperationCanceledException">If the <see cref="CancellationToken" /> is canceled.</exception>
     Task<T?> SingleOrDefaultAsync(CancellationToken cancellationToken = default);

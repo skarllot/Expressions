@@ -8,12 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.20" />
+    <ProjectReference Include="..\Expressions.Database\Expressions.Database.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\Expressions.Writing\Expressions.Writing.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Expressions.Database\Expressions.Database.csproj" />
-    <ProjectReference Include="..\Expressions.Writing\Expressions.Writing.csproj" />
+    <None Include="$(OutputPath)\Raiqub.Expressions.Database.dll" Pack="true" PackagePath="lib/net6.0" Visible="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.20" />
   </ItemGroup>
 
 </Project>
