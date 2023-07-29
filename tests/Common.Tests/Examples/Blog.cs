@@ -4,12 +4,7 @@ public class Blog
 {
     private readonly List<Post> _posts;
 
-    public Blog(string name)
-        : this(Guid.Empty, name)
-    {
-    }
-
-    protected Blog(Guid id, string name)
+    public Blog(Guid id, string name)
     {
         Id = id;
         Name = name;

@@ -165,15 +165,15 @@ public abstract class SessionFactoryTestBase
     {
         DateTimeOffset now = DateTimeOffset.UtcNow;
 
-        var first = new Blog("First");
+        var first = new Blog(Guid.Empty, "First");
         first.AddPost(new Post("Nice", "Keep writing", now.AddMilliseconds(1)));
         first.AddPost(new Post("The worst", "You should quit writing", now.AddMilliseconds(2)));
         yield return first;
 
-        var second = new Blog("Second");
+        var second = new Blog(Guid.Empty, "Second");
         second.AddPost(new Post("Thank you", "You helped a lot", now.AddMilliseconds(1)));
         yield return second;
 
-        yield return new Blog("Third");
+        yield return new Blog(Guid.Empty, "Third");
     }
 }
