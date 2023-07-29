@@ -1,12 +1,18 @@
 ﻿using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using Raiqub.Common.Tests.Examples;
 using Raiqub.Expressions.Queries;
 using Raiqub.Expressions.Sessions;
 
 namespace Raiqub.Common.Tests.Sessions;
 
-public abstract class SessionFactoryTestBase
+public abstract class SessionFactoryTestBase : DatabaseTestBase
 {
+    protected SessionFactoryTestBase(Action<IServiceCollection> registerServices)
+        : base(registerServices)
+    {
+    }
+
     [Fact]
     public async Task AddWithoutSavingShouldNotCommitChanges()
     {
@@ -159,7 +165,7 @@ public abstract class SessionFactoryTestBase
         blogs.Should().NotContain(blog => blog.Name == "Second");
     }
 
-    protected abstract ISessionFactory CreateSessionFactory();
+    private ISessionFactory CreateSessionFactory() => ServiceProvider.GetRequiredService<ISessionFactory>();
 
     private static IEnumerable<Blog> GetBlogs()
     {

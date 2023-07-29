@@ -1,23 +1,21 @@
-﻿using Microsoft.Extensions.Logging.Abstractions;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using Raiqub.Common.Tests.Examples;
 using Raiqub.Common.Tests.Sessions;
-using Raiqub.Expressions.Marten.Sessions;
-using Raiqub.Expressions.Sessions;
 
 namespace Raiqub.Expressions.Marten.Tests.Sessions;
 
-public sealed class MartenSessionFactoryTest : SessionFactoryTestBase, IDisposable
+[Collection("Marten")]
+public sealed class MartenSessionFactoryTest : SessionFactoryTestBase
 {
-    private readonly MartenPostgresTestDatabaseHandler _databaseHandler;
-
     public MartenSessionFactoryTest()
+        : base(
+            services => services
+                .AddSingleton<ILoggerFactory>(new NullLoggerFactory())
+                .AddTestMarten<Blog>()
+                .AddMartenExpressions()
+                .AddSingleContext())
     {
-        _databaseHandler = new MartenPostgresTestDatabaseHandler();
-    }
-
-    public void Dispose() => _databaseHandler.Dispose();
-
-    protected override ISessionFactory CreateSessionFactory()
-    {
-        return new MartenSessionFactory(new NullLoggerFactory(), _databaseHandler.Store);
     }
 }

@@ -1,24 +1,21 @@
-﻿using Microsoft.Extensions.Logging.Abstractions;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Raiqub.Common.Tests.Sessions;
-using Raiqub.Expressions.EntityFrameworkCore.Sessions;
 using Raiqub.Expressions.EntityFrameworkCore.Tests.Examples;
-using Raiqub.Expressions.Sessions;
 
 namespace Raiqub.Expressions.EntityFrameworkCore.Tests.Sessions;
 
-public sealed class EFSessionFactoryTest : SessionFactoryTestBase, IDisposable
+public sealed class EFSessionFactoryTest : SessionFactoryTestBase
 {
-    private readonly EfSqliteTestDatabaseHandler<BloggingContext> _databaseHandler;
-
     public EFSessionFactoryTest()
+        : base(
+            services => services
+                .AddSingleton<ILoggerFactory>(new NullLoggerFactory())
+                .AddSqliteDbContext<BloggingContext>()
+                .AddEntityFrameworkExpressions()
+                .AddSingleContext<BloggingContext>())
     {
-        _databaseHandler = new EfSqliteTestDatabaseHandler<BloggingContext>(options => new BloggingContext(options));
-    }
-
-    public void Dispose() => _databaseHandler.Dispose();
-
-    protected override ISessionFactory CreateSessionFactory()
-    {
-        return new EFSessionFactory<BloggingContext>(new NullLoggerFactory(), _databaseHandler.DbContext);
+        ServiceProvider.GetRequiredService<BloggingContext>().Database.EnsureCreated();
     }
 }

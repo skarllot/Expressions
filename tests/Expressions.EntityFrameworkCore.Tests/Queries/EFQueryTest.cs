@@ -1,24 +1,26 @@
 ﻿using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Raiqub.Common.Tests.Examples;
 using Raiqub.Common.Tests.Queries;
 using Raiqub.Expressions.EntityFrameworkCore.Queries;
 using Raiqub.Expressions.EntityFrameworkCore.Tests.Examples;
-using Raiqub.Expressions.Queries;
 
 namespace Raiqub.Expressions.EntityFrameworkCore.Tests.Queries;
 
-public sealed class EFQueryTest : QueryTestBase, IDisposable
+public sealed class EFQueryTest : QueryTestBase
 {
-    private readonly EfSqliteTestDatabaseHandler<BloggingContext> _databaseHandler;
-
     public EFQueryTest()
+        : base(
+            services => services
+                .AddSingleton<ILoggerFactory>(new NullLoggerFactory())
+                .AddSqliteDbContext<BloggingContext>()
+                .AddEntityFrameworkExpressions()
+                .AddSingleContext<BloggingContext>())
     {
-        _databaseHandler = new EfSqliteTestDatabaseHandler<BloggingContext>(options => new BloggingContext(options));
+        ServiceProvider.GetRequiredService<BloggingContext>().Database.EnsureCreated();
     }
-
-    public void Dispose() => _databaseHandler.Dispose();
 
     [Fact]
     public async Task ShouldFailWhenSourceIsNull()
@@ -40,21 +42,5 @@ public sealed class EFQueryTest : QueryTestBase, IDisposable
         await efQuery
             .Invoking(q => q.SingleOrDefaultAsync())
             .Should().ThrowExactlyAsync<ArgumentNullException>();
-    }
-
-    protected override async Task AddBlogs(IEnumerable<Blog> blogs)
-    {
-        await _databaseHandler.DbContext.AddRangeAsync(blogs);
-        await _databaseHandler.DbContext.SaveChangesAsync();
-        _databaseHandler.DbContext.ChangeTracker.Clear();
-    }
-
-    protected override IQuery<Post> CreateQuery(IQueryModel<Blog, Post>? queryModel)
-    {
-        return queryModel is not null
-            ? new EFQuery<Post>(
-                NullLogger.Instance,
-                _databaseHandler.DbContext.Set<Blog>().AsNoTracking().Apply(queryModel))
-            : new EFQuery<Post>(NullLogger.Instance, _databaseHandler.DbContext.Set<Post>().AsNoTracking());
     }
 }

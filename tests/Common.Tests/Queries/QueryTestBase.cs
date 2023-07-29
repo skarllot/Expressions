@@ -1,20 +1,28 @@
 ﻿using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using Raiqub.Common.Tests.Examples;
 using Raiqub.Expressions.Queries;
+using Raiqub.Expressions.Sessions;
 
 namespace Raiqub.Common.Tests.Queries;
 
-public abstract class QueryTestBase
+public abstract class QueryTestBase : DatabaseTestBase
 {
+    protected QueryTestBase(Action<IServiceCollection> registerServices)
+        : base(registerServices)
+    {
+    }
+
     [Theory]
     [InlineData("First")]
     [InlineData("Second")]
     public async Task AnyShouldReturnTrue(string name)
     {
         await AddBlogs(GetBlogs());
-        var dbQuery = CreateQuery(new GetBlogPostsQueryModel(name));
+        await using var session = CreateSession();
+        var query = session.Query(new GetBlogPostsQueryModel(name));
 
-        bool exists = await dbQuery.AnyAsync();
+        bool exists = await query.AnyAsync();
 
         exists.Should().BeTrue();
     }
@@ -27,9 +35,10 @@ public abstract class QueryTestBase
     public async Task AnyShouldReturnFalse(string name)
     {
         await AddBlogs(GetBlogs());
-        var dbQuery = CreateQuery(new GetBlogPostsQueryModel(name));
+        await using var session = CreateSession();
+        var query = session.Query(new GetBlogPostsQueryModel(name));
 
-        bool exists = await dbQuery.AnyAsync();
+        bool exists = await query.AnyAsync();
 
         exists.Should().BeFalse();
     }
@@ -38,9 +47,10 @@ public abstract class QueryTestBase
     public async Task CountAllShouldReturn3()
     {
         await AddBlogs(GetBlogs());
-        var efQuery = CreateQuery(null);
+        await using var session = CreateSession();
+        var query = session.QueryNested((Blog b) => b.Posts);
 
-        long count = await efQuery.CountAsync();
+        long count = await query.CountAsync();
 
         count.Should().Be(3);
     }
@@ -53,9 +63,10 @@ public abstract class QueryTestBase
     public async Task CountShouldReturnExpected(string name, long expected)
     {
         await AddBlogs(GetBlogs());
-        var efQuery = CreateQuery(new GetBlogPostsAggregateQueryModel(name));
+        await using var session = CreateSession();
+        var query = session.Query(new GetBlogPostsAggregateQueryModel(name));
 
-        long count = await efQuery.CountAsync();
+        long count = await query.CountAsync();
 
         count.Should().Be(expected);
     }
@@ -68,9 +79,10 @@ public abstract class QueryTestBase
     public async Task FirstOrDefaultShouldReturnExpected(string name, string? expected)
     {
         await AddBlogs(GetBlogs());
-        var efQuery = CreateQuery(new GetBlogPostsQueryModel(name));
+        await using var session = CreateSession();
+        var query = session.Query(new GetBlogPostsQueryModel(name));
 
-        Post? post = await efQuery.FirstOrDefaultAsync();
+        Post? post = await query.FirstOrDefaultAsync();
 
         post?.Title.Should().Be(expected);
     }
@@ -79,9 +91,10 @@ public abstract class QueryTestBase
     public async Task ToListShouldReturnAll()
     {
         await AddBlogs(GetBlogs());
-        var efQuery = CreateQuery(QueryModel.Create((IQueryable<Blog> source) => source.SelectMany(b => b.Posts)));
+        await using var session = CreateSession();
+        var query = session.Query(QueryModel.Create((IQueryable<Blog> source) => source.SelectMany(b => b.Posts)));
 
-        var posts = await efQuery.ToListAsync();
+        var posts = await query.ToListAsync();
 
         posts.Should().HaveCount(3);
         posts.Select(p => p.Title).Should().BeEquivalentTo("Nice", "The worst", "Thank you");
@@ -91,13 +104,14 @@ public abstract class QueryTestBase
     public async Task ToListShouldReturnExpected()
     {
         await AddBlogs(GetBlogs());
-        var efQuery = CreateQuery(
+        await using var session = CreateSession();
+        var query = session.Query(
             QueryModel.Create(
                 (IQueryable<Blog> source) => source
                     .SelectMany(b => b.Posts)
                     .Where(p => p.Content.StartsWith("You"))));
 
-        var posts = await efQuery.ToListAsync();
+        var posts = await query.ToListAsync();
 
         posts.Should().HaveCount(2);
         posts.Select(p => p.Title).Should().BeEquivalentTo("The worst", "Thank you");
@@ -110,9 +124,10 @@ public abstract class QueryTestBase
     public async Task SingleOrDefaultShouldReturnExpected(string name, string? expected)
     {
         await AddBlogs(GetBlogs());
-        var efQuery = CreateQuery(new GetBlogPostsQueryModel(name));
+        await using var session = CreateSession();
+        var query = session.Query(new GetBlogPostsQueryModel(name));
 
-        Post? post = await efQuery.SingleOrDefaultAsync();
+        Post? post = await query.SingleOrDefaultAsync();
 
         post?.Title.Should().Be(expected);
     }
@@ -122,16 +137,23 @@ public abstract class QueryTestBase
     public async Task SingleOrDefaultShouldFail(string name)
     {
         await AddBlogs(GetBlogs());
-        var efQuery = CreateQuery(new GetBlogPostsQueryModel(name));
+        await using var session = CreateSession();
+        var query = session.Query(new GetBlogPostsQueryModel(name));
 
-        await efQuery
+        await query
             .Invoking(q => q.SingleOrDefaultAsync())
             .Should().ThrowExactlyAsync<InvalidOperationException>();
     }
 
-    protected abstract IQuery<Post> CreateQuery(IQueryModel<Blog, Post>? queryModel);
+    private IQuerySession CreateSession() => ServiceProvider.GetRequiredService<IQuerySession>();
 
-    protected abstract Task AddBlogs(IEnumerable<Blog> blogs);
+    private async Task AddBlogs(IEnumerable<Blog> blogs)
+    {
+        ISessionFactory sessionFactory = ServiceProvider.GetRequiredService<ISessionFactory>();
+        await using ISession session = sessionFactory.Create();
+        await session.AddRangeAsync(blogs);
+        await session.SaveChangesAsync();
+    }
 
     private static IEnumerable<Blog> GetBlogs()
     {
