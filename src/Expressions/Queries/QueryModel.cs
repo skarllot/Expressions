@@ -17,44 +17,20 @@ public static class QueryModel
         Func<IQueryable<TSource>, IQueryable<TResult>> queryModel) =>
         new AnonymousQueryModel<TSource, TResult>(queryModel);
 
-    /// <summary>Returns a query model that has been downcasted to the specified derived type.</summary>
-    /// <typeparam name="TSource">The source type of the query model.</typeparam>
-    /// <typeparam name="TDerived">The derived type of the query model.</typeparam>
+    /// <summary>Prepares a query model for down-casting.</summary>
+    /// <typeparam name="TSource">The type of the data source.</typeparam>
+    /// <typeparam name="TResult">The type of the query result.</typeparam>
     /// <param name="queryModel">The query model to downcast.</param>
-    /// <returns>A query model that has been downcasted to the specified derived type.</returns>
-    public static IQueryModel<TDerived> DownCast<TSource, TDerived>(this IQueryModel<TDerived, TSource> queryModel)
-        where TDerived : class, TSource => new DerivedQueryModel<TSource, TDerived>(queryModel);
-
-    /// <summary>Returns a query model that has been downcasted to the specified derived type.</summary>
-    /// <typeparam name="TSource">The source type of the query model.</typeparam>
-    /// <typeparam name="TDerived">The derived type of the query model.</typeparam>
-    /// <param name="queryModel">The query model to downcast.</param>
-    /// <param name="typeParam">The type parameter for the derived type.</param>
-    /// <returns>A query model that has been downcasted to the specified derived type.</returns>
-    public static IQueryModel<TDerived> DownCast<TSource, TDerived>(
-        this IQueryModel<TDerived, TSource> queryModel,
-        ImplicitGenerics.ITypeParam<TDerived> typeParam)
-        where TDerived : class, TSource => new DerivedQueryModel<TSource, TDerived>(queryModel);
-
-    /// <summary>Returns a query model with the source type casted to the specified derived type.</summary>
-    /// <typeparam name="TSource">The source type of the query model.</typeparam>
-    /// <typeparam name="TDerived">The derived type to cast the source type to.</typeparam>
-    /// <typeparam name="TResult">The result type of the query model.</typeparam>
-    /// <param name="queryModel">The query model to cast.</param>
-    /// <returns>A query model with the source type casted to the specified derived type.</returns>
-    public static IQueryModel<TDerived, TResult> SourceAs<TSource, TDerived, TResult>(
+    /// <returns>An instance that allow down-casting the specified query model.</returns>
+    public static QueryModelDownCasting<TSource, TResult> DownCast<TSource, TResult>(
         this IQueryModel<TSource, TResult> queryModel)
-        where TDerived : class, TSource => queryModel;
+        where TSource : class, TResult => new(queryModel);
 
-    /// <summary>Returns a query model with the source type casted to the specified derived type.</summary>
+    /// <summary>Prepares a query model for casting the source type.</summary>
     /// <typeparam name="TSource">The source type of the query model.</typeparam>
-    /// <typeparam name="TDerived">The derived type to cast the source type to.</typeparam>
     /// <typeparam name="TResult">The result type of the query model.</typeparam>
     /// <param name="queryModel">The query model to cast.</param>
-    /// <param name="typeParam">The type parameter for the derived type.</param>
-    /// <returns>A query model with the source type casted to the specified derived type.</returns>
-    public static IQueryModel<TDerived, TResult> SourceAs<TSource, TDerived, TResult>(
-        this IQueryModel<TSource, TResult> queryModel,
-        ImplicitGenerics.ITypeParam<TDerived> typeParam)
-        where TDerived : class, TSource => queryModel;
+    /// <returns>An instance that allow casting the source type of the specified query model.</returns>
+    public static QueryModelSourceCasting<TSource, TResult> SourceCast<TSource, TResult>(
+        this IQueryModel<TSource, TResult> queryModel) => new(queryModel);
 }

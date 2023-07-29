@@ -8,8 +8,4 @@
     </PackageTags>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Raiqub.ImplicitGenerics" Version="1.1.0" />
-  </ItemGroup>
-
 </Project>

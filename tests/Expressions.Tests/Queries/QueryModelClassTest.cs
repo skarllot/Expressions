@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using Raiqub.Expressions.Queries;
 using Raiqub.Expressions.Tests.Examples;
-using Raiqub.ImplicitGenerics;
 
 namespace Raiqub.Expressions.Tests.Queries;
 
@@ -59,11 +58,11 @@ public class QueryModelClassTest
         var list = new[] { new NewsPost(1, "First", "The first post", "general", "John") };
 
         NewsPost[] result1 = list
-            .Apply(new BlogPostContentSearchQueryModel("first").DownCast(TypeParam.Of<NewsPost>()))
+            .Apply(new BlogPostContentSearchQueryModel("first").DownCast().To<NewsPost>())
             .ToArray();
         NewsPost[] result2 = list
             .AsQueryable()
-            .Apply(new BlogPostContentSearchQueryModel("first").DownCast<BlogPost, NewsPost>())
+            .Apply(new BlogPostContentSearchQueryModel("first").DownCast().To<NewsPost>())
             .ToArray();
 
         result1.Should().HaveCount(1);
