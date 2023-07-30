@@ -32,7 +32,7 @@ public class MartenSessionFactory : ISessionFactory, IQuerySessionFactory
     {
         return tracking switch
         {
-            ChangeTracking.Default => documentStore.IdentitySession(),
+            ChangeTracking.Default => documentStore.LightweightSession(),
             ChangeTracking.Enable => documentStore.DirtyTrackedSession(),
             ChangeTracking.IdentityResolution => documentStore.IdentitySession(),
             ChangeTracking.Disable => documentStore.LightweightSession(),

@@ -10,17 +10,17 @@ public class EFSessionFactory<TContext>
     where TContext : DbContext
 {
     private readonly ILoggerFactory _loggerFactory;
-    private readonly TContext _context;
+    private readonly IDbContextFactory<TContext> _contextFactory;
 
-    public EFSessionFactory(ILoggerFactory loggerFactory, TContext context)
+    public EFSessionFactory(ILoggerFactory loggerFactory, IDbContextFactory<TContext> contextFactory)
     {
         _loggerFactory = loggerFactory;
-        _context = context;
+        _contextFactory = contextFactory;
     }
 
     public EFSession<TContext> Create(ChangeTracking? tracking = null) => new(
         _loggerFactory.CreateLogger<EFSession<TContext>>(),
-        _context,
+        _contextFactory.CreateDbContext(),
         tracking ?? ChangeTracking.Default);
 
     public EFSession<TContext> CreateForQuery() => Create(ChangeTracking.Disable);

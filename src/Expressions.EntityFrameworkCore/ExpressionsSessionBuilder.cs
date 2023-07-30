@@ -32,9 +32,9 @@ public sealed class ExpressionsSessionBuilder
     {
         var combinedTracking = tracking ?? _tracking;
 
-        _services.AddScoped<EFSessionFactory<TDbContext>>();
-        _services.AddTransient<ISessionFactory>(sp => sp.GetRequiredService<EFSessionFactory<TDbContext>>());
-        _services.AddTransient<IQuerySessionFactory>(sp => sp.GetRequiredService<EFSessionFactory<TDbContext>>());
+        _services.AddSingleton<EFSessionFactory<TDbContext>>();
+        _services.AddSingleton<ISessionFactory>(sp => sp.GetRequiredService<EFSessionFactory<TDbContext>>());
+        _services.AddSingleton<IQuerySessionFactory>(sp => sp.GetRequiredService<EFSessionFactory<TDbContext>>());
         _services.AddScoped<ISession>(sp => sp.GetRequiredService<ISessionFactory>().Create(combinedTracking));
         _services.AddScoped<IQuerySession>(sp => sp.GetRequiredService<IQuerySessionFactory>().Create());
     }
@@ -52,9 +52,9 @@ public sealed class ExpressionsSessionBuilder
     {
         var combinedTracking = tracking ?? _tracking;
 
-        _services.AddScoped<EFSessionFactory<TDbContext>>();
-        _services.AddTransient<ISessionFactory<TContext>>(sp => sp.GetRequiredService<EFSessionFactory<TDbContext>>());
-        _services.AddTransient<IQuerySessionFactory<TContext>>(
+        _services.AddSingleton<EFSessionFactory<TDbContext>>();
+        _services.AddSingleton<ISessionFactory<TContext>>(sp => sp.GetRequiredService<EFSessionFactory<TDbContext>>());
+        _services.AddSingleton<IQuerySessionFactory<TContext>>(
             sp => sp.GetRequiredService<EFSessionFactory<TDbContext>>());
         _services.AddScoped<ISession<TContext>>(
             sp => sp.GetRequiredService<ISessionFactory<TContext>>().Create(combinedTracking));

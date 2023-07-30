@@ -18,7 +18,7 @@ public static class DatabaseServiceCollectionExtensions
                 .UseSqlite(sp.GetRequiredService<SqliteConnection>())
                 .Options);
 
-        services.AddDbContext<TContext>();
+        services.AddDbContextFactory<TContext>();
 
         return services;
     }

@@ -88,17 +88,16 @@ public class EFSession<TContext> : ISession<TContext>
         GC.SuppressFinalize(this);
     }
 
-    protected virtual ValueTask DisposeAsyncCore()
+    protected virtual async ValueTask DisposeAsyncCore()
     {
-        Context.ChangeTracker.Clear();
-        return new ValueTask();
+        await Context.DisposeAsync();
     }
 
     protected virtual void Dispose(bool disposing)
     {
         if (disposing)
         {
-            Context.ChangeTracker.Clear();
+            Context.Dispose();
         }
     }
 }

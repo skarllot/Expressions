@@ -42,9 +42,9 @@ public class MartenQuerySession : IQuerySession
         GC.SuppressFinalize(this);
     }
 
-    protected virtual ValueTask DisposeAsyncCore()
+    protected virtual async ValueTask DisposeAsyncCore()
     {
-        return _session.DisposeAsync();
+        await _session.DisposeAsync();
     }
 
     protected virtual void Dispose(bool disposing)

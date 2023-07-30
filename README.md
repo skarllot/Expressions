@@ -61,6 +61,7 @@ To use Raiqub.Expressions in your project, follow these steps:
     For Entity Framework Core:
 
     ```csharp
+    // The DbContext must be registered calling AddDbContextFactory<YourDbContext>()
     services.AddEntityFrameworkExpressions()
         .AddSingleContext<YourDbContext>();
     ```
