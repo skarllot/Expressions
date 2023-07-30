@@ -29,9 +29,17 @@ internal static class QueryLog
         4,
         "Error trying to query the single element");
 
+    private static readonly Action<ILogger, Exception?> s_asyncEnumerableErrorCallback = LoggerMessage.Define(
+        LogLevel.Error,
+        5,
+        "Error trying to enumerate found elements");
+
     public static void AnyError(ILogger logger, Exception exception) => s_anyErrorCallback(logger, exception);
     public static void CountError(ILogger logger, Exception exception) => s_countErrorCallback(logger, exception);
     public static void FirstError(ILogger logger, Exception exception) => s_firstErrorCallback(logger, exception);
     public static void ListError(ILogger logger, Exception exception) => s_listErrorCallback(logger, exception);
     public static void SingleError(ILogger logger, Exception exception) => s_singleErrorCallback(logger, exception);
+
+    public static void AsyncEnumerableError(ILogger logger, Exception exception) =>
+        s_asyncEnumerableErrorCallback(logger, exception);
 }

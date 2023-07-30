@@ -54,4 +54,12 @@ public interface IQuery<T>
     /// <exception cref="InvalidOperationException">Query contains more than one element.</exception>
     /// <exception cref="OperationCanceledException">If the <see cref="CancellationToken" /> is canceled.</exception>
     Task<T?> SingleOrDefaultAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Execute this query to an <see cref="IAsyncEnumerable{T}"/>. This is valuable for reading
+    /// and processing large result sets without having to keep the entire result set in memory
+    /// </summary>
+    /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
+    /// <returns>The query results.</returns>
+    IAsyncEnumerable<T> ToAsyncEnumerable(CancellationToken cancellationToken = default);
 }

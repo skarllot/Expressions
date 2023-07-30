@@ -131,4 +131,9 @@ public class MartenQuery<TResult> : IQuery<TResult>
             throw;
         }
     }
+
+    public IAsyncEnumerable<TResult> ToAsyncEnumerable(CancellationToken cancellationToken = default)
+    {
+        return _dataSource.ToAsyncEnumerable(cancellationToken);
+    }
 }

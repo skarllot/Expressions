@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Runtime.CompilerServices;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Raiqub.Expressions.Queries;
 
@@ -129,6 +130,29 @@ public class EFQuery<TResult> : IQuery<TResult>
         {
             QueryLog.SingleError(_logger, exception);
             throw;
+        }
+    }
+
+    public async IAsyncEnumerable<TResult> ToAsyncEnumerable(
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        IAsyncEnumerable<TResult> enumerable;
+        try
+        {
+            enumerable = _dataSource.AsAsyncEnumerable();
+        }
+        catch (Exception exception) when (exception is not ArgumentNullException
+                                              and not InvalidOperationException)
+        {
+            QueryLog.AsyncEnumerableError(_logger, exception);
+            throw;
+        }
+
+        await foreach (TResult result in enumerable
+                           .WithCancellation(cancellationToken)
+                           .ConfigureAwait(false))
+        {
+            yield return result;
         }
     }
 }
