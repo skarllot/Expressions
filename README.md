@@ -40,14 +40,12 @@ public class CustomerIsActiveSpecification : Specification<Customer>
     }
 }
 ```
-And here's an example of how to use the specification with Entity Framework Core:
+And here's an example of how to use the specification:
 
 ```csharp
-await using (var session = querySessionFactory.Create())
-{
-    var query = session.Query(new CustomerIsActiveSpecification());
-    var customers = await query.ToListAsync();
-}
+// session is of type ISession or IQuerySession and can be injected
+var query = session.Query(new CustomerIsActiveSpecification());
+var customers = await query.ToListAsync();
 ```
 
 ## Guide
@@ -58,21 +56,23 @@ To use Raiqub.Expressions in your project, follow these steps:
 
 2. Install the **\`Raiqub.Expressions.EntityFrameworkCore\`** package if using Entity Framework or the **\`Raiqub.Expressions.Marten\`** package if using Marten.
 
-3. Register the session factories using the appropriate extension method(s) for your database provider:
+3. Register the session and session factories using the appropriate extension method(s) for your database provider:
 
     For Entity Framework Core:
 
     ```csharp
-    services.AddEntityFrameworkSessionFactory<YourDbContext>();
+    services.AddEntityFrameworkExpressions()
+        .AddSingleContext<YourDbContext>();
     ```
 
     For Marten:
 
     ```csharp
-    services.AddMartenSessionFactory();
+    services.AddMartenExpressions()
+        .AddSingleContext();
     ```
 
-4. Inject the appropriate session factory interface (IQuerySessionFactory for read sessions, ISessionFactory for write sessions) into your services, and use it to create sessions as needed.
+4. Inject the appropriate session interface (IQuerySession for read sessions, ISession for write sessions) into your services, and use it read and write from/to database.
 
 ### Creating Query Models and Specifications
 The **\`Raiqub.Expressions\`** package provides abstractions for creating specifications and query models. You can create a new query model by creating a new class that derives from **\`QueryModel&lt;TSource, TResult&gt;**\`. Similarly, you can create a new specification by creating a new class that derives from **\`Specification&lt;T&gt;**\`.
@@ -140,7 +140,7 @@ await using (var session = sessionFactory.Create())
 ```
 
 ### Supported Databases
-Currently, Raiqub.Expressions supports the following databases:
+Currently, Raiqub.Expressions supports the following database libraries:
 * Entity Framework Core
 * Marten
 
