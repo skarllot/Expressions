@@ -1,21 +1,19 @@
-﻿using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Raiqub.Common.Tests;
 
 namespace Raiqub.Expressions.EntityFrameworkCore.Tests;
 
 public static class DatabaseServiceCollectionExtensions
 {
-    public static IServiceCollection AddSqliteDbContext<TContext>(this IServiceCollection services)
+    public static IServiceCollection AddPostgreSqlDbContext<TContext>(
+        this IServiceCollection services,
+        string connectionString)
         where TContext : DbContext
     {
-        services.AddSqliteConnection();
-
         services.TryAddScoped<DbContextOptions<TContext>>(
-            static sp => new DbContextOptionsBuilder<TContext>()
-                .UseSqlite(sp.GetRequiredService<SqliteConnection>())
+            _ => new DbContextOptionsBuilder<TContext>()
+                .UseNpgsql(connectionString)
                 .Options);
 
         services.AddDbContextFactory<TContext>();

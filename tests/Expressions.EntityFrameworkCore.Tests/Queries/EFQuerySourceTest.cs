@@ -1,4 +1,6 @@
 ﻿using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
+using Raiqub.Common.Tests;
 using Raiqub.Common.Tests.Examples;
 using Raiqub.Expressions.EntityFrameworkCore.Queries;
 using Raiqub.Expressions.EntityFrameworkCore.Tests.Examples;
@@ -6,12 +8,25 @@ using Raiqub.Expressions.Sessions;
 
 namespace Raiqub.Expressions.EntityFrameworkCore.Tests.Queries;
 
-public class EFQuerySourceTest : SqliteTestBase<BloggingContext>
+[Collection(PostgreSqlTestGroup.Name)]
+public class EFQuerySourceTest : DatabaseTestBase, IAsyncLifetime
 {
-    public EFQuerySourceTest()
-        : base(options => new BloggingContext(options))
+    private readonly PostgreSqlFixture _fixture;
+
+    public EFQuerySourceTest(PostgreSqlFixture fixture)
+        : base(
+            services => services
+                .AddPostgreSqlDbContext<BloggingContext>(fixture.ConnectionString))
     {
+        _fixture = fixture;
+        ServiceProvider.GetRequiredService<BloggingContext>().Database.EnsureCreated();
     }
+
+    private BloggingContext DbContext => ServiceProvider.GetRequiredService<BloggingContext>();
+
+    public Task InitializeAsync() => _fixture.SnapshotDatabaseAsync();
+
+    public Task DisposeAsync() => _fixture.ResetDatabaseAsync();
 
     [Fact]
     public void GetBlogSetShouldReturnExpected()
