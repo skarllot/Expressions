@@ -4,11 +4,11 @@ using Raiqub.Expressions.Sessions;
 
 namespace Raiqub.Expressions.Marten.Sessions;
 
-public class MartenSession : MartenQuerySession, ISession
+public class MartenDbSession : MartenDbQuerySession, IDbSession
 {
     private readonly IDocumentSession _session;
 
-    public MartenSession(ILogger<MartenSession> logger, IDocumentSession session, ChangeTracking tracking)
+    public MartenDbSession(ILogger<MartenDbSession> logger, IDocumentSession session, ChangeTracking tracking)
         : base(logger, session)
     {
         _session = session;

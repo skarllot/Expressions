@@ -3,15 +3,15 @@ using Raiqub.Expressions.Queries;
 
 namespace Raiqub.Expressions.Sessions;
 
-/// <summary>Provides extensions for <see cref="IQuerySession"/> interface.</summary>
-public static class QuerySessionExtensions
+/// <summary>Provides extensions for <see cref="IDbQuerySession"/> interface.</summary>
+public static class DbQuerySessionExtensions
 {
     /// <summary>Creates a new query that returns all entities.</summary>
     /// <param name="session">The session to create query from.</param>
     /// <typeparam name="TEntity">The type of entity to query.</typeparam>
     /// <returns>A new query object.</returns>
     public static IQuery<TEntity> Query<TEntity>(
-        this IQuerySession session)
+        this IDbQuerySession session)
         where TEntity : class
     {
         return session.Query(QueryModel.Create<TEntity>());
@@ -23,7 +23,7 @@ public static class QuerySessionExtensions
     /// <typeparam name="TEntity">The type of entity to query.</typeparam>
     /// <returns>A new query object.</returns>
     public static IQuery<TEntity> Query<TEntity>(
-        this IQuerySession session,
+        this IDbQuerySession session,
         Specification<TEntity> specification)
         where TEntity : class
     {
@@ -39,7 +39,7 @@ public static class QuerySessionExtensions
     /// <typeparam name="TNested">The type of nested collection from the specified entity.</typeparam>
     /// <returns>A new query object.</returns>
     public static IQuery<TNested> QueryNested<TEntity, TNested>(
-        this IQuerySession session,
+        this IDbQuerySession session,
         Expression<Func<TEntity, IEnumerable<TNested>>> selector)
         where TEntity : class
     {
@@ -57,7 +57,7 @@ public static class QuerySessionExtensions
     /// <typeparam name="TResult">The type of result to return.</typeparam>
     /// <returns>A new query object.</returns>
     public static IQuery<TResult> QueryNested<TEntity, TNested, TResult>(
-        this IQuerySession session,
+        this IDbQuerySession session,
         Expression<Func<TEntity, IEnumerable<TNested>>> selector,
         IQueryModel<TNested, TResult> queryModel)
         where TEntity : class
@@ -75,7 +75,7 @@ public static class QuerySessionExtensions
     /// <typeparam name="TNested">The type of nested collection from the specified entity.</typeparam>
     /// <returns>A new query object.</returns>
     public static IQuery<TNested> QueryNested<TEntity, TNested>(
-        this IQuerySession session,
+        this IDbQuerySession session,
         Expression<Func<TEntity, IEnumerable<TNested>>> selector,
         Specification<TNested> specification)
         where TEntity : class

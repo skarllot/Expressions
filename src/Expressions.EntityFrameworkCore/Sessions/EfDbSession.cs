@@ -7,12 +7,12 @@ using Raiqub.Expressions.Sessions.BoundedContext;
 
 namespace Raiqub.Expressions.EntityFrameworkCore.Sessions;
 
-public class EFSession<TContext> : ISession<TContext>
+public class EfDbSession<TContext> : IDbSession<TContext>
     where TContext : DbContext
 {
-    private readonly ILogger<EFSession<TContext>> _logger;
+    private readonly ILogger<EfDbSession<TContext>> _logger;
 
-    public EFSession(ILogger<EFSession<TContext>> logger, TContext context, ChangeTracking tracking)
+    public EfDbSession(ILogger<EfDbSession<TContext>> logger, TContext context, ChangeTracking tracking)
     {
         _logger = logger;
         Context = context;
@@ -49,16 +49,16 @@ public class EFSession<TContext> : ISession<TContext>
     public IQuery<TResult> Query<TEntity, TResult>(IQueryModel<TEntity, TResult> queryModel)
         where TEntity : class
     {
-        return new EFQuery<TResult>(
+        return new EfQuery<TResult>(
             _logger,
             DataSourceFactory.GetDbSet<TEntity>(Context, Tracking).Apply(queryModel));
     }
 
     public IQuery<TResult> Query<TResult>(IMultiQueryModel<TResult> queryModel)
     {
-        return new EFQuery<TResult>(
+        return new EfQuery<TResult>(
             _logger,
-            queryModel.Execute(new EFQuerySource(Context, Tracking)));
+            queryModel.Execute(new EfQuerySource(Context, Tracking)));
     }
 
     public void Remove<TEntity>(TEntity entity) where TEntity : class => Context.Remove(entity);

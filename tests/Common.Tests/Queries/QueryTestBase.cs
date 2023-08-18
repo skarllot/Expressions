@@ -145,14 +145,14 @@ public abstract class QueryTestBase : DatabaseTestBase
             .Should().ThrowExactlyAsync<InvalidOperationException>();
     }
 
-    private IQuerySession CreateSession() => ServiceProvider.GetRequiredService<IQuerySession>();
+    private IDbQuerySession CreateSession() => ServiceProvider.GetRequiredService<IDbQuerySession>();
 
     private async Task AddBlogs(IEnumerable<Blog> blogs)
     {
-        ISessionFactory sessionFactory = ServiceProvider.GetRequiredService<ISessionFactory>();
-        await using ISession session = sessionFactory.Create();
-        await session.AddRangeAsync(blogs);
-        await session.SaveChangesAsync();
+        IDbSessionFactory dbSessionFactory = ServiceProvider.GetRequiredService<IDbSessionFactory>();
+        await using IDbSession dbSession = dbSessionFactory.Create();
+        await dbSession.AddRangeAsync(blogs);
+        await dbSession.SaveChangesAsync();
     }
 
     private static IEnumerable<Blog> GetBlogs()

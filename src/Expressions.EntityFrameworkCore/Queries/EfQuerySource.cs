@@ -4,12 +4,12 @@ using Raiqub.Expressions.Sessions;
 
 namespace Raiqub.Expressions.EntityFrameworkCore.Queries;
 
-public class EFQuerySource : IQuerySource
+public class EfQuerySource : IQuerySource
 {
     private readonly DbContext _dbContext;
     private readonly ChangeTracking _tracking;
 
-    public EFQuerySource(DbContext dbContext, ChangeTracking tracking)
+    public EfQuerySource(DbContext dbContext, ChangeTracking tracking)
     {
         _dbContext = dbContext;
         _tracking = tracking;

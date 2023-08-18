@@ -1,6 +1,6 @@
 ﻿namespace Raiqub.Expressions.Sessions.BoundedContext;
 
-public interface IQuerySession<out TContext> : IQuerySession
+public interface IDbQuerySession<out TContext> : IDbQuerySession
 {
     /// <summary>Gets the bounded context associated with this query session.</summary>
     /// <remarks>

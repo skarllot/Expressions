@@ -5,16 +5,16 @@ namespace Helpdesk.Relational.Incidents.Api.v1.GetDetails;
 
 public class GetIncidentDetailsHandler
 {
-    private readonly IQuerySession _querySession;
+    private readonly IDbQuerySession _dbQuerySession;
 
-    public GetIncidentDetailsHandler(IQuerySession querySession)
+    public GetIncidentDetailsHandler(IDbQuerySession dbQuerySession)
     {
-        _querySession = querySession;
+        _dbQuerySession = dbQuerySession;
     }
 
     public async Task<IncidentDetails?> Execute(GetIncidentDetailsRequest request, CancellationToken cancellationToken)
     {
-        IncidentDetails? result = await _querySession
+        IncidentDetails? result = await _dbQuerySession
             .Query(new GetIncidentDetailsQueryModel(request.IncidentId))
             .FirstOrDefaultAsync(cancellationToken);
 

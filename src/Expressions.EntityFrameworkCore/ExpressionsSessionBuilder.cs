@@ -32,16 +32,16 @@ public sealed class ExpressionsSessionBuilder
     {
         var combinedTracking = tracking ?? _tracking;
 
-        _services.AddSingleton<EFSessionFactory<TDbContext>>();
-        _services.AddSingleton<ISessionFactory>(sp => sp.GetRequiredService<EFSessionFactory<TDbContext>>());
-        _services.AddSingleton<IQuerySessionFactory>(sp => sp.GetRequiredService<EFSessionFactory<TDbContext>>());
-        _services.AddScoped<ISession>(sp => sp.GetRequiredService<ISessionFactory>().Create(combinedTracking));
-        _services.AddScoped<IQuerySession>(sp => sp.GetRequiredService<IQuerySessionFactory>().Create());
+        _services.AddSingleton<EfDbSessionFactory<TDbContext>>();
+        _services.AddSingleton<IDbSessionFactory>(sp => sp.GetRequiredService<EfDbSessionFactory<TDbContext>>());
+        _services.AddSingleton<IDbQuerySessionFactory>(sp => sp.GetRequiredService<EfDbSessionFactory<TDbContext>>());
+        _services.AddScoped<IDbSession>(sp => sp.GetRequiredService<IDbSessionFactory>().Create(combinedTracking));
+        _services.AddScoped<IDbQuerySession>(sp => sp.GetRequiredService<IDbQuerySessionFactory>().Create());
     }
 
     /// <summary>
     /// Register sessions and session factories for the given context.
-    /// The context <typeparamref name="TContext"/> must be specified by dependent types (e.g. <see cref="ISession{TContext}"/>).
+    /// The context <typeparamref name="TContext"/> must be specified by dependent types (e.g. <see cref="IDbSession{TContext}"/>).
     /// </summary>
     /// <param name="tracking">The change tracking mode of injected sessions.</param>
     /// <typeparam name="TContext">The domain-level type of context to used by sessions.</typeparam>
@@ -52,14 +52,14 @@ public sealed class ExpressionsSessionBuilder
     {
         var combinedTracking = tracking ?? _tracking;
 
-        _services.AddSingleton<EFSessionFactory<TDbContext>>();
-        _services.AddSingleton<ISessionFactory<TContext>>(sp => sp.GetRequiredService<EFSessionFactory<TDbContext>>());
-        _services.AddSingleton<IQuerySessionFactory<TContext>>(
-            sp => sp.GetRequiredService<EFSessionFactory<TDbContext>>());
-        _services.AddScoped<ISession<TContext>>(
-            sp => sp.GetRequiredService<ISessionFactory<TContext>>().Create(combinedTracking));
-        _services.AddScoped<IQuerySession<TContext>>(
-            sp => sp.GetRequiredService<IQuerySessionFactory<TContext>>().Create());
+        _services.AddSingleton<EfDbSessionFactory<TDbContext>>();
+        _services.AddSingleton<IDbSessionFactory<TContext>>(sp => sp.GetRequiredService<EfDbSessionFactory<TDbContext>>());
+        _services.AddSingleton<IDbQuerySessionFactory<TContext>>(
+            sp => sp.GetRequiredService<EfDbSessionFactory<TDbContext>>());
+        _services.AddScoped<IDbSession<TContext>>(
+            sp => sp.GetRequiredService<IDbSessionFactory<TContext>>().Create(combinedTracking));
+        _services.AddScoped<IDbQuerySession<TContext>>(
+            sp => sp.GetRequiredService<IDbQuerySessionFactory<TContext>>().Create());
 
         return this;
     }

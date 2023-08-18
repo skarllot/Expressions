@@ -9,11 +9,11 @@ using Raiqub.Expressions.Sessions;
 namespace Raiqub.Expressions.EntityFrameworkCore.Tests.Queries;
 
 [Collection(PostgreSqlTestGroup.Name)]
-public class EFQuerySourceTest : DatabaseTestBase, IAsyncLifetime
+public class EfQuerySourceTest : DatabaseTestBase, IAsyncLifetime
 {
     private readonly PostgreSqlFixture _fixture;
 
-    public EFQuerySourceTest(PostgreSqlFixture fixture)
+    public EfQuerySourceTest(PostgreSqlFixture fixture)
         : base(
             services => services
                 .AddPostgreSqlDbContext<BloggingContext>(fixture.ConnectionString))
@@ -31,7 +31,7 @@ public class EFQuerySourceTest : DatabaseTestBase, IAsyncLifetime
     [Fact]
     public void GetBlogSetShouldReturnExpected()
     {
-        var querySource = new EFQuerySource(DbContext, ChangeTracking.Default);
+        var querySource = new EfQuerySource(DbContext, ChangeTracking.Default);
 
         var blogs = querySource.GetSet<Blog>();
 
@@ -41,7 +41,7 @@ public class EFQuerySourceTest : DatabaseTestBase, IAsyncLifetime
     [Fact]
     public void GetPostSetShouldReturnExpected()
     {
-        var querySource = new EFQuerySource(DbContext, ChangeTracking.Disable);
+        var querySource = new EfQuerySource(DbContext, ChangeTracking.Disable);
 
         var blogs = querySource.GetSet<Post>();
 
@@ -51,7 +51,7 @@ public class EFQuerySourceTest : DatabaseTestBase, IAsyncLifetime
     [Fact]
     public void GetVideoPostSetShouldReturnExpected()
     {
-        var querySource = new EFQuerySource(DbContext, ChangeTracking.Enable);
+        var querySource = new EfQuerySource(DbContext, ChangeTracking.Enable);
 
         var blogs = querySource.GetSet<VideoPost>();
 

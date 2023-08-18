@@ -1,16 +1,17 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Marten;
+using Microsoft.Extensions.Logging;
 using Raiqub.Expressions.Marten.Queries;
 using Raiqub.Expressions.Queries;
 using Raiqub.Expressions.Sessions;
 
 namespace Raiqub.Expressions.Marten.Sessions;
 
-public class MartenQuerySession : IQuerySession
+public class MartenDbQuerySession : IDbQuerySession
 {
-    private readonly ILogger<MartenQuerySession> _logger;
-    private readonly global::Marten.IQuerySession _session;
+    private readonly ILogger<MartenDbQuerySession> _logger;
+    private readonly IQuerySession _session;
 
-    public MartenQuerySession(ILogger<MartenQuerySession> logger, global::Marten.IQuerySession session)
+    public MartenDbQuerySession(ILogger<MartenDbQuerySession> logger, IQuerySession session)
     {
         _logger = logger;
         _session = session;

@@ -5,11 +5,11 @@ using Raiqub.Expressions.Sessions.BoundedContext;
 
 namespace Raiqub.Expressions.Marten.Sessions.BoundedContext;
 
-public class MartenSession<TContext> : MartenSession, ISession<TContext>
+public class MartenDbSession<TContext> : MartenDbSession, IDbSession<TContext>
     where TContext : IDocumentStore
 {
-    public MartenSession(
-        ILogger<MartenSession<TContext>> logger,
+    public MartenDbSession(
+        ILogger<MartenDbSession<TContext>> logger,
         IDocumentSession session,
         ChangeTracking tracking,
         TContext context)

@@ -8,11 +8,11 @@ using Raiqub.Expressions.EntityFrameworkCore.Tests.Examples;
 namespace Raiqub.Expressions.EntityFrameworkCore.Tests.Sessions;
 
 [Collection(PostgreSqlTestGroup.Name)]
-public sealed class EFSessionFactoryTest : SessionFactoryTestBase, IAsyncLifetime
+public sealed class EfSessionFactoryTest : SessionFactoryTestBase, IAsyncLifetime
 {
     private readonly PostgreSqlFixture _fixture;
 
-    public EFSessionFactoryTest(PostgreSqlFixture fixture)
+    public EfSessionFactoryTest(PostgreSqlFixture fixture)
         : base(
             services => services
                 .AddSingleton<ILoggerFactory>(new NullLoggerFactory())

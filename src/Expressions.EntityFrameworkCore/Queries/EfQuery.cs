@@ -5,12 +5,12 @@ using Raiqub.Expressions.Queries;
 
 namespace Raiqub.Expressions.EntityFrameworkCore.Queries;
 
-public class EFQuery<TResult> : IQuery<TResult>
+public class EfQuery<TResult> : IQuery<TResult>
 {
     private readonly ILogger _logger;
     private readonly IQueryable<TResult> _dataSource;
 
-    public EFQuery(
+    public EfQuery(
         ILogger logger,
         IQueryable<TResult> dataSource)
     {

@@ -165,7 +165,7 @@ public abstract class SessionFactoryTestBase : DatabaseTestBase
         blogs.Should().NotContain(blog => blog.Name == "Second");
     }
 
-    private ISessionFactory CreateSessionFactory() => ServiceProvider.GetRequiredService<ISessionFactory>();
+    private IDbSessionFactory CreateSessionFactory() => ServiceProvider.GetRequiredService<IDbSessionFactory>();
 
     private static IEnumerable<Blog> GetBlogs()
     {

@@ -2,8 +2,8 @@
 
 namespace Raiqub.Expressions.Sessions;
 
-/// <summary>Represents a session for querying data.</summary>
-public interface IQuerySession : IAsyncDisposable, IDisposable
+/// <summary>Represents a session for querying data from database.</summary>
+public interface IDbQuerySession : IAsyncDisposable, IDisposable
 {
     /// <summary>Gets the change tracking mode for this session.</summary>
     /// <remarks>

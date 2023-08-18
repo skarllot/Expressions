@@ -11,11 +11,11 @@ using Raiqub.Expressions.EntityFrameworkCore.Tests.Examples;
 namespace Raiqub.Expressions.EntityFrameworkCore.Tests.Queries;
 
 [Collection(PostgreSqlTestGroup.Name)]
-public sealed class EFQueryTest : QueryTestBase, IAsyncLifetime
+public sealed class EfQueryTest : QueryTestBase, IAsyncLifetime
 {
     private readonly PostgreSqlFixture _fixture;
 
-    public EFQueryTest(PostgreSqlFixture fixture)
+    public EfQueryTest(PostgreSqlFixture fixture)
         : base(
             services => services
                 .AddSingleton<ILoggerFactory>(new NullLoggerFactory())
@@ -34,7 +34,7 @@ public sealed class EFQueryTest : QueryTestBase, IAsyncLifetime
     [Fact]
     public async Task ShouldFailWhenSourceIsNull()
     {
-        var efQuery = new EFQuery<Blog>(NullLogger.Instance, null!);
+        var efQuery = new EfQuery<Blog>(NullLogger.Instance, null!);
 
         await efQuery
             .Invoking(q => q.AnyAsync())

@@ -5,9 +5,9 @@ namespace Helpdesk.Relational.Incidents.Api.v1.GetAllOfCustomer;
 
 public class GetAllOfCustomerIncidentHandler
 {
-    private readonly IQuerySessionFactory _sessionFactory;
+    private readonly IDbQuerySessionFactory _sessionFactory;
 
-    public GetAllOfCustomerIncidentHandler(IQuerySessionFactory sessionFactory)
+    public GetAllOfCustomerIncidentHandler(IDbQuerySessionFactory sessionFactory)
     {
         _sessionFactory = sessionFactory;
     }

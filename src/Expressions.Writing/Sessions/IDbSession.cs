@@ -1,7 +1,7 @@
 ﻿namespace Raiqub.Expressions.Sessions;
 
 /// <summary>Represents a session used to perform data access operations.</summary>
-public interface ISession : IQuerySession
+public interface IDbSession : IDbQuerySession
 {
     /// <summary>Tracks the specified entity as added.</summary>
     /// <typeparam name="TEntity">The type of entity to add.</typeparam>

@@ -1,32 +1,30 @@
 ﻿using Marten;
 using Microsoft.Extensions.Logging;
 using Raiqub.Expressions.Sessions;
-using IQuerySession = Raiqub.Expressions.Sessions.IQuerySession;
-using ISessionFactory = Raiqub.Expressions.Sessions.ISessionFactory;
 
 namespace Raiqub.Expressions.Marten.Sessions;
 
-public class MartenSessionFactory : ISessionFactory, IQuerySessionFactory
+public class MartenDbSessionFactory : IDbSessionFactory, IDbQuerySessionFactory
 {
     private readonly ILoggerFactory _loggerFactory;
     private readonly IDocumentStore _documentStore;
 
-    public MartenSessionFactory(ILoggerFactory loggerFactory, IDocumentStore documentStore)
+    public MartenDbSessionFactory(ILoggerFactory loggerFactory, IDocumentStore documentStore)
     {
         _loggerFactory = loggerFactory;
         _documentStore = documentStore;
     }
 
-    public ISession Create(ChangeTracking? tracking = null) => new MartenSession(
-        _loggerFactory.CreateLogger<MartenSession>(),
+    public IDbSession Create(ChangeTracking? tracking = null) => new MartenDbSession(
+        _loggerFactory.CreateLogger<MartenDbSession>(),
         CreateSession(_documentStore, tracking ?? ChangeTracking.Default),
         tracking ?? ChangeTracking.Default);
 
-    public IQuerySession CreateForQuery() => new MartenQuerySession(
-        _loggerFactory.CreateLogger<MartenSession>(),
+    public IDbQuerySession CreateForQuery() => new MartenDbQuerySession(
+        _loggerFactory.CreateLogger<MartenDbSession>(),
         _documentStore.QuerySession());
 
-    IQuerySession IQuerySessionFactory.Create() => CreateForQuery();
+    IDbQuerySession IDbQuerySessionFactory.Create() => CreateForQuery();
 
     internal static IDocumentSession CreateSession(IDocumentStore documentStore, ChangeTracking tracking)
     {
