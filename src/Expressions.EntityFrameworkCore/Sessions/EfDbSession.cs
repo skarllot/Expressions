@@ -11,12 +11,14 @@ public class EfDbSession<TContext> : IDbSession<TContext>
     where TContext : DbContext
 {
     private readonly ILogger<EfDbSession<TContext>> _logger;
+    private readonly EfQuerySource _querySource;
 
     public EfDbSession(ILogger<EfDbSession<TContext>> logger, TContext context, ChangeTracking tracking)
     {
         _logger = logger;
         Context = context;
         Tracking = tracking;
+        _querySource = new EfQuerySource(context, tracking);
     }
 
     public TContext Context { get; }
@@ -58,7 +60,7 @@ public class EfDbSession<TContext> : IDbSession<TContext>
     {
         return new EfQuery<TResult>(
             _logger,
-            queryModel.Execute(new EfQuerySource(Context, Tracking)));
+            queryModel.Execute(_querySource));
     }
 
     public void Remove<TEntity>(TEntity entity) where TEntity : class => Context.Remove(entity);

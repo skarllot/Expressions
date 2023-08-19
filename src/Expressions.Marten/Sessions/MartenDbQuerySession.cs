@@ -10,14 +10,14 @@ public class MartenDbQuerySession : IDbQuerySession
 {
     private readonly ILogger<MartenDbQuerySession> _logger;
     private readonly IQuerySession _session;
+    private readonly MartenQuerySource _querySource;
 
     public MartenDbQuerySession(ILogger<MartenDbQuerySession> logger, IQuerySession session)
     {
         _logger = logger;
         _session = session;
+        _querySource = new MartenQuerySource(session);
     }
-
-    public virtual ChangeTracking Tracking => ChangeTracking.Disable;
 
     public IQuery<TResult> Query<TEntity, TResult>(IQueryModel<TEntity, TResult> queryModel)
         where TEntity : class
@@ -27,7 +27,7 @@ public class MartenDbQuerySession : IDbQuerySession
 
     public IQuery<TResult> Query<TResult>(IMultiQueryModel<TResult> queryModel)
     {
-        return new MartenQuery<TResult>(_logger, queryModel.Execute(new MartenQuerySource(_session)));
+        return new MartenQuery<TResult>(_logger, queryModel.Execute(_querySource));
     }
 
     public async ValueTask DisposeAsync()

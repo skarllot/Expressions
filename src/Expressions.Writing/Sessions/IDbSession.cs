@@ -3,6 +3,12 @@
 /// <summary>Represents a session used to perform data access operations.</summary>
 public interface IDbSession : IDbQuerySession
 {
+    /// <summary>Gets the change tracking mode for this session.</summary>
+    /// <remarks>
+    /// The change tracking mode determines how the session's change tracker will handle returned entities.
+    /// </remarks>
+    ChangeTracking Tracking { get; }
+
     /// <summary>Tracks the specified entity as added.</summary>
     /// <typeparam name="TEntity">The type of entity to add.</typeparam>
     /// <param name="entity">The entity to add.</param>

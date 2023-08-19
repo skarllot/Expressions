@@ -5,12 +5,6 @@ namespace Raiqub.Expressions.Sessions;
 /// <summary>Represents a session for querying data from database.</summary>
 public interface IDbQuerySession : IAsyncDisposable, IDisposable
 {
-    /// <summary>Gets the change tracking mode for this session.</summary>
-    /// <remarks>
-    /// The change tracking mode determines how the session's change tracker will handle returned entities.
-    /// </remarks>
-    ChangeTracking Tracking { get; }
-
     /// <summary>Creates a new query using the specified query model.</summary>
     /// <typeparam name="TEntity">The type of entity to query.</typeparam>
     /// <typeparam name="TResult">The type of result to return.</typeparam>

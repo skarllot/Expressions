@@ -15,7 +15,7 @@ public class MartenDbSession : MartenDbQuerySession, IDbSession
         Tracking = tracking;
     }
 
-    public override ChangeTracking Tracking { get; }
+    public ChangeTracking Tracking { get; }
 
     public void Add<TEntity>(TEntity entity)
         where TEntity : class => AddRange(new[] { entity });
