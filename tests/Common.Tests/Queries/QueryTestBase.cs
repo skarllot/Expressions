@@ -92,7 +92,7 @@ public abstract class QueryTestBase : DatabaseTestBase
     {
         await AddBlogs(GetBlogs());
         await using var session = CreateSession();
-        var query = session.Query(QueryModel.Create((IQueryable<Blog> source) => source.SelectMany(b => b.Posts)));
+        var query = session.Query(EntityQueryModel.Create((IQueryable<Blog> source) => source.SelectMany(b => b.Posts)));
 
         var posts = await query.ToListAsync();
 
@@ -106,7 +106,7 @@ public abstract class QueryTestBase : DatabaseTestBase
         await AddBlogs(GetBlogs());
         await using var session = CreateSession();
         var query = session.Query(
-            QueryModel.Create(
+            EntityQueryModel.Create(
                 (IQueryable<Blog> source) => source
                     .SelectMany(b => b.Posts)
                     .Where(p => p.Content.StartsWith("You"))));

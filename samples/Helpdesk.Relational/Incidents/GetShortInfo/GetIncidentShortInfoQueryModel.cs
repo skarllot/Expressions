@@ -3,7 +3,7 @@ using Raiqub.Expressions.Queries;
 
 namespace Helpdesk.Relational.Incidents.GetShortInfo;
 
-public class GetIncidentShortInfoQueryModel : QueryModel<Incident, IncidentShortInfo>
+public class GetIncidentShortInfoQueryModel : EntityQueryModel<Incident, IncidentShortInfo>
 {
     public GetIncidentShortInfoQueryModel(Guid customerId, int pageNumber, int pageSize)
     {

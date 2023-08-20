@@ -3,7 +3,7 @@ using Raiqub.Expressions.Queries;
 
 namespace Raiqub.Common.Tests.Examples;
 
-public class GetBlogByNameQueryModel : QueryModel<Blog, Blog>
+public class GetBlogByNameQueryModel : EntityQueryModel<Blog, Blog>
 {
     public GetBlogByNameQueryModel(string name) => Name = name;
 

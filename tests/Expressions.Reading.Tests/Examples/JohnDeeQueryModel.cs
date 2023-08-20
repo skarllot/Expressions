@@ -1,8 +1,8 @@
 ﻿using Raiqub.Expressions.Queries;
 
-namespace Raiqub.Expressions.Tests.Examples;
+namespace Raiqub.Expressions.Reading.Tests.Examples;
 
-public class JohnDeeQueryModel : QueryModel<string, (string Value, int Length)>
+public class JohnDeeQueryModel : EntityQueryModel<string, (string Value, int Length)>
 {
     public JohnDeeQueryModel()
     {

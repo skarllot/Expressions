@@ -19,13 +19,7 @@ public class MartenDbQuerySession : IDbQuerySession
         _querySource = new MartenQuerySource(session);
     }
 
-    public IQuery<TResult> Query<TEntity, TResult>(IQueryModel<TEntity, TResult> queryModel)
-        where TEntity : class
-    {
-        return new MartenQuery<TResult>(_logger, _session.Query<TEntity>().Apply(queryModel));
-    }
-
-    public IQuery<TResult> Query<TResult>(IMultiQueryModel<TResult> queryModel)
+    public IQuery<TResult> Query<TResult>(IQueryModel<TResult> queryModel)
     {
         return new MartenQuery<TResult>(_logger, queryModel.Execute(_querySource));
     }

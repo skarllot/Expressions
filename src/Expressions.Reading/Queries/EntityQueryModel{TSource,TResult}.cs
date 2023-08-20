@@ -1,37 +1,39 @@
 ﻿namespace Raiqub.Expressions.Queries;
 
 /// <summary>
-/// Represents a base implementation of the <see cref="IQueryModel{TSource, TResult}"/> interface that provides
+/// Represents a base implementation of the <see cref="IEntityQueryModel{TSource,TResult}"/> interface that provides
 /// a mechanism for defining and executing queries.
 /// </summary>
 /// <typeparam name="TSource">The type of the data source for the query model.</typeparam>
 /// <typeparam name="TResult">The type of the query result.</typeparam>
-public abstract class QueryModel<TSource, TResult> : IQueryModel<TSource, TResult>
+public abstract class EntityQueryModel<TSource, TResult>
+    : IEntityQueryModel<TSource, TResult>, IQueryModel<TResult>
+    where TSource : class
 {
     private readonly IEnumerable<Specification<TSource>> _restrictions;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="QueryModel{TSource, TResult}"/> class with no restrictions.
+    /// Initializes a new instance of the <see cref="EntityQueryModel{TSource,TResult}"/> class with no restrictions.
     /// </summary>
-    protected QueryModel()
+    protected EntityQueryModel()
     {
         _restrictions = Enumerable.Empty<Specification<TSource>>();
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="QueryModel{TSource, TResult}"/> class with the specified restrictions.
+    /// Initializes a new instance of the <see cref="EntityQueryModel{TSource,TResult}"/> class with the specified restrictions.
     /// </summary>
     /// <param name="restrictions">The restrictions to apply to the query.</param>
-    protected QueryModel(params Specification<TSource>[] restrictions)
+    protected EntityQueryModel(params Specification<TSource>[] restrictions)
         : this((IEnumerable<Specification<TSource>>)restrictions)
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="QueryModel{TSource, TResult}"/> class with the specified restrictions.
+    /// Initializes a new instance of the <see cref="EntityQueryModel{TSource,TResult}"/> class with the specified restrictions.
     /// </summary>
     /// <param name="restrictions">The restrictions to apply to the query.</param>
-    protected QueryModel(IEnumerable<Specification<TSource>> restrictions)
+    protected EntityQueryModel(IEnumerable<Specification<TSource>> restrictions)
     {
         _restrictions = restrictions.ToList();
     }
@@ -57,6 +59,11 @@ public abstract class QueryModel<TSource, TResult> : IQueryModel<TSource, TResul
     public IEnumerable<TResult> Execute(IEnumerable<TSource> source)
     {
         return Execute(source.AsQueryable());
+    }
+
+    public IQueryable<TResult> Execute(IQuerySource source)
+    {
+        return Execute(source.GetSet<TSource>());
     }
 
     /// <summary>Gets the mandatory preconditions to execute the query.</summary>

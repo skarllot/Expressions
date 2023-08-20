@@ -1,16 +1,16 @@
 ﻿using FluentAssertions;
 using Raiqub.Expressions.Queries;
-using Raiqub.Expressions.Tests.Examples;
+using Raiqub.Expressions.Reading.Tests.Examples;
 
-namespace Raiqub.Expressions.Tests.Queries;
+namespace Raiqub.Expressions.Reading.Tests.Queries;
 
 public class QueryModelTest
 {
     [Fact]
     public void CreateShouldAlwaysReturnAll()
     {
-        string?[] source = { "john", "jane", null, "hugo", "jack" };
-        var queryModel = QueryModel.Create<string?>();
+        string[] source = { "john", "jane", "", "hugo", "jack" };
+        var queryModel = EntityQueryModel.Create<string>();
 
         string?[] result1 = source
             .Apply(queryModel)
@@ -20,15 +20,15 @@ public class QueryModelTest
             .Apply(queryModel)
             .ToArray();
 
-        result1.Should().Equal("john", "jane", null, "hugo", "jack");
-        result2.Should().Equal("john", "jane", null, "hugo", "jack");
+        result1.Should().Equal("john", "jane", "", "hugo", "jack");
+        result2.Should().Equal("john", "jane", "", "hugo", "jack");
     }
 
     [Fact]
     public void CreateShouldEvaluateSpecificationCorrectly()
     {
         string[] source = { "john", "jane", "hugo", "jack" };
-        var queryModel = QueryModel.Create(new StringBeginsWithJohnSpecification());
+        var queryModel = EntityQueryModel.Create(new StringBeginsWithJohnSpecification());
 
         string[] result1 = source
             .Apply(queryModel)

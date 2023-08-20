@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
 using Raiqub.Expressions.Queries;
-using Raiqub.Expressions.Tests.Examples;
+using Raiqub.Expressions.Reading.Tests.Examples;
 
-namespace Raiqub.Expressions.Tests.Queries;
+namespace Raiqub.Expressions.Reading.Tests.Queries;
 
 public class QueryModelClassTest
 {

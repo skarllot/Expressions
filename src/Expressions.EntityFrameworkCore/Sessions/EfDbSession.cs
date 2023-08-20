@@ -48,15 +48,7 @@ public class EfDbSession<TContext> : IDbSession<TContext>
             .ConfigureAwait(false);
     }
 
-    public IQuery<TResult> Query<TEntity, TResult>(IQueryModel<TEntity, TResult> queryModel)
-        where TEntity : class
-    {
-        return new EfQuery<TResult>(
-            _logger,
-            DataSourceFactory.GetDbSet<TEntity>(Context, Tracking).Apply(queryModel));
-    }
-
-    public IQuery<TResult> Query<TResult>(IMultiQueryModel<TResult> queryModel)
+    public IQuery<TResult> Query<TResult>(IQueryModel<TResult> queryModel)
     {
         return new EfQuery<TResult>(
             _logger,

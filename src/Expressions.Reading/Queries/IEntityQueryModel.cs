@@ -6,7 +6,7 @@
 /// </summary>
 /// <typeparam name="TSource">The type of the data source.</typeparam>
 /// <typeparam name="TResult">The type of the query result.</typeparam>
-public interface IQueryModel<in TSource, out TResult>
+public interface IEntityQueryModel<in TSource, out TResult>
 {
     /// <summary>
     /// Executes the query on the specified data source of type <typeparamref name="TSource"/> and returns a query
@@ -30,6 +30,6 @@ public interface IQueryModel<in TSource, out TResult>
 /// a result of the same type.
 /// </summary>
 /// <typeparam name="T">The type of the data source and the query result.</typeparam>
-public interface IQueryModel<T> : IQueryModel<T, T>
+public interface IEntityQueryModel<T> : IEntityQueryModel<T, T>
 {
 }

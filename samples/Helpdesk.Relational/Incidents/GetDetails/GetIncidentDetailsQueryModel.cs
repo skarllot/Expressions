@@ -3,7 +3,7 @@ using Raiqub.Expressions.Queries;
 
 namespace Helpdesk.Relational.Incidents.GetDetails;
 
-public class GetIncidentDetailsQueryModel : QueryModel<Incident, IncidentDetails>
+public class GetIncidentDetailsQueryModel : EntityQueryModel<Incident, IncidentDetails>
 {
     public GetIncidentDetailsQueryModel(Guid incidentId) => IncidentId = incidentId;
 

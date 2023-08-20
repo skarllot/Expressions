@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <AssemblyAttribute Condition="'$(TargetFramework)' != 'net472'" Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+    <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
     <Using Include="Xunit" />
   </ItemGroup>
 

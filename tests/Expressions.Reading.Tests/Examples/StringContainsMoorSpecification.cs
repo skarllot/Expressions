@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace Raiqub.Expressions.Tests.Examples;
+namespace Raiqub.Expressions.Reading.Tests.Examples;
 
 internal sealed class StringContainsMoorSpecification : Specification<string>
 {

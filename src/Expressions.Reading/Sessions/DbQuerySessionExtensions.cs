@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using Raiqub.Expressions.Queries;
+using Raiqub.Expressions.Queries.Internal;
 
 namespace Raiqub.Expressions.Sessions;
 
@@ -14,7 +15,7 @@ public static class DbQuerySessionExtensions
         this IDbQuerySession session)
         where TEntity : class
     {
-        return session.Query(QueryModel.Create<TEntity>());
+        return session.Query(AllQueryModel<TEntity>.Instance);
     }
 
     /// <summary>Creates a new query using the criteria specification.</summary>
@@ -27,7 +28,15 @@ public static class DbQuerySessionExtensions
         Specification<TEntity> specification)
         where TEntity : class
     {
-        return session.Query(QueryModel.Create(specification));
+        return session.Query(new SpecificationQueryModel<TEntity>(specification));
+    }
+
+    public static IQuery<TResult> Query<TEntity, TResult>(
+        this IDbQuerySession session,
+        IEntityQueryModel<TEntity, TResult> entityQueryModel)
+        where TEntity : class
+    {
+        return session.Query(entityQueryModel.ToQueryModel());
     }
 
     /// <summary>
@@ -42,8 +51,10 @@ public static class DbQuerySessionExtensions
         this IDbQuerySession session,
         Expression<Func<TEntity, IEnumerable<TNested>>> selector)
         where TEntity : class
+        where TNested : class
     {
-        return session.Query(new NestingQueryModel<TEntity, TNested, TNested>(selector, QueryModel.Create<TNested>()));
+        return session.Query(
+            new NestingEntityQueryModel<TEntity, TNested, TNested>(selector, EntityQueryModel.Create<TNested>()));
     }
 
     /// <summary>
@@ -59,10 +70,11 @@ public static class DbQuerySessionExtensions
     public static IQuery<TResult> QueryNested<TEntity, TNested, TResult>(
         this IDbQuerySession session,
         Expression<Func<TEntity, IEnumerable<TNested>>> selector,
-        IQueryModel<TNested, TResult> queryModel)
+        IEntityQueryModel<TNested, TResult> queryModel)
         where TEntity : class
+        where TNested : class
     {
-        return session.Query(new NestingQueryModel<TEntity, TNested, TResult>(selector, queryModel));
+        return session.Query(new NestingEntityQueryModel<TEntity, TNested, TResult>(selector, queryModel));
     }
 
     /// <summary>
@@ -79,8 +91,9 @@ public static class DbQuerySessionExtensions
         Expression<Func<TEntity, IEnumerable<TNested>>> selector,
         Specification<TNested> specification)
         where TEntity : class
+        where TNested : class
     {
         return session.Query(
-            new NestingQueryModel<TEntity, TNested, TNested>(selector, QueryModel.Create(specification)));
+            new NestingEntityQueryModel<TEntity, TNested, TNested>(selector, EntityQueryModel.Create(specification)));
     }
 }

@@ -1,8 +1,8 @@
 ﻿using Raiqub.Expressions.Queries;
 
-namespace Raiqub.Expressions.Tests.Examples;
+namespace Raiqub.Expressions.Reading.Tests.Examples;
 
-public class NewsPostContentSearchQueryModel : QueryModel<NewsPost, NewsPost>
+public class NewsPostContentSearchQueryModel : EntityQueryModel<NewsPost, NewsPost>
 {
     public NewsPostContentSearchQueryModel(string search) => Search = search;
 
