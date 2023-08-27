@@ -1,8 +1,8 @@
 ﻿namespace Helpdesk.Relational.Incidents.LogNew;
 
-public static class LogHandler
+public static class LogNewScenario
 {
-    public static IncidentLogged Handle(LogIncident command)
+    public static IncidentLogged Execute(LogIncident command)
     {
         return new IncidentLogged(
             command.IncidentId,

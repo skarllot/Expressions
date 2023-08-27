@@ -1,8 +1,8 @@
 ﻿namespace Helpdesk.Relational.Incidents.Resolve;
 
-public static class ResolveHandler
+public static class ResolveScenario
 {
-    public static IncidentResolved Handle(Incident current, ResolveIncident command)
+    public static IncidentResolved Execute(Incident current, ResolveIncident command)
     {
         if (current.IsSatisfiedBy(IncidentSpecification.IsResolvedOrClosed))
             throw new IncidentAlreadyResolvedOrClosedWhenResolvingException(command.IncidentId);

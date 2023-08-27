@@ -1,0 +1,35 @@
+﻿version: "3"
+services:
+  helpdesk-relational-app:
+    image: raiqub.samples.helpdesk-relational
+    build:
+      context: .
+      dockerfile: samples/Helpdesk.Relational/Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    depends_on:
+      - helpdesk-relational-db
+      - helpdesk-relational-pgadmin
+
+  helpdesk-relational-db:
+    image: clkao/postgres-plv8
+    environment:
+      POSTGRES_PASSWORD: Password12!
+
+  helpdesk-relational-pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    depends_on:
+      - helpdesk-relational-db
+
+volumes:
+  pgadmin:

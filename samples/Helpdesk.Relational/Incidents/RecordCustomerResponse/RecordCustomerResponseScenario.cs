@@ -2,9 +2,9 @@
 
 namespace Helpdesk.Relational.Incidents.RecordCustomerResponse;
 
-public static class RecordCustomerResponseHandler
+public static class RecordCustomerResponseScenario
 {
-    public static CustomerRespondedToIncident Handle(Incident current, RecordCustomerResponseToIncident command)
+    public static CustomerRespondedToIncident Execute(Incident current, RecordCustomerResponseToIncident command)
     {
         if (current.IsSatisfiedBy(IncidentSpecification.IsClosed))
             throw new IncidentAlreadyClosedException(command.IncidentId);

@@ -22,6 +22,6 @@ public static class IncidentSpecification
     public static Specification<Incident> OfCustomer(Guid customerId) =>
         Specification.Create<Incident>(incident => incident.CustomerId == customerId);
 
-    public static Specification<Incident> OfId(Guid incidentId) =>
+    public static Specification<Incident> HasId(Guid incidentId) =>
         Specification.Create<Incident>(incident => incident.Id == incidentId);
 }

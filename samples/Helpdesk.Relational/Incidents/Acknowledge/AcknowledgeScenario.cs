@@ -1,8 +1,8 @@
 ﻿namespace Helpdesk.Relational.Incidents.Acknowledge;
 
-public static class AcknowledgeHandler
+public static class AcknowledgeScenario
 {
-    public static ResolutionAcknowledgedByCustomer Handle(Incident current, AcknowledgeResolution command)
+    public static ResolutionAcknowledgedByCustomer Execute(Incident current, AcknowledgeResolution command)
     {
         if (current.IsSatisfiedBy(IncidentSpecification.IsNotResolved))
             throw new IncidentIsNotResolvedException(command.IncidentId);

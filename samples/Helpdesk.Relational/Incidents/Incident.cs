@@ -21,10 +21,21 @@ public class Incident
         string description,
         Guid loggedBy,
         DateTimeOffset loggedAt)
+        : this(id, customerId, description, loggedBy, loggedAt)
+    {
+        Contact = contact;
+    }
+
+    private Incident(
+        Guid id,
+        Guid customerId,
+        string description,
+        Guid loggedBy,
+        DateTimeOffset loggedAt)
     {
         Id = id;
         CustomerId = customerId;
-        Contact = contact;
+        Contact = null!;
         Description = description;
         LoggedBy = loggedBy;
         LoggedAt = loggedAt;

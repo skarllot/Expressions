@@ -11,7 +11,7 @@ public class GetIncidentDetailsQueryModel : EntityQueryModel<Incident, IncidentD
 
     protected override IEnumerable<Specification<Incident>> GetPreconditions()
     {
-        yield return IncidentSpecification.OfId(IncidentId);
+        yield return IncidentSpecification.HasId(IncidentId);
     }
 
     protected override IQueryable<IncidentDetails> ExecuteCore(IQueryable<Incident> source) => source

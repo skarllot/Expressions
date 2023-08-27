@@ -1,8 +1,8 @@
 ﻿namespace Helpdesk.Relational.Incidents.Close;
 
-public static class CloseHandler
+public static class CloseScenario
 {
-    public static IncidentClosed Handle(Incident current, CloseIncident command)
+    public static IncidentClosed Execute(Incident current, CloseIncident command)
     {
         if (current.Status is not IncidentStatus.ResolutionAcknowledgedByCustomer)
             throw new IncidentIsNotAcknowledgedException(command.IncidentId);

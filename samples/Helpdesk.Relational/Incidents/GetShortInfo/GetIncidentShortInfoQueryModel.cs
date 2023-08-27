@@ -30,7 +30,7 @@ public class GetIncidentShortInfoQueryModel : EntityQueryModel<Incident, Inciden
                     incident.Id,
                     incident.CustomerId,
                     incident.Status,
-                    0,
+                    incident.Responses.Count,
                     incident.Category,
                     incident.Priority));
 }

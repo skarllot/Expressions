@@ -2,9 +2,9 @@
 
 namespace Helpdesk.Relational.Incidents.Prioritise;
 
-public static class PrioritiseHandler
+public static class PrioritiseScenario
 {
-    public static IncidentPrioritised Handle(Incident current, PrioritiseIncident command)
+    public static IncidentPrioritised Execute(Incident current, PrioritiseIncident command)
     {
         if (current.IsSatisfiedBy(IncidentSpecification.IsClosed))
             throw new IncidentAlreadyClosedException(command.IncidentId);

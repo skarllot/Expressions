@@ -1,4 +1,4 @@
-﻿namespace Helpdesk.Relational.Incidents.Api.v1.GetDetails;
+﻿namespace Helpdesk.Relational.Incidents.GetDetails.v1;
 
 public record GetIncidentDetailsRequest(
     Guid IncidentId);

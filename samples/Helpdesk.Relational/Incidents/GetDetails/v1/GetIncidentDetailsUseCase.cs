@@ -1,13 +1,12 @@
-﻿using Helpdesk.Relational.Incidents.GetDetails;
-using Raiqub.Expressions.Sessions;
+﻿using Raiqub.Expressions.Sessions;
 
-namespace Helpdesk.Relational.Incidents.Api.v1.GetDetails;
+namespace Helpdesk.Relational.Incidents.GetDetails.v1;
 
-public class GetIncidentDetailsHandler
+public class GetIncidentDetailsUseCase
 {
     private readonly IDbQuerySession _dbQuerySession;
 
-    public GetIncidentDetailsHandler(IDbQuerySession dbQuerySession)
+    public GetIncidentDetailsUseCase(IDbQuerySession dbQuerySession)
     {
         _dbQuerySession = dbQuerySession;
     }
