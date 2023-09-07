@@ -3,6 +3,10 @@
   <PropertyGroup>
     <TargetFrameworks>net6.0;netstandard2.0;netstandard2.1</TargetFrameworks>
     <RootNamespace>Raiqub.Expressions</RootNamespace>
+    <Description>Provides abstractions for creating query models, query sessions and querying from database (defines IDbQuerySessionFactory and IDbQuerySession interfaces).</Description>
+    <PackageTags>
+      query;querymodel;session;ddd;domain;core;repository;expressions;lambda;db;database
+    </PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

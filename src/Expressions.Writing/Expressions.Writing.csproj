@@ -3,6 +3,10 @@
   <PropertyGroup>
     <TargetFrameworks>net6.0;netstandard2.0;netstandard2.1</TargetFrameworks>
     <RootNamespace>Raiqub.Expressions</RootNamespace>
+    <Description>Provides abstractions for creating write sessions and writing to database (defines IDbSessionFactory and IDbSession interfaces).</Description>
+    <PackageTags>
+      command;session;ddd;domain;core;repository;expressions;lambda;db;database;change-tracking;changetracking
+    </PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

@@ -16,7 +16,7 @@ _Raiqub.Expressions is a library that provides abstractions for creating specifi
 
 ## NuGet Packages
 * **Raiqub.Expressions**: abstractions for creating specifications
-* **Raiqub.Expressions.Reading**: abstractions for creating query sessions and querying from database (defines IDbQuerySessionFactory and IDbQuerySession interfaces)
+* **Raiqub.Expressions.Reading**: abstractions for creating query models and query sessions and querying from database (defines IDbQuerySessionFactory and IDbQuerySession interfaces)
 * **Raiqub.Expressions.Writing**: abstractions for creating write sessions and writing to database (defines IDbSessionFactory and IDbSession interfaces)
 * **Raiqub.Expressions.EntityFrameworkCore**: implementation of sessions and factories using Entity Framework Core
 * **Raiqub.Expressions.Marten**: implementation of sessions and factories using Marten library

@@ -4,7 +4,7 @@
     <TargetFrameworks>net6.0;netstandard2.0;netstandard2.1</TargetFrameworks>
     <Description>Provides base for specifications and queries using expression trees that work with repositories.</Description>
     <PackageTags>
-      spec;specification;ddd;domain;core;query;command;repository;expressions;lambda
+      spec;specification;ddd;domain;core;command;repository;expressions;lambda
     </PackageTags>
   </PropertyGroup>
 
