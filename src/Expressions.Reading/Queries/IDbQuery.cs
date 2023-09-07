@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a query that can be executed to retrieve entities of type <typeparamref name="T"/>.
 /// </summary>
-public interface IQuery<T>
+public interface IDbQuery<T>
 {
     /// <summary>Determines whether the query returns any elements.</summary>
     /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>

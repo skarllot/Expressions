@@ -19,9 +19,9 @@ public class MartenDbQuerySession : IDbQuerySession
         _querySource = new MartenQuerySource(session);
     }
 
-    public IQuery<TResult> Query<TResult>(IQueryModel<TResult> queryModel)
+    public IDbQuery<TResult> Query<TResult>(IQueryModel<TResult> queryModel)
     {
-        return new MartenQuery<TResult>(_logger, queryModel.Execute(_querySource));
+        return new MartenDbQuery<TResult>(_logger, queryModel.Execute(_querySource));
     }
 
     public async ValueTask DisposeAsync()

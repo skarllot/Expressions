@@ -10,5 +10,5 @@ public interface IDbQuerySession : IAsyncDisposable, IDisposable
     /// <param name="queryModel">The query model to use.</param>
     /// <returns>A new query object.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="queryModel"/> is null.</exception>
-    IQuery<TResult> Query<TResult>(IQueryModel<TResult> queryModel);
+    IDbQuery<TResult> Query<TResult>(IQueryModel<TResult> queryModel);
 }

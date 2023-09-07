@@ -15,7 +15,7 @@ _Raiqub.Expressions is a library that provides abstractions for creating specifi
 * Built with .NET Standard 2.0, 2.1, and .NET Core 6.0
 
 ## NuGet Packages
-* **Raiqub.Expressions**: abstractions for creating specifications and query models (defines Specification and QueryModel base classes)
+* **Raiqub.Expressions**: abstractions for creating specifications
 * **Raiqub.Expressions.Reading**: abstractions for creating query sessions and querying from database (defines IDbQuerySessionFactory and IDbQuerySession interfaces)
 * **Raiqub.Expressions.Writing**: abstractions for creating write sessions and writing to database (defines IDbSessionFactory and IDbSession interfaces)
 * **Raiqub.Expressions.EntityFrameworkCore**: implementation of sessions and factories using Entity Framework Core
@@ -113,13 +113,13 @@ To create a query session and query data using a query model, follow these steps
 1. Inject an instance of **\`IDbQuerySessionFactory\`** into your service or controller.
 2. Use the **\`Create()\`** method of the **\`IDbQuerySessionFactory\`** interface to create a new query session.
 3. Call the **\`Query()\`** method on the query session, passing in your query model or specification instance.
-4. Call one of the methods on the resulting **\`IQuery&lt;T&gt;\`** interface to execute the query and retrieve the results.
+4. Call one of the methods on the resulting **\`IDbQuery&lt;T&gt;\`** interface to execute the query and retrieve the results.
 
 ```csharp
 await using (var session = querySessionFactory.Create())
 {
-    var query = session.Query(new CustomerIsActive());
-    var customers = await query.ToListAsync();
+    IDbQuery<Customer> query = session.Query(new CustomerIsActive());
+    IReadOnlyList<Customer> customers = await query.ToListAsync();
 }
 ```
 

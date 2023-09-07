@@ -2,7 +2,7 @@
 
 namespace Raiqub.Expressions.Queries;
 
-public static class EntiyQueryModelExtensions
+public static class EntityQueryModelExtensions
 {
     /// <summary>Prepares a query model for down-casting.</summary>
     /// <typeparam name="TSource">The type of the data source.</typeparam>

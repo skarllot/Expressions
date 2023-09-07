@@ -52,9 +52,9 @@ public class EfDbSession<TContext> : IDbSession<TContext>
             .ConfigureAwait(false);
     }
 
-    public IQuery<TResult> Query<TResult>(IQueryModel<TResult> queryModel)
+    public IDbQuery<TResult> Query<TResult>(IQueryModel<TResult> queryModel)
     {
-        return new EfQuery<TResult>(
+        return new EfDbQuery<TResult>(
             _logger,
             queryModel.Execute(_querySource));
     }

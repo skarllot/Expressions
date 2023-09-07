@@ -9,9 +9,9 @@ using Raiqub.Common.Tests.Queries;
 namespace Raiqub.Expressions.Marten.Tests.Queries;
 
 [Collection(PostgreSqlTestGroup.Name)]
-public sealed class MartenQueryTest : QueryTestBase, IAsyncLifetime
+public sealed class MartenDbQueryTest : QueryTestBase, IAsyncLifetime
 {
-    public MartenQueryTest(PostgreSqlFixture fixture)
+    public MartenDbQueryTest(PostgreSqlFixture fixture)
         : base(
             services => services
                 .AddSingleton<ILoggerFactory>(new NullLoggerFactory())

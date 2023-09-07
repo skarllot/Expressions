@@ -1,15 +1,16 @@
-﻿using Marten;
+﻿using System.Runtime.CompilerServices;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Raiqub.Expressions.Queries;
 
-namespace Raiqub.Expressions.Marten.Queries;
+namespace Raiqub.Expressions.EntityFrameworkCore.Queries;
 
-public class MartenQuery<TResult> : IQuery<TResult>
+public class EfDbQuery<TResult> : IDbQuery<TResult>
 {
     private readonly ILogger _logger;
     private readonly IQueryable<TResult> _dataSource;
 
-    public MartenQuery(
+    public EfDbQuery(
         ILogger logger,
         IQueryable<TResult> dataSource)
     {
@@ -132,8 +133,26 @@ public class MartenQuery<TResult> : IQuery<TResult>
         }
     }
 
-    public IAsyncEnumerable<TResult> ToAsyncEnumerable(CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<TResult> ToAsyncEnumerable(
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        return _dataSource.ToAsyncEnumerable(cancellationToken);
+        IAsyncEnumerable<TResult> enumerable;
+        try
+        {
+            enumerable = _dataSource.AsAsyncEnumerable();
+        }
+        catch (Exception exception) when (exception is not ArgumentNullException
+                                              and not InvalidOperationException)
+        {
+            QueryLog.AsyncEnumerableError(_logger, exception);
+            throw;
+        }
+
+        await foreach (TResult result in enumerable
+                           .WithCancellation(cancellationToken)
+                           .ConfigureAwait(false))
+        {
+            yield return result;
+        }
     }
 }
