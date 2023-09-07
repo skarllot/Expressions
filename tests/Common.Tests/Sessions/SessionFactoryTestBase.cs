@@ -165,9 +165,9 @@ public abstract class SessionFactoryTestBase : DatabaseTestBase
         blogs.Should().NotContain(blog => blog.Name == "Second");
     }
 
-    private IDbSessionFactory CreateSessionFactory() => ServiceProvider.GetRequiredService<IDbSessionFactory>();
+    protected IDbSessionFactory CreateSessionFactory() => ServiceProvider.GetRequiredService<IDbSessionFactory>();
 
-    private static IEnumerable<Blog> GetBlogs()
+    protected static IEnumerable<Blog> GetBlogs()
     {
         DateTimeOffset now = DateTimeOffset.UtcNow;
 

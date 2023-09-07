@@ -1,4 +1,6 @@
-﻿namespace Raiqub.Expressions.Sessions;
+﻿using System.Diagnostics.Contracts;
+
+namespace Raiqub.Expressions.Sessions;
 
 /// <summary>Represents a session used to perform data access operations.</summary>
 public interface IDbSession : IDbQuerySession
@@ -8,6 +10,15 @@ public interface IDbSession : IDbQuerySession
     /// The change tracking mode determines how the session's change tracker will handle returned entities.
     /// </remarks>
     ChangeTracking Tracking { get; }
+
+    /// <summary>Starts a new transaction.</summary>
+    /// <param name="cancellationToken">A token to observe for cancellation requests.</param>
+    /// <returns>
+    /// A task that represents the asynchronous transaction initialization.
+    /// The task result contains a <see cref="IDbSessionTransaction"/> that represents the started transaction.
+    /// </returns>
+    [Pure]
+    ValueTask<IDbSessionTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default);
 
     /// <summary>Tracks the specified entity as added.</summary>
     /// <typeparam name="TEntity">The type of entity to add.</typeparam>

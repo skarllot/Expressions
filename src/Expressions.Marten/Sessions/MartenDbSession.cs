@@ -17,6 +17,12 @@ public class MartenDbSession : MartenDbQuerySession, IDbSession
 
     public ChangeTracking Tracking { get; }
 
+    public ValueTask<IDbSessionTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
+    {
+        throw new NotSupportedException(
+            "Transactions are not currently supported by Marten implementation of IDbSession");
+    }
+
     public void Add<TEntity>(TEntity entity)
         where TEntity : class => AddRange(new[] { entity });
 

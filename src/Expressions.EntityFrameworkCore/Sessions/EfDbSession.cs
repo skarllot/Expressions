@@ -28,6 +28,12 @@ public class EfDbSession<TContext> : IDbSession<TContext>
     public TContext Context { get; }
     public ChangeTracking Tracking { get; }
 
+    public async ValueTask<IDbSessionTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
+    {
+        var transaction = await Context.Database.BeginTransactionAsync(cancellationToken).ConfigureAwait(false);
+        return new EfDbSessionTransaction(transaction);
+    }
+
     public void Add<TEntity>(TEntity entity)
         where TEntity : class => Context.Add(entity);
 
