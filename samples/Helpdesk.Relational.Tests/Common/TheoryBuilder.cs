@@ -1,4 +1,4 @@
-﻿namespace Raiqub.Expressions.Tests.Common;
+﻿namespace Helpdesk.Relational.Tests.Common;
 
 public static class TheoryBuilder
 {

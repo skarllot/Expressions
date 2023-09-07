@@ -4,6 +4,7 @@
 
   <PropertyGroup>
     <RootNamespace>$(MSBuildProjectName)</RootNamespace>
+    <AssemblyName>$(RootNamespace)</AssemblyName>
   </PropertyGroup>
 
 </Project>
