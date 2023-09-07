@@ -13,12 +13,16 @@ public class EfDbSession<TContext> : IDbSession<TContext>
     private readonly ILogger<EfDbSession<TContext>> _logger;
     private readonly EfQuerySource _querySource;
 
-    public EfDbSession(ILogger<EfDbSession<TContext>> logger, TContext context, ChangeTracking tracking)
+    public EfDbSession(
+        ILogger<EfDbSession<TContext>> logger,
+        TContext context,
+        ISqlProviderSelector sqlProviderSelector,
+        ChangeTracking tracking)
     {
         _logger = logger;
         Context = context;
         Tracking = tracking;
-        _querySource = new EfQuerySource(context, tracking);
+        _querySource = new EfQuerySource(context, sqlProviderSelector, tracking);
     }
 
     public TContext Context { get; }

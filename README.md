@@ -140,6 +140,28 @@ await using (var session = sessionFactory.Create())
 }
 ```
 
+### Defining custom SQL query for entity (Entity Framework)
+To define a custom SQL query for retrieving a entity from database, follow these steps:
+
+1. Create a new class implementing the **\`ISqlProvider\<TEntity\>\`** interface;
+2. Implement the **\`GetQuerySql()\`** method returning a raw or an interpolated SQL string;
+3. Register the created class as a implementation of _ISqlProvider_ interface for dependency injection using the singleton lifetime.
+
+Example implementing a custom SQL query for _Blog_ entity:
+
+```csharp
+private class BlogSqlProvider : ISqlProvider<Blog>
+{
+    public SqlString GetQuerySql() => SqlString.FromSqlInterpolated($"SELECT \"Id\", \"Name\" FROM \"Blog\"");
+}
+```
+
+And then, registering it:
+
+```csharp
+services.AddSingleton<ISqlProvider, BlogSqlProvider>();
+```
+
 ### Supported Databases
 Currently, Raiqub.Expressions supports the following database libraries:
 * Entity Framework Core

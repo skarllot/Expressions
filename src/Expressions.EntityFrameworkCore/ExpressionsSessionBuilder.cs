@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Raiqub.Expressions.EntityFrameworkCore.Queries;
 using Raiqub.Expressions.EntityFrameworkCore.Sessions;
 using Raiqub.Expressions.Sessions;
 using Raiqub.Expressions.Sessions.BoundedContext;
@@ -35,6 +37,7 @@ public sealed class ExpressionsSessionBuilder
         _services.AddSingleton<EfDbSessionFactory<TDbContext>>();
         _services.AddSingleton<IDbSessionFactory>(sp => sp.GetRequiredService<EfDbSessionFactory<TDbContext>>());
         _services.AddSingleton<IDbQuerySessionFactory>(sp => sp.GetRequiredService<EfDbSessionFactory<TDbContext>>());
+        _services.TryAddSingleton<ISqlProviderSelector, SqlProviderSelector>();
         _services.AddScoped<IDbSession>(sp => sp.GetRequiredService<IDbSessionFactory>().Create(combinedTracking));
         _services.AddScoped<IDbQuerySession>(sp => sp.GetRequiredService<IDbQuerySessionFactory>().Create());
     }
@@ -56,6 +59,7 @@ public sealed class ExpressionsSessionBuilder
         _services.AddSingleton<IDbSessionFactory<TContext>>(sp => sp.GetRequiredService<EfDbSessionFactory<TDbContext>>());
         _services.AddSingleton<IDbQuerySessionFactory<TContext>>(
             sp => sp.GetRequiredService<EfDbSessionFactory<TDbContext>>());
+        _services.TryAddSingleton<ISqlProviderSelector, SqlProviderSelector>();
         _services.AddScoped<IDbSession<TContext>>(
             sp => sp.GetRequiredService<IDbSessionFactory<TContext>>().Create(combinedTracking));
         _services.AddScoped<IDbQuerySession<TContext>>(

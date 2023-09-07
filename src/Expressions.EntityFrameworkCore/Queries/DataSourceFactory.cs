@@ -5,12 +5,25 @@ namespace Raiqub.Expressions.EntityFrameworkCore.Queries;
 
 internal static class DataSourceFactory
 {
-    public static IQueryable<TSource> GetDbSet<TSource>(
+    public static IQueryable<TEntity> GetDbSet<TEntity>(
         DbContext dbContext,
+        SqlString? querySql,
         ChangeTracking tracking = ChangeTracking.Default)
-        where TSource : class
+        where TEntity : class
     {
-        IQueryable<TSource> queryable = dbContext.Set<TSource>();
+        DbSet<TEntity> dbSet = dbContext.Set<TEntity>();
+
+        IQueryable<TEntity> queryable;
+        if (querySql is not null)
+        {
+            queryable = querySql.Value.IsRaw
+                ? dbSet.FromSqlRaw(querySql.Value.Sql.Format, querySql.Value.Sql.GetArguments()!)
+                : dbSet.FromSqlInterpolated(querySql.Value.Sql);
+        }
+        else
+        {
+            queryable = dbSet;
+        }
 
         queryable = tracking switch
         {

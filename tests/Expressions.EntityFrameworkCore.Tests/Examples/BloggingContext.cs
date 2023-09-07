@@ -27,9 +27,7 @@ public class BloggingContext : DbContext
         builder.HasKey(b => b.Id);
         builder.HasMany(b => b.Posts).WithOne().HasForeignKey("BlogId");
 
-#if NET5_0_OR_GREATER
         builder.Navigation(b => b.Posts).AutoInclude();
-#endif
     }
 
     private static void DefinePost(EntityTypeBuilder<Post> builder)
