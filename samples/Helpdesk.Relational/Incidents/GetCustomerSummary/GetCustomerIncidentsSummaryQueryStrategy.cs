@@ -2,9 +2,9 @@
 
 namespace Helpdesk.Relational.Incidents.GetCustomerSummary;
 
-public class GetCustomerIncidentsSummaryQueryModel : IQueryModel<(IncidentStatus Key, int Count)>
+public class GetCustomerIncidentsSummaryQueryStrategy : IQueryStrategy<(IncidentStatus Key, int Count)>
 {
-    public GetCustomerIncidentsSummaryQueryModel(Guid customerId) => CustomerId = customerId;
+    public GetCustomerIncidentsSummaryQueryStrategy(Guid customerId) => CustomerId = customerId;
 
     public Guid CustomerId { get; }
 

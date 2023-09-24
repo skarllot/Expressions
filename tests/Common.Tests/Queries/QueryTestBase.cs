@@ -20,7 +20,7 @@ public abstract class QueryTestBase : DatabaseTestBase
     {
         await AddBlogs(GetBlogs());
         await using var session = CreateSession();
-        var query = session.Query(new GetBlogPostsQueryModel(name));
+        var query = session.Query(new GetBlogPostsQueryStrategy(name));
 
         bool exists = await query.AnyAsync();
 
@@ -36,7 +36,7 @@ public abstract class QueryTestBase : DatabaseTestBase
     {
         await AddBlogs(GetBlogs());
         await using var session = CreateSession();
-        var query = session.Query(new GetBlogPostsQueryModel(name));
+        var query = session.Query(new GetBlogPostsQueryStrategy(name));
 
         bool exists = await query.AnyAsync();
 
@@ -48,7 +48,7 @@ public abstract class QueryTestBase : DatabaseTestBase
     {
         await AddBlogs(GetBlogs());
         await using var session = CreateSession();
-        var query = session.Query(QueryModel.CreateNested((Blog b) => b.Posts));
+        var query = session.Query(QueryStrategy.CreateNested((Blog b) => b.Posts));
 
         long count = await query.CountAsync();
 
@@ -64,7 +64,7 @@ public abstract class QueryTestBase : DatabaseTestBase
     {
         await AddBlogs(GetBlogs());
         await using var session = CreateSession();
-        var query = session.Query(new GetBlogPostsAggregateQueryModel(name));
+        var query = session.Query(new GetBlogPostsAggregateQueryStrategy(name));
 
         long count = await query.CountAsync();
 
@@ -80,7 +80,7 @@ public abstract class QueryTestBase : DatabaseTestBase
     {
         await AddBlogs(GetBlogs());
         await using var session = CreateSession();
-        var query = session.Query(new GetBlogPostsQueryModel(name));
+        var query = session.Query(new GetBlogPostsQueryStrategy(name));
 
         Post? post = await query.FirstOrDefaultAsync();
 
@@ -92,7 +92,7 @@ public abstract class QueryTestBase : DatabaseTestBase
     {
         await AddBlogs(GetBlogs());
         await using var session = CreateSession();
-        var query = session.Query(QueryModel.CreateForEntity((IQueryable<Blog> source) => source.SelectMany(b => b.Posts)));
+        var query = session.Query(QueryStrategy.CreateForEntity((IQueryable<Blog> source) => source.SelectMany(b => b.Posts)));
 
         var posts = await query.ToListAsync();
 
@@ -106,7 +106,7 @@ public abstract class QueryTestBase : DatabaseTestBase
         await AddBlogs(GetBlogs());
         await using var session = CreateSession();
         var query = session.Query(
-            QueryModel.CreateForEntity(
+            QueryStrategy.CreateForEntity(
                 (IQueryable<Blog> source) => source
                     .SelectMany(b => b.Posts)
                     .Where(p => p.Content.StartsWith("You"))));
@@ -125,7 +125,7 @@ public abstract class QueryTestBase : DatabaseTestBase
     {
         await AddBlogs(GetBlogs());
         await using var session = CreateSession();
-        var query = session.Query(new GetBlogPostsQueryModel(name));
+        var query = session.Query(new GetBlogPostsQueryStrategy(name));
 
         Post? post = await query.SingleOrDefaultAsync();
 
@@ -138,7 +138,7 @@ public abstract class QueryTestBase : DatabaseTestBase
     {
         await AddBlogs(GetBlogs());
         await using var session = CreateSession();
-        var query = session.Query(new GetBlogPostsQueryModel(name));
+        var query = session.Query(new GetBlogPostsQueryStrategy(name));
 
         await query
             .Invoking(q => q.SingleOrDefaultAsync())

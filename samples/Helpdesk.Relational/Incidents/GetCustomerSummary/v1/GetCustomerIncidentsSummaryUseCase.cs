@@ -14,7 +14,7 @@ public class GetCustomerIncidentsSummaryUseCase
     public async Task<CustomerIncidentsSummary> Execute(Guid customerId, CancellationToken cancellationToken)
     {
         return await _dbQuerySession
-            .Query(new GetCustomerIncidentsSummaryQueryModel(customerId))
+            .Query(new GetCustomerIncidentsSummaryQueryStrategy(customerId))
             .ToAsyncEnumerable(cancellationToken)
             .AggregateAsync(
                 new CustomerIncidentsSummary(customerId),

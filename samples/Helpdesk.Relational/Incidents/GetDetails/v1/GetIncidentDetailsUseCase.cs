@@ -14,7 +14,7 @@ public class GetIncidentDetailsUseCase
     public async Task<IncidentDetails?> Execute(GetIncidentDetailsRequest request, CancellationToken cancellationToken)
     {
         IncidentDetails? result = await _dbQuerySession
-            .Query(new GetIncidentDetailsQueryModel(request.IncidentId))
+            .Query(new GetIncidentDetailsQueryStrategy(request.IncidentId))
             .FirstOrDefaultAsync(cancellationToken);
 
         return result;

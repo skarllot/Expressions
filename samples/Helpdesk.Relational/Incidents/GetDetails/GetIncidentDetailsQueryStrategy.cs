@@ -3,9 +3,9 @@ using Raiqub.Expressions.Queries;
 
 namespace Helpdesk.Relational.Incidents.GetDetails;
 
-public class GetIncidentDetailsQueryModel : EntityQueryModel<Incident, IncidentDetails>
+public class GetIncidentDetailsQueryStrategy : EntityQueryStrategy<Incident, IncidentDetails>
 {
-    public GetIncidentDetailsQueryModel(Guid incidentId) => IncidentId = incidentId;
+    public GetIncidentDetailsQueryStrategy(Guid incidentId) => IncidentId = incidentId;
 
     public Guid IncidentId { get; }
 

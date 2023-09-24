@@ -85,7 +85,7 @@ public abstract class SessionFactoryTestBase : DatabaseTestBase
 
         await using (var session = sessionFactory.Create())
         {
-            Blog blog = await session.Query(new GetBlogByNameQueryModel("Second")).FirstAsync();
+            Blog blog = await session.Query(new GetBlogByNameQueryStrategy("Second")).FirstAsync();
             blog.AddPost(new Post("Test", "This is a test", DateTimeOffset.UtcNow));
 
             session.Update(blog);
@@ -95,7 +95,7 @@ public abstract class SessionFactoryTestBase : DatabaseTestBase
         Blog finalBlog;
         await using (var session = sessionFactory.Create())
         {
-            finalBlog = await session.Query(new GetBlogByNameQueryModel("Second")).FirstAsync();
+            finalBlog = await session.Query(new GetBlogByNameQueryStrategy("Second")).FirstAsync();
         }
 
         finalBlog.Posts.Should().HaveCount(2);
@@ -128,7 +128,7 @@ public abstract class SessionFactoryTestBase : DatabaseTestBase
         await using (var session = sessionFactory.Create())
         {
             finalBlogs = await session
-                .Query(QueryModel.CreateForEntity((IQueryable<Blog> source) => source.OrderBy(b => b.Name)))
+                .Query(QueryStrategy.CreateForEntity((IQueryable<Blog> source) => source.OrderBy(b => b.Name)))
                 .ToListAsync();
         }
 
@@ -151,7 +151,7 @@ public abstract class SessionFactoryTestBase : DatabaseTestBase
 
         await using (var session = sessionFactory.Create())
         {
-            Blog blog = await session.Query(new GetBlogByNameQueryModel("Second")).FirstAsync();
+            Blog blog = await session.Query(new GetBlogByNameQueryStrategy("Second")).FirstAsync();
             session.Remove(blog);
             await session.SaveChangesAsync();
         }

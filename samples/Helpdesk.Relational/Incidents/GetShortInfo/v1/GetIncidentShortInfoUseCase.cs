@@ -14,7 +14,7 @@ public class GetIncidentShortInfoUseCase
     public async Task<IReadOnlyList<IncidentShortInfo>> Execute(Guid customerId, int? pageNumber, int? pageSize, CancellationToken cancellationToken)
     {
         return await _dbQuerySession
-            .Query(new GetIncidentShortInfoQueryModel(customerId, pageNumber ?? 1, pageSize ?? 10))
+            .Query(new GetIncidentShortInfoQueryStrategy(customerId, pageNumber ?? 1, pageSize ?? 10))
             .ToListAsync(cancellationToken);
     }
 }

@@ -3,9 +3,9 @@ using Raiqub.Expressions.Queries;
 
 namespace Raiqub.Common.Tests.Examples;
 
-public class GetBlogPostsAggregateQueryModel : EntityQueryModel<Blog, Post>
+public class GetBlogPostsAggregateQueryStrategy : EntityQueryStrategy<Blog, Post>
 {
-    public GetBlogPostsAggregateQueryModel(string name) => Name = name;
+    public GetBlogPostsAggregateQueryStrategy(string name) => Name = name;
 
     public string Name { get; }
 

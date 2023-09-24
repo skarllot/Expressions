@@ -1,8 +1,8 @@
 ﻿namespace Raiqub.Common.Tests.Examples;
 
-public class GetBlogPostsQueryModel : GetBlogPostsAggregateQueryModel
+public class GetBlogPostsQueryStrategy : GetBlogPostsAggregateQueryStrategy
 {
-    public GetBlogPostsQueryModel(string name) : base(name)
+    public GetBlogPostsQueryStrategy(string name) : base(name)
     {
     }
 

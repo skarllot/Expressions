@@ -2,13 +2,13 @@
 
 namespace Raiqub.Expressions.Reading.Tests.Examples;
 
-public class JohnDeeQueryModel : EntityQueryModel<string, (string Value, int Length)>
+public class JohnDeeQueryStrategy : EntityQueryStrategy<string, (string Value, int Length)>
 {
-    public JohnDeeQueryModel()
+    public JohnDeeQueryStrategy()
     {
     }
 
-    public JohnDeeQueryModel(params Specification<string>[] restrictions)
+    public JohnDeeQueryStrategy(params Specification<string>[] restrictions)
         : base(restrictions)
     {
     }

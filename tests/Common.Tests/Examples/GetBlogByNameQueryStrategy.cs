@@ -3,9 +3,9 @@ using Raiqub.Expressions.Queries;
 
 namespace Raiqub.Common.Tests.Examples;
 
-public class GetBlogByNameQueryModel : EntityQueryModel<Blog, Blog>
+public class GetBlogByNameQueryStrategy : EntityQueryStrategy<Blog, Blog>
 {
-    public GetBlogByNameQueryModel(string name) => Name = name;
+    public GetBlogByNameQueryStrategy(string name) => Name = name;
 
     public string Name { get; }
 

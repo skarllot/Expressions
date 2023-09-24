@@ -2,26 +2,26 @@
 
 namespace Raiqub.Expressions.Queries.Internal;
 
-internal sealed class NestingEntityQueryModel<TEntity, TNested, TResult>
-    : IEntityQueryModel<TEntity, TResult>, IQueryModel<TResult>
+internal sealed class NestingEntityQueryStrategy<TEntity, TNested, TResult>
+    : IEntityQueryStrategy<TEntity, TResult>
     where TEntity : class
 {
     private readonly Expression<Func<TEntity, IEnumerable<TNested>>> _selector;
-    private readonly IEntityQueryModel<TNested, TResult> _nestedQueryModel;
+    private readonly IEntityQueryStrategy<TNested, TResult> _nestedQueryStrategy;
 
-    public NestingEntityQueryModel(
+    public NestingEntityQueryStrategy(
         Expression<Func<TEntity, IEnumerable<TNested>>> selector,
-        IEntityQueryModel<TNested, TResult> nestedQueryModel)
+        IEntityQueryStrategy<TNested, TResult> nestedQueryStrategy)
     {
         _selector = selector;
-        _nestedQueryModel = nestedQueryModel;
+        _nestedQueryStrategy = nestedQueryStrategy;
     }
 
     public IQueryable<TResult> Execute(IQueryable<TEntity> source) =>
-        _nestedQueryModel.Execute(source.SelectMany(_selector));
+        _nestedQueryStrategy.Execute(source.SelectMany(_selector));
 
     public IEnumerable<TResult> Execute(IEnumerable<TEntity> source) =>
-        _nestedQueryModel.Execute(source.SelectMany(_selector.Compile()));
+        _nestedQueryStrategy.Execute(source.SelectMany(_selector.Compile()));
 
     public IQueryable<TResult> Execute(IQuerySource source) => Execute(source.GetSet<TEntity>());
 }

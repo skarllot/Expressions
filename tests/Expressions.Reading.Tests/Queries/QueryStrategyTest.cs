@@ -4,20 +4,20 @@ using Raiqub.Expressions.Reading.Tests.Examples;
 
 namespace Raiqub.Expressions.Reading.Tests.Queries;
 
-public class QueryModelTest
+public class QueryStrategyTest
 {
     [Fact]
     public void CreateShouldAlwaysReturnAll()
     {
         string[] source = { "john", "jane", "", "hugo", "jack" };
-        var queryModel = QueryModel.AllOfEntity<string>();
+        var queryStrategy = QueryStrategy.AllOfEntity<string>();
 
         string?[] result1 = source
-            .Apply(queryModel)
+            .Apply(queryStrategy)
             .ToArray();
         string?[] result2 = source
             .AsQueryable()
-            .Apply(queryModel)
+            .Apply(queryStrategy)
             .ToArray();
 
         result1.Should().Equal("john", "jane", "", "hugo", "jack");
@@ -28,14 +28,14 @@ public class QueryModelTest
     public void CreateShouldEvaluateSpecificationCorrectly()
     {
         string[] source = { "john", "jane", "hugo", "jack" };
-        var queryModel = QueryModel.CreateForEntity(new StringBeginsWithJohnSpecification());
+        var queryStrategy = QueryStrategy.CreateForEntity(new StringBeginsWithJohnSpecification());
 
         string[] result1 = source
-            .Apply(queryModel)
+            .Apply(queryStrategy)
             .ToArray();
         string[] result2 = source
             .AsQueryable()
-            .Apply(queryModel)
+            .Apply(queryStrategy)
             .ToArray();
 
         result1.Should().Equal("john");

@@ -4,17 +4,17 @@ using Raiqub.Expressions.Reading.Tests.Examples;
 
 namespace Raiqub.Expressions.Reading.Tests.Queries;
 
-public class QueryModelClassTest
+public class QueryStrategyClassTest
 {
     [Fact]
     public void ShouldFilterAndTransformJohnDees()
     {
         (string Value, int Length)[] result1 = GetAll()
-            .Apply(new JohnDeeQueryModel())
+            .Apply(new JohnDeeQueryStrategy())
             .ToArray();
         (string Value, int Length)[] result2 = GetAll()
             .AsQueryable()
-            .Apply(new JohnDeeQueryModel())
+            .Apply(new JohnDeeQueryStrategy())
             .ToArray();
 
         result1.Should().HaveCount(3);
@@ -27,11 +27,11 @@ public class QueryModelClassTest
     public void ShouldFilterAndTransformJohnDeesWithMoor()
     {
         (string Value, int Length)[] result1 = GetAll()
-            .Apply(new JohnDeeQueryModel(new StringContainsMoorSpecification()))
+            .Apply(new JohnDeeQueryStrategy(new StringContainsMoorSpecification()))
             .ToArray();
         (string Value, int Length)[] result2 = GetAll()
             .AsQueryable()
-            .Apply(new JohnDeeQueryModel(new StringContainsMoorSpecification()))
+            .Apply(new JohnDeeQueryStrategy(new StringContainsMoorSpecification()))
             .ToArray();
 
         result1.Should().HaveCount(1);
@@ -46,23 +46,23 @@ public class QueryModelClassTest
         var list = new[] { new NewsPost(1, "First", "The first post", "general", "John") };
 
         NewsPost[] result = list
-            .Apply(new NewsPostContentSearchQueryModel("first"))
+            .Apply(new NewsPostContentSearchQueryStrategy("first"))
             .ToArray();
 
         result.Should().HaveCount(1);
     }
 
     [Fact]
-    public void ShouldFilterAndTransformWhenUsingCastQueryModel()
+    public void ShouldFilterAndTransformWhenUsingCastQueryStrategy()
     {
         var list = new[] { new NewsPost(1, "First", "The first post", "general", "John") };
 
         NewsPost[] result1 = list
-            .Apply(new BlogPostContentSearchQueryModel("first").DownCast().To<NewsPost>())
+            .Apply(new BlogPostContentSearchQueryStrategy("first").DownCast().To<NewsPost>())
             .ToArray();
         NewsPost[] result2 = list
             .AsQueryable()
-            .Apply(new BlogPostContentSearchQueryModel("first").DownCast().To<NewsPost>())
+            .Apply(new BlogPostContentSearchQueryStrategy("first").DownCast().To<NewsPost>())
             .ToArray();
 
         result1.Should().HaveCount(1);

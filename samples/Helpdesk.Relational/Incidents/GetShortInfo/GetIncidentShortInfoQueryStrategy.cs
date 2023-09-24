@@ -3,9 +3,9 @@ using Raiqub.Expressions.Queries;
 
 namespace Helpdesk.Relational.Incidents.GetShortInfo;
 
-public class GetIncidentShortInfoQueryModel : EntityQueryModel<Incident, IncidentShortInfo>
+public class GetIncidentShortInfoQueryStrategy : EntityQueryStrategy<Incident, IncidentShortInfo>
 {
-    public GetIncidentShortInfoQueryModel(Guid customerId, int pageNumber, int pageSize)
+    public GetIncidentShortInfoQueryStrategy(Guid customerId, int pageNumber, int pageSize)
     {
         CustomerId = customerId;
         PageNumber = pageNumber;

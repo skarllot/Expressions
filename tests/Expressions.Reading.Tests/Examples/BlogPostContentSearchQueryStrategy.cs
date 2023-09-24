@@ -2,9 +2,9 @@
 
 namespace Raiqub.Expressions.Reading.Tests.Examples;
 
-public class BlogPostContentSearchQueryModel : EntityQueryModel<BlogPost>
+public class BlogPostContentSearchQueryStrategy : EntityQueryStrategy<BlogPost>
 {
-    public BlogPostContentSearchQueryModel(string search) => Search = search;
+    public BlogPostContentSearchQueryStrategy(string search) => Search = search;
 
     public string Search { get; }
 

@@ -5,7 +5,7 @@
 /// and return a result of type <typeparamref name="TResult"/>.
 /// </summary>
 /// <typeparam name="TResult">The type of the query result.</typeparam>
-public interface IQueryModel<out TResult>
+public interface IQueryStrategy<out TResult>
 {
     /// <summary>
     /// Executes the query using the specified query source and

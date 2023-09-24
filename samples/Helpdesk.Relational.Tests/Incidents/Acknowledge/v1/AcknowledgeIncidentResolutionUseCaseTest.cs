@@ -27,14 +27,14 @@ public class AcknowledgeIncidentResolutionUseCaseTest
         // Arrange
         var incident = IncidentFixture.Resolved();
 
-        _dbSession.Configure().Query(Arg.Any<IQueryModel<Incident>>()).FirstAsync().Returns(incident);
+        _dbSession.Configure().Query(Arg.Any<IQueryStrategy<Incident>>()).FirstAsync().Returns(incident);
 
         // Act
         await _useCase.Execute(incident.Id, incident.CustomerId, CancellationToken.None);
 
         // Assert
         await _dbSession
-            .Received(1).Query(Arg.Any<IQueryModel<Incident>>())
+            .Received(1).Query(Arg.Any<IQueryStrategy<Incident>>())
             .Received(1).FirstAsync();
 
         _dbSession.Received(1).Update(incident);
@@ -49,7 +49,7 @@ public class AcknowledgeIncidentResolutionUseCaseTest
     public async Task ShouldFailAcknowledgeForUnresolvedIncident(Incident incident)
     {
         // Arrange
-        _dbSession.Configure().Query(Arg.Any<IQueryModel<Incident>>()).FirstAsync().Returns(incident);
+        _dbSession.Configure().Query(Arg.Any<IQueryStrategy<Incident>>()).FirstAsync().Returns(incident);
 
         // Act
         Func<Task> useCaseExecute = () => _useCase.Execute(incident.Id, incident.CustomerId, CancellationToken.None);

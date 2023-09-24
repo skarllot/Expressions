@@ -2,13 +2,13 @@
 
 namespace Raiqub.Expressions;
 
-public static class QueryModelEnumerableExtensions
+public static class QueryStrategyEnumerableExtensions
 {
     public static IEnumerable<TResult> Apply<TSource, TResult>(
         this IEnumerable<TSource> source,
-        IEntityQueryModel<TSource, TResult> queryModel) => queryModel.Execute(source);
+        IEntityQueryStrategy<TSource, TResult> queryStrategy) => queryStrategy.Execute(source);
 
     public static IQueryable<TResult> Apply<TSource, TResult>(
         this IQueryable<TSource> queryable,
-        IEntityQueryModel<TSource, TResult> queryModel) => queryModel.Execute(queryable);
+        IEntityQueryStrategy<TSource, TResult> queryStrategy) => queryStrategy.Execute(queryable);
 }

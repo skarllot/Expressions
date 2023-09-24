@@ -58,11 +58,11 @@ public class EfDbSession<TContext> : IDbSession<TContext>
             .ConfigureAwait(false);
     }
 
-    public IDbQuery<TResult> Query<TResult>(IQueryModel<TResult> queryModel)
+    public IDbQuery<TResult> Query<TResult>(IQueryStrategy<TResult> queryStrategy)
     {
         return new EfDbQuery<TResult>(
             _logger,
-            queryModel.Execute(_querySource));
+            queryStrategy.Execute(_querySource));
     }
 
     public void Remove<TEntity>(TEntity entity) where TEntity : class => Context.Remove(entity);

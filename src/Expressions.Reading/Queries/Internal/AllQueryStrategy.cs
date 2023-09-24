@@ -1,9 +1,9 @@
 ﻿namespace Raiqub.Expressions.Queries.Internal;
 
-internal sealed class AllQueryModel<T> : IEntityQueryModel<T>, IQueryModel<T>
+internal sealed class AllQueryStrategy<T> : IEntityQueryStrategy<T>
     where T : class
 {
-    public static readonly AllQueryModel<T> Instance = new AllQueryModel<T>();
+    public static readonly AllQueryStrategy<T> Instance = new();
 
     public IQueryable<T> Execute(IQueryable<T> source) => source;
 

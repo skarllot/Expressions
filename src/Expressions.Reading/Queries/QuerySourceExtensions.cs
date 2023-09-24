@@ -3,18 +3,18 @@
 /// <summary>Provides extensions for <see cref="IQuerySource"/> interface.</summary>
 public static class QuerySourceExtensions
 {
-    /// <summary>Gets the data source using the query defined by the specified entity query model.</summary>
+    /// <summary>Gets the data source using the query defined by the specified entity query strategy.</summary>
     /// <param name="querySource">The provider to get data source from.</param>
-    /// <param name="queryModel">The query model to apply to the data source.</param>
+    /// <param name="queryStrategy">The query strategy to apply to the data source.</param>
     /// <typeparam name="TSource">The type of the data source.</typeparam>
     /// <typeparam name="TResult">The type of the query result.</typeparam>
-    /// <returns>The data source of type <typeparamref name="TSource"/> using the specified query model.</returns>
+    /// <returns>The data source of type <typeparamref name="TSource"/> using the specified query strategy.</returns>
     public static IQueryable<TResult> GetSetUsing<TSource, TResult>(
         this IQuerySource querySource,
-        IEntityQueryModel<TSource, TResult> queryModel)
+        IEntityQueryStrategy<TSource, TResult> queryStrategy)
         where TSource : class
     {
-        return queryModel.Execute(querySource.GetSet<TSource>());
+        return queryStrategy.Execute(querySource);
     }
 
     /// <summary>Gets the data source applying the specified criteria.</summary>

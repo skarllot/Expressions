@@ -3,20 +3,20 @@ using Raiqub.Expressions.Queries.Internal;
 
 namespace Raiqub.Expressions.Queries;
 
-public static class QueryModel
+public static class QueryStrategy
 {
-    /// <summary>Returns a query model for the specified type <typeparamref name="TSource"/> that returns all items.</summary>
+    /// <summary>Returns a query strategy for the specified type <typeparamref name="TSource"/> that returns all items.</summary>
     /// <typeparam name="TSource">The type of the data source.</typeparam>
-    /// <returns>A query model for the specified type <typeparamref name="TSource"/>.</returns>
-    public static IEntityQueryModel<TSource> AllOfEntity<TSource>() where TSource : class =>
-        AllQueryModel<TSource>.Instance;
+    /// <returns>A query strategy for the specified type <typeparamref name="TSource"/>.</returns>
+    public static IEntityQueryStrategy<TSource> AllOfEntity<TSource>() where TSource : class =>
+        AllQueryStrategy<TSource>.Instance;
 
     /// <summary>Creates a new query strategy from the specified function.</summary>
-    /// <param name="queryModel">A function defining the query strategy.</param>
+    /// <param name="strategy">A function defining the query strategy.</param>
     /// <typeparam name="TResult">The type of the query result.</typeparam>
     /// <returns>A new query strategy.</returns>
-    public static IQueryModel<TResult> Create<TResult>(Func<IQuerySource, IQueryable<TResult>> queryModel) =>
-        new AnonymousQueryModel<TResult>(queryModel);
+    public static IQueryStrategy<TResult> Create<TResult>(Func<IQuerySource, IQueryable<TResult>> strategy) =>
+        new AnonymousQueryStrategy<TResult>(strategy);
 
     /// <summary>
     /// Creates a new entity query strategy that returns items from data source of type <typeparamref name="TSource"/>.
@@ -25,61 +25,61 @@ public static class QueryModel
     /// <param name="specification"></param>
     /// <typeparam name="TSource">The type of the data source.</typeparam>
     /// <returns>A new entity query strategy.</returns>
-    public static IEntityQueryModel<TSource> CreateForEntity<TSource>(Specification<TSource> specification) where TSource : class =>
-        new SpecificationQueryModel<TSource>(specification);
+    public static IEntityQueryStrategy<TSource> CreateForEntity<TSource>(Specification<TSource> specification) where TSource : class =>
+        new SpecificationQueryStrategy<TSource>(specification);
 
     /// <summary>Creates a new entity query strategy from the specified function.</summary>
-    /// <param name="queryModel">A function defining the query strategy.</param>
+    /// <param name="strategy">A function defining the query strategy.</param>
     /// <typeparam name="TSource">The type of the data source.</typeparam>
     /// <typeparam name="TResult">The type of the query result.</typeparam>
     /// <returns>A new entity query strategy.</returns>
-    public static IEntityQueryModel<TSource, TResult> CreateForEntity<TSource, TResult>(
-        Func<IQueryable<TSource>, IQueryable<TResult>> queryModel) where TSource : class =>
-        new AnonymousEntityQueryModel<TSource, TResult>(queryModel);
+    public static IEntityQueryStrategy<TSource, TResult> CreateForEntity<TSource, TResult>(
+        Func<IQueryable<TSource>, IQueryable<TResult>> strategy) where TSource : class =>
+        new AnonymousEntityQueryStrategy<TSource, TResult>(strategy);
 
     /// <summary>
-    /// Creates a new query model that returns all items for the nested collection of the specified entity.
+    /// Creates a new query strategy that returns all items for the nested collection of the specified entity.
     /// </summary>
     /// <param name="selector">A projection function to retrieve nested collection.</param>
     /// <typeparam name="TSource">The type of entity to query.</typeparam>
     /// <typeparam name="TNested">The type of nested collection from the specified entity.</typeparam>
-    /// <returns>A new query model.</returns>
-    public static IEntityQueryModel<TSource, TNested> CreateNested<TSource, TNested>(
+    /// <returns>A new query strategy.</returns>
+    public static IEntityQueryStrategy<TSource, TNested> CreateNested<TSource, TNested>(
         Expression<Func<TSource, IEnumerable<TNested>>> selector)
         where TSource : class
         where TNested : class =>
-        new NestingEntityQueryModel<TSource, TNested, TNested>(selector, AllOfEntity<TNested>());
+        new NestingEntityQueryStrategy<TSource, TNested, TNested>(selector, AllOfEntity<TNested>());
 
     /// <summary>
-    /// Creates a new query model that returns the items of the nested collection of the specified entity.
+    /// Creates a new query strategy that returns the items of the nested collection of the specified entity.
     /// It only returns the nested items that satisfies the specified business rule.
     /// </summary>
     /// <param name="selector">A projection function to retrieve nested collection.</param>
     /// <param name="specification">The specification used for query.</param>
     /// <typeparam name="TSource">The type of entity to query.</typeparam>
     /// <typeparam name="TNested">The type of nested collection from the specified entity.</typeparam>
-    /// <returns>A new query model.</returns>
-    public static IEntityQueryModel<TSource, TNested> CreateNested<TSource, TNested>(
+    /// <returns>A new query strategy.</returns>
+    public static IEntityQueryStrategy<TSource, TNested> CreateNested<TSource, TNested>(
         Expression<Func<TSource, IEnumerable<TNested>>> selector,
         Specification<TNested> specification)
         where TSource : class
         where TNested : class =>
-        new NestingEntityQueryModel<TSource, TNested, TNested>(selector, CreateForEntity(specification));
+        new NestingEntityQueryStrategy<TSource, TNested, TNested>(selector, CreateForEntity(specification));
 
     /// <summary>
-    /// Creates a new query model for the nested collection of the specified entity.
-    /// The nested items are then queried using the specified query model.
+    /// Creates a new query strategy for the nested collection of the specified entity.
+    /// The nested items are then queried using the specified query strategy.
     /// </summary>
     /// <param name="selector">A projection function to retrieve nested collection.</param>
-    /// <param name="queryModel">The query model to use with nested elements.</param>
+    /// <param name="queryStrategy">The query strategy to use with nested elements.</param>
     /// <typeparam name="TSource">The type of entity to query.</typeparam>
     /// <typeparam name="TNested">The type of nested collection from the specified entity.</typeparam>
     /// <typeparam name="TResult">The type of result to return.</typeparam>
-    /// <returns>A new query model.</returns>
-    public static IEntityQueryModel<TSource, TResult> CreateNested<TSource, TNested, TResult>(
+    /// <returns>A new query strategy.</returns>
+    public static IEntityQueryStrategy<TSource, TResult> CreateNested<TSource, TNested, TResult>(
         Expression<Func<TSource, IEnumerable<TNested>>> selector,
-        IEntityQueryModel<TNested, TResult> queryModel)
+        IEntityQueryStrategy<TNested, TResult> queryStrategy)
         where TSource : class
         where TNested : class =>
-        new NestingEntityQueryModel<TSource, TNested, TResult>(selector, queryModel);
+        new NestingEntityQueryStrategy<TSource, TNested, TResult>(selector, queryStrategy);
 }
