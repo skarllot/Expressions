@@ -1,7 +1,6 @@
-﻿using Raiqub.Expressions.Queries.Internal;
+﻿namespace Raiqub.Expressions.Queries;
 
-namespace Raiqub.Expressions.Queries;
-
+[Obsolete("Use QueryModel static class instead", true)]
 public static class EntityQueryModel
 {
     /// <summary>
@@ -10,12 +9,12 @@ public static class EntityQueryModel
     /// <typeparam name="T">The type of the elements of query model.</typeparam>
     /// <returns>A query model for the specified type <typeparamref name="T"/>.</returns>
     public static IEntityQueryModel<T> Create<T>() where T : class =>
-        AllQueryModel<T>.Instance;
+        QueryModel.AllOfEntity<T>();
 
     public static IEntityQueryModel<T> Create<T>(Specification<T> specification) where T : class =>
-        new SpecificationQueryModel<T>(specification);
+        QueryModel.CreateForEntity(specification);
 
     public static IEntityQueryModel<TSource, TResult> Create<TSource, TResult>(
         Func<IQueryable<TSource>, IQueryable<TResult>> queryModel) where TSource : class =>
-        new AnonymousEntityQueryModel<TSource, TResult>(queryModel);
+        QueryModel.CreateForEntity(queryModel);
 }

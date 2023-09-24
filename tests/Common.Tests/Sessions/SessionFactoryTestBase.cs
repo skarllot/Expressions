@@ -128,7 +128,7 @@ public abstract class SessionFactoryTestBase : DatabaseTestBase
         await using (var session = sessionFactory.Create())
         {
             finalBlogs = await session
-                .Query(EntityQueryModel.Create((IQueryable<Blog> source) => source.OrderBy(b => b.Name)))
+                .Query(QueryModel.CreateForEntity((IQueryable<Blog> source) => source.OrderBy(b => b.Name)))
                 .ToListAsync();
         }
 

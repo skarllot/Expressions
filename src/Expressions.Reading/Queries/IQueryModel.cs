@@ -1,7 +1,7 @@
 ﻿namespace Raiqub.Expressions.Queries;
 
 /// <summary>
-/// Represents a query model that can execute a query aggregating data sources of multiple entities
+/// Represents a query strategy that can execute a query against one or more data sources
 /// and return a result of type <typeparamref name="TResult"/>.
 /// </summary>
 /// <typeparam name="TResult">The type of the query result.</typeparam>

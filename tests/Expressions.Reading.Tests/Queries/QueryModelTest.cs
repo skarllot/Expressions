@@ -10,7 +10,7 @@ public class QueryModelTest
     public void CreateShouldAlwaysReturnAll()
     {
         string[] source = { "john", "jane", "", "hugo", "jack" };
-        var queryModel = EntityQueryModel.Create<string>();
+        var queryModel = QueryModel.AllOfEntity<string>();
 
         string?[] result1 = source
             .Apply(queryModel)
@@ -28,7 +28,7 @@ public class QueryModelTest
     public void CreateShouldEvaluateSpecificationCorrectly()
     {
         string[] source = { "john", "jane", "hugo", "jack" };
-        var queryModel = EntityQueryModel.Create(new StringBeginsWithJohnSpecification());
+        var queryModel = QueryModel.CreateForEntity(new StringBeginsWithJohnSpecification());
 
         string[] result1 = source
             .Apply(queryModel)
