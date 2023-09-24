@@ -38,10 +38,15 @@ To use Raiqub.Expressions in your project, follow these steps:
 
 2. Install the **\`Raiqub.Expressions.EntityFrameworkCore\`** NuGet package
 
-3. Register the session and session factories using the appropriate extension method(s) for your database provider:
+3. Register your DbContext by using **\`AddDbContextFactory\`** extension method
 
     ```csharp
-    // The DbContext must be registered calling AddDbContextFactory<YourDbContext>()
+    services.AddDbContextFactory<YourDbContext>();
+    ```
+
+4. Register the session and session factories using the appropriate extension method(s) for your database provider:
+
+    ```csharp
     services.AddEntityFrameworkExpressions()
         .AddSingleContext<YourDbContext>();
     ```
@@ -84,35 +89,142 @@ var customers = await query.ToListAsync();
 
 ## Guide
 
-### Creating Query Models and Specifications
-The **\`Raiqub.Expressions\`** package provides abstractions for creating specifications and query models. You can create a new query model by creating a new class that derives from **\`QueryModel&lt;TSource, TResult&gt;**\`. Similarly, you can create a new specification by creating a new class that derives from **\`Specification&lt;T&gt;**\`.
+### Creating Specifications
+The Specification Pattern is a behavioral design pattern used to encapsulate business rules into composable, reusable and testable objects. This pattern is often used in domains where queries or validation rules need to be expressed in a more readable and maintainable form.
 
-Here's an example of a query model that filters a list of entities based on a set of conditions:
+The **\`Raiqub.Expressions\`** package provides the **\`Specification&lt;T&gt;**\` base class for creating specifications. It is optimized to allow ORM frameworks to evaluate and translate it into SQL queries.
+
+Here's an example of creating a specification by inheriting from **\`Specification&lt;T&gt;**\` base class:
 
 ```csharp
-public class MyQueryModel : QueryModel<MyEntity, MyResult>
+public class ProductIsInStock : Specification<Product>
 {
-    protected override IEnumerable<Specification<MyEntity>> GetPreconditions()
+    public override Expression<Func<Product, bool>> ToExpression()
     {
-        yield return new MyEntityIsEnabledSpecification();
-    }
-
-    protected override IQueryable<MyResult> ExecuteCore(IQueryable<MyEntity> source)
-    {
-        return source.OrderBy(e => e.Name).Select(e => new MyResult { Id = e.Id, Name = e.Name });
+        return product => product.AvailableQuantity > 0;
     }
 }
 ```
 
-And here's an example of a specification that checks if an entity is enabled:
+or, you can create a static class to provide the specifications of an object:
 
 ```csharp
-public class MyEntityIsEnabled : Specification<MyEntity>
+public static class ProductSpecification
 {
-    public override Expression<Func<MyEntity, bool>> ToExpression()
+    public static Specification<Product> IsInStock { get; } =
+        Specification.Create<Product>(product => product.AvailableQuantity > 0);
+
+    public static Specification<Product> IsDiscountAvailable(DateTime now) =>
+        Specification.Create<Product>(product => product.DiscountStartDate <= now && now <= product.DiscountEndDate);
+}
+```
+
+The specifications can be combined using the available extension methods or the logical operators:
+
+```csharp
+    public static Specification<Incident> IsClosed { get; } =
+        Specification.Create<Incident>(incident => incident.Status == IncidentStatus.Closed);
+
+    public static Specification<Incident> IsResolved { get; } =
+        Specification.Create<Incident>(incident => incident.Status == IncidentStatus.Resolved);
+
+    // =======================
+    // Using extension methods
+    // =======================
+    public static Specification<Incident> IsNotResolved { get; } =
+        IsResolved.Not();
+
+    public static Specification<Incident> IsResolvedOrClosed { get; } =
+        IsResolved.Or(IsClosed);
+
+    // =======================
+    // Using logical operators
+    // =======================
+    public static Specification<Incident> IsNotResolved { get; } =
+        !IsResolved;
+
+    public static Specification<Incident> IsResolvedOrClosed { get; } =
+        IsResolved | IsClosed;
+```
+
+### Creating Query Models
+The query model implements the Strategy Pattern by defining a strategy for querying the database allowing better concern separation, maintainability and reusability than the repository pattern.
+
+The **\`Raiqub.Expressions.Reading\`** package provides abstractions for creating query models. You can create a new query model by choosing one of several ways available to implement a query model.
+
+#### Single Entity Query
+The most common strategy is querying a single entity and for that purpose the interface **\`IEntityQueryModel&lt;TSource, TResult&gt;\`** was created and its abstract class implementation **\`EntityQueryModel&lt;TSource, TResult&gt;\`**.
+
+Here's an example of a entity query model that filters a list of entities based on a set of conditions:
+
+```csharp
+public class GetProductNameQueryModel : EntityQueryModel<Product, ProductName>
+{
+    protected override IQueryable<ProductName> ExecuteCore(IQueryable<Product> source)
     {
-        return entity => entity.IsEnabled;
+        return source
+            .Where(ProductSpecification.IsInStock)
+            .OrderBy(e => e.Name)
+            .Select(e => new ProductName { Id = e.Id, Name = e.Name });
     }
+}
+```
+
+or, you can define the preconditions:
+
+```csharp
+public class GetProductInStockQueryModel : EntityQueryModel<Product>
+{
+    protected override IEnumerable<Specification<Product>> GetPreconditions()
+    {
+        yield new ProductIsInStock();
+    }
+}
+```
+
+or yet, you can create a static class as a provider of query models:
+
+```csharp
+public static class ProductQueryModel
+{
+    public static IEntityQueryModel<Product, ProductName> GetName() =>
+        QueryModel.CreateForEntity(
+            (IQueryable<Product> source) => source
+                .Where(ProductSpecification.IsInStock)
+                .OrderBy(e => e.Name)
+                .Select(e => new ProductName { Id = e.Id, Name = e.Name });
+}
+```
+
+#### Multiple Entities Query
+For the cases where multiple entities need to be queried the interface **\`IQueryModel&lt;TResult&gt;\`** was created.
+
+You can implement the interface directly, as the example below:
+
+```csharp
+public class GetProductNameOfOpenStoreQueryModel : IQueryModel<ProductName>
+{
+    public IQueryable<TResult> Execute(IQuerySource source) =>
+        source => from product in source.GetSet<Product>().Where(ProductSpecification.IsInStock)
+            join store in source.GetSet<Store>().Where(StoreSpecification.IsOpen) on
+                product.StoreId equals store.Id
+            orderby product.Name
+            select new ProductName { Id = e.Id, Name = e.Name };
+}
+```
+
+or, can create a static class as a provider of query models:
+
+```csharp
+public static class ProductQueryModel
+{
+    public static IQueryModel<ProductName> GetNameOfOpenStore() =>
+        QueryModel.Create(
+            source => from product in source.GetSet<Product>().Where(ProductSpecification.IsInStock)
+                join store in source.GetSet<Store>().Where(StoreSpecification.IsOpen) on
+                    product.StoreId equals store.Id
+                orderby product.Name
+                select new ProductName { Id = e.Id, Name = e.Name });
 }
 ```
 
@@ -172,11 +284,11 @@ services.AddSingleton<ISqlProvider, BlogSqlProvider>();
 ```
 
 ### Supported Databases
-Currently, Raiqub.Expressions supports the following database libraries:
+Currently, Raiqub.Expressions supports the following ORM libraries:
 * Entity Framework Core
 * Marten
 
-If you need to use another database, you will need to implement your own database session factory and database session implementing **\`IDbSessionFactory\`** and **\`IDbSession\`** interfaces.
+If you need to use another ORM library, you will need to implement your own database session factory and database session implementing **\`IDbSessionFactory\`** and **\`IDbSession\`** interfaces.
 
 ## Contributing
 
