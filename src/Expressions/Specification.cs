@@ -8,6 +8,14 @@ namespace Raiqub.Expressions;
 /// </summary>
 public static class Specification
 {
+    /// <summary>Returns a specification that allows any instance of <typeparamref name="T"/>.</summary>
+    /// <typeparam name="T">The type of the object that this specification can be applied to.</typeparam>
+    /// <returns>A no-op specification.</returns>
+    public static Specification<T> All<T>()
+    {
+        return AllSpecification<T>.Instance;
+    }
+
     /// <summary>Creates a new specification that contains the specified expression.</summary>
     /// <param name="expression">A lambda expression defining the business rule.</param>
     /// <typeparam name="T">The type of the object that this specification can be applied to.</typeparam>
@@ -24,6 +32,10 @@ public static class Specification
     /// <returns>A new specification that represents the conjunction of two specifications (both must be satisfied).</returns>
     public static Specification<T> And<T>(this Specification<T> left, Specification<T> right)
     {
+        if (ReferenceEquals(left, AllSpecification<T>.Instance))
+            return right;
+        if (ReferenceEquals(right, AllSpecification<T>.Instance))
+            return left;
         return new AnonymousSpecification<T>(left.ToExpression().And(right.ToExpression()));
     }
 
@@ -33,7 +45,9 @@ public static class Specification
     /// <returns>A new specification that represents the conjunction of all specifications (all must be satisfied).</returns>
     public static Specification<T> And<T>(IEnumerable<Specification<T>> specifications)
     {
-        return new AnonymousSpecification<T>(specifications.Select(static s => s.ToExpression()).And());
+        return ReferenceEquals(specifications, Enumerable.Empty<Specification<T>>())
+            ? AllSpecification<T>.Instance
+            : new AnonymousSpecification<T>(specifications.Select(static s => s.ToExpression()).And());
     }
 
     /// <summary>Combines multiple specifications using the conditional logical AND operator.</summary>
@@ -61,7 +75,10 @@ public static class Specification
     /// <returns>A new specification that represents the disjunction of two specifications (at least one of them must be satisfied).</returns>
     public static Specification<T> Or<T>(this Specification<T> left, Specification<T> right)
     {
-        return new AnonymousSpecification<T>(left.ToExpression().Or(right.ToExpression()));
+        return ReferenceEquals(left, AllSpecification<T>.Instance) ||
+               ReferenceEquals(right, AllSpecification<T>.Instance)
+            ? AllSpecification<T>.Instance
+            : new AnonymousSpecification<T>(left.ToExpression().Or(right.ToExpression()));
     }
 
     /// <summary>Combines multiple specifications using the conditional logical OR operator.</summary>
@@ -70,7 +87,9 @@ public static class Specification
     /// <returns>A new specification that represents the disjunction of all specifications (at least one of them must be satisfied).</returns>
     public static Specification<T> Or<T>(IEnumerable<Specification<T>> specifications)
     {
-        return new AnonymousSpecification<T>(specifications.Select(static s => s.ToExpression()).Or());
+        return ReferenceEquals(specifications, Enumerable.Empty<Specification<T>>())
+            ? AllSpecification<T>.Instance
+            : new AnonymousSpecification<T>(specifications.Select(static s => s.ToExpression()).Or());
     }
 
     /// <summary>Combines multiple specifications using the conditional logical OR operator.</summary>

@@ -10,14 +10,14 @@ public abstract class EntityQueryStrategy<TSource, TResult>
     : IEntityQueryStrategy<TSource, TResult>
     where TSource : class
 {
-    private readonly IEnumerable<Specification<TSource>> _restrictions;
+    private readonly Specification<TSource> _restrictions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="EntityQueryStrategy{TSource,TResult}"/> class with no restrictions.
     /// </summary>
     protected EntityQueryStrategy()
     {
-        _restrictions = Enumerable.Empty<Specification<TSource>>();
+        _restrictions = Specification.All<TSource>();
     }
 
     /// <summary>
@@ -35,11 +35,11 @@ public abstract class EntityQueryStrategy<TSource, TResult>
     /// <param name="restrictions">The restrictions to apply to the query.</param>
     protected EntityQueryStrategy(IEnumerable<Specification<TSource>> restrictions)
     {
-        _restrictions = restrictions.ToList();
+        _restrictions = Specification.And(restrictions);
     }
 
     private Specification<TSource> CombinedSpecification =>
-        Specification.And(GetPreconditions().Concat(_restrictions));
+        _restrictions.And(Specification.And(GetPreconditions()));
 
     /// <summary>
     /// Executes the query strategy on the specified data source and returns the query result as an <see cref="IQueryable{T}"/>.
