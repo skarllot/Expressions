@@ -297,7 +297,7 @@ The V2 release renamed the **\`IQueryModel\`**-related interfaces and classes to
 
 | V1                                      | V2                                         |
 |-----------------------------------------|--------------------------------------------|
-| IQueryModel&ltTResult&gt;               | IQueryStrategy&ltTResult&gt;               |
+| IQueryModel&lt;TResult&gt;              | IQueryStrategy&ltTResult&gt;               |
 | IEntityQueryModel&ltTResult&gt;         | IEntityQueryStrategy&ltTResult&gt;         |
 | EntityQueryModel&ltTSource, TResult&gt; | EntityQueryStrategy&ltTSource, TResult&gt; |
 | QueryModel                              | QueryStrategy                              |
