@@ -29,7 +29,41 @@ Before you begin, you'll need the following:
 * A database to query against (if using the reading package) or write to (if using the writing package)
 
 ## Quickstart
-To use the library, you can install the desired NuGet package(s) in your project and start creating your specifications and query models. Here's an example of how to create a simple specification:
+
+To use Raiqub.Expressions in your project, follow these steps:
+
+### Entity Framework Core
+
+1. Install the required NuGet package(s) for the database provider you'll be using, such as **\`Microsoft.EntityFrameworkCore.SqlServer\`**
+
+2. Install the **\`Raiqub.Expressions.EntityFrameworkCore\`** NuGet package
+
+3. Register the session and session factories using the appropriate extension method(s) for your database provider:
+
+    ```csharp
+    // The DbContext must be registered calling AddDbContextFactory<YourDbContext>()
+    services.AddEntityFrameworkExpressions()
+        .AddSingleContext<YourDbContext>();
+    ```
+
+### Marten
+
+1. Install the **\`Marten\`** NuGet package
+
+2. Install the **\`Raiqub.Expressions.Marten\`** NuGet package
+
+3. Register the session and session factories using the appropriate extension method(s) for your database provider:
+
+    ```csharp
+    services.AddMartenExpressions()
+        .AddSingleContext();
+    ```
+
+### Using
+
+Inject the appropriate session interface (**\`IDbQuerySession\`** for read sessions, **\`IDbSession\`** for write sessions) into your services, and use it read and write from/to database.
+
+You can also create specifications and query models. Here's an example of how to create a simple specification:
 
 ```csharp
 public class CustomerIsActive : Specification<Customer>
@@ -49,31 +83,6 @@ var customers = await query.ToListAsync();
 ```
 
 ## Guide
-
-To use Raiqub.Expressions in your project, follow these steps:
-
-1. Install the required NuGet package(s) for the database provider you'll be using, such as **\`Microsoft.EntityFrameworkCore.SqlServer\`** for Entity Framework Core or **\`Marten\`** for Marten.
-
-2. Install the **\`Raiqub.Expressions.EntityFrameworkCore\`** package if using Entity Framework or the **\`Raiqub.Expressions.Marten\`** package if using Marten.
-
-3. Register the session and session factories using the appropriate extension method(s) for your database provider:
-
-    For Entity Framework Core:
-
-    ```csharp
-    // The DbContext must be registered calling AddDbContextFactory<YourDbContext>()
-    services.AddEntityFrameworkExpressions()
-        .AddSingleContext<YourDbContext>();
-    ```
-
-    For Marten:
-
-    ```csharp
-    services.AddMartenExpressions()
-        .AddSingleContext();
-    ```
-
-4. Inject the appropriate session interface (IDbQuerySession for read sessions, IDbSession for write sessions) into your services, and use it read and write from/to database.
 
 ### Creating Query Models and Specifications
 The **\`Raiqub.Expressions\`** package provides abstractions for creating specifications and query models. You can create a new query model by creating a new class that derives from **\`QueryModel&lt;TSource, TResult&gt;**\`. Similarly, you can create a new specification by creating a new class that derives from **\`Specification&lt;T&gt;**\`.
