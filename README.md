@@ -2,21 +2,21 @@
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/EngRajabi/Enum.Source.Generator/master/LICENSE) [![Nuget](https://img.shields.io/nuget/v/Raiqub.Expressions)](https://www.nuget.org/packages/Raiqub.Expressions) [![Nuget](https://img.shields.io/nuget/dt/Raiqub.Expressions?label=Nuget.org%20Downloads&style=flat-square&color=blue)](https://www.nuget.org/packages/Raiqub.Expressions)
 
-_Raiqub.Expressions is a library that provides abstractions for creating specifications and query models using LINQ expressions. It also supports querying and writing to databases using various providers._
+_Raiqub.Expressions is a library that provides abstractions for creating specifications and query strategies using LINQ expressions. It also supports querying and writing to databases using various providers._
 
-[🏃 Quickstart](#quickstart) &nbsp; | &nbsp; [📗 Guide](#guide) &nbsp; | &nbsp; [📦 NuGet](https://www.nuget.org/packages/Raiqub.Expressions)
+[🏃 Quickstart](#quickstart) &nbsp; | &nbsp; [📗 Guide](#guide) &nbsp; | &nbsp; [🔄 Migration](#migration-guide)
 
 <hr />
 
 ## Features
-* Abstractions for creating specifications and query models
+* Abstractions for creating specifications and query strategies
 * Abstractions for querying and writing to databases
 * Supports Entity Framework Core and Marten providers
 * Built with .NET Standard 2.0, 2.1, and .NET Core 6.0
 
 ## NuGet Packages
 * **Raiqub.Expressions**: abstractions for creating specifications
-* **Raiqub.Expressions.Reading**: abstractions for creating query models and query sessions and querying from database (defines IDbQuerySessionFactory and IDbQuerySession interfaces)
+* **Raiqub.Expressions.Reading**: abstractions for creating query strategies and query sessions and querying from database (defines IDbQuerySessionFactory and IDbQuerySession interfaces)
 * **Raiqub.Expressions.Writing**: abstractions for creating write sessions and writing to database (defines IDbSessionFactory and IDbSession interfaces)
 * **Raiqub.Expressions.EntityFrameworkCore**: implementation of sessions and factories using Entity Framework Core
 * **Raiqub.Expressions.Marten**: implementation of sessions and factories using Marten library
@@ -68,7 +68,7 @@ To use Raiqub.Expressions in your project, follow these steps:
 
 Inject the appropriate session interface (**\`IDbQuerySession\`** for read sessions, **\`IDbSession\`** for write sessions) into your services, and use it read and write from/to database.
 
-You can also create specifications and query models. Here's an example of how to create a simple specification:
+You can also create specifications and query strategies. Here's an example of how to create a simple specification:
 
 ```csharp
 public class CustomerIsActive : Specification<Customer>
@@ -147,18 +147,18 @@ The specifications can be combined using the available extension methods or the 
         IsResolved | IsClosed;
 ```
 
-### Creating Query Models
-The query model implements the Strategy Pattern by defining a strategy for querying the database allowing better concern separation, maintainability and reusability than the repository pattern.
+### Creating Query Strategies
+The query strategy is based on the Strategy Pattern by defining a strategy for querying the database allowing better concern separation, maintainability and reusability than the repository pattern.
 
-The **\`Raiqub.Expressions.Reading\`** package provides abstractions for creating query models. You can create a new query model by choosing one of several ways available to implement a query model.
+The **\`Raiqub.Expressions.Reading\`** package provides abstractions for creating query strategies. You can create a new query strategy by choosing one of several ways available to implement a query strategy.
 
 #### Single Entity Query
-The most common strategy is querying a single entity and for that purpose the interface **\`IEntityQueryModel&lt;TSource, TResult&gt;\`** was created and its abstract class implementation **\`EntityQueryModel&lt;TSource, TResult&gt;\`**.
+The most common strategy is querying a single entity and for that purpose the interface **\`IEntityQueryStrategy&lt;TSource, TResult&gt;\`** was created and its abstract class implementation **\`EntityQueryStrategy&lt;TSource, TResult&gt;\`**.
 
-Here's an example of a entity query model that filters a list of entities based on a set of conditions:
+Here's an example of a entity query strategy that filters a list of entities based on a set of conditions:
 
 ```csharp
-public class GetProductNameQueryModel : EntityQueryModel<Product, ProductName>
+public class GetProductNameQueryStrategy : EntityQueryStrategy<Product, ProductName>
 {
     protected override IQueryable<ProductName> ExecuteCore(IQueryable<Product> source)
     {
@@ -170,10 +170,10 @@ public class GetProductNameQueryModel : EntityQueryModel<Product, ProductName>
 }
 ```
 
-or, you can define the preconditions:
+or, you can define only the preconditions:
 
 ```csharp
-public class GetProductInStockQueryModel : EntityQueryModel<Product>
+public class GetProductInStockQueryStrategy : EntityQueryStrategy<Product>
 {
     protected override IEnumerable<Specification<Product>> GetPreconditions()
     {
@@ -182,13 +182,13 @@ public class GetProductInStockQueryModel : EntityQueryModel<Product>
 }
 ```
 
-or yet, you can create a static class as a provider of query models:
+or yet, you can create a static class as a provider of query strategies:
 
 ```csharp
-public static class ProductQueryModel
+public static class ProductQueryStrategy
 {
-    public static IEntityQueryModel<Product, ProductName> GetName() =>
-        QueryModel.CreateForEntity(
+    public static IEntityQueryStrategy<Product, ProductName> GetName() =>
+        QueryStrategy.CreateForEntity(
             (IQueryable<Product> source) => source
                 .Where(ProductSpecification.IsInStock)
                 .OrderBy(e => e.Name)
@@ -197,31 +197,31 @@ public static class ProductQueryModel
 ```
 
 #### Multiple Entities Query
-For the cases where multiple entities need to be queried the interface **\`IQueryModel&lt;TResult&gt;\`** was created.
+For the cases where multiple entities need to be queried the interface **\`IQueryStrategy&lt;TResult&gt;\`** was created.
 
 You can implement the interface directly, as the example below:
 
 ```csharp
-public class GetProductNameOfOpenStoreQueryModel : IQueryModel<ProductName>
+public class GetProductNameOfOpenStoreQueryStrategy : IQueryStrategy<ProductName>
 {
     public IQueryable<TResult> Execute(IQuerySource source) =>
-        source => from product in source.GetSet<Product>().Where(ProductSpecification.IsInStock)
-            join store in source.GetSet<Store>().Where(StoreSpecification.IsOpen) on
+        source => from product in source.GetSetUsing(ProductSpecification.IsInStock)
+            join store in source.GetSetUsing(StoreSpecification.IsOpen) on
                 product.StoreId equals store.Id
             orderby product.Name
             select new ProductName { Id = e.Id, Name = e.Name };
 }
 ```
 
-or, can create a static class as a provider of query models:
+or, can create a static class as a provider of query strategies:
 
 ```csharp
-public static class ProductQueryModel
+public static class ProductQueryStrategy
 {
-    public static IQueryModel<ProductName> GetNameOfOpenStore() =>
-        QueryModel.Create(
-            source => from product in source.GetSet<Product>().Where(ProductSpecification.IsInStock)
-                join store in source.GetSet<Store>().Where(StoreSpecification.IsOpen) on
+    public static IQueryStrategy<ProductName> GetNameOfOpenStore() =>
+        QueryStrategy.Create(
+            source => from product in source.GetSetUsing(ProductSpecification.IsInStock)
+                join store in source.GetSetUsing(StoreSpecification.IsOpen) on
                     product.StoreId equals store.Id
                 orderby product.Name
                 select new ProductName { Id = e.Id, Name = e.Name });
@@ -229,11 +229,11 @@ public static class ProductQueryModel
 ```
 
 ### Creating Query Sessions and Querying Data
-To create a query session and query data using a query model, follow these steps:
+To create a query session and query data using a query strategy, follow these steps:
 
 1. Inject an instance of **\`IDbQuerySessionFactory\`** into your service or controller.
 2. Use the **\`Create()\`** method of the **\`IDbQuerySessionFactory\`** interface to create a new query session.
-3. Call the **\`Query()\`** method on the query session, passing in your query model or specification instance.
+3. Call the **\`Query()\`** method on the query session, passing in your query strategy or specification instance.
 4. Call one of the methods on the resulting **\`IDbQuery&lt;T&gt;\`** interface to execute the query and retrieve the results.
 
 ```csharp
@@ -289,6 +289,20 @@ Currently, Raiqub.Expressions supports the following ORM libraries:
 * Marten
 
 If you need to use another ORM library, you will need to implement your own database session factory and database session implementing **\`IDbSessionFactory\`** and **\`IDbSession\`** interfaces.
+
+## Migration Guide
+
+### Key Changes in 2.0.0
+The V2 release renamed the **\`IQueryModel\`**-related interfaces and classes to **\`IQueryStrategy\`**. This is the list of relevant renames:
+
+| V1                                      | V2                                         |
+|-----------------------------------------|--------------------------------------------|
+| IQueryModel&ltTResult&gt;               | IQueryStrategy&ltTResult&gt;               |
+| IEntityQueryModel&ltTResult&gt;         | IEntityQueryStrategy&ltTResult&gt;         |
+| EntityQueryModel&ltTSource, TResult&gt; | EntityQueryStrategy&ltTSource, TResult&gt; |
+| QueryModel                              | QueryStrategy                              |
+
+Additionally, the **\`IEntityQueryStrategy\`** interface extends the **\`IQueryStrategy\`** interface.
 
 ## Contributing
 
