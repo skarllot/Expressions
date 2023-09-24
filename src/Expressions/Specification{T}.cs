@@ -1,12 +1,10 @@
 ﻿using System.Linq.Expressions;
+using Raiqub.Expressions.Internal;
 
 namespace Raiqub.Expressions;
 
-/// <summary>
-/// Represents a specification or a set of criteria that can be applied to an object or a collection of
-/// objects of type <typeparamref name="T"/>.
-/// </summary>
-/// <typeparam name="T">The type of the object(s) that this specification can be applied to.</typeparam>
+/// <summary>Represents a combinable and reusable business rule.</summary>
+/// <typeparam name="T">The type of the object that this specification can be applied to.</typeparam>
 public abstract class Specification<T>
 {
     private Func<T, bool>? _predicate;
@@ -43,8 +41,8 @@ public abstract class Specification<T>
     }
 
     /// <summary>
-    /// Evaluates the specification against a given object and returns a boolean value that indicates whether
-    /// the object satisfies the specification.
+    /// Evaluates the business rule represented by this instance against a given object and returns a boolean value
+    /// that indicates whether the object satisfies the specification.
     /// </summary>
     /// <param name="entity">The entity to check.</param>
     /// <returns>True if the entity satisfies the specification, otherwise false.</returns>
@@ -54,8 +52,6 @@ public abstract class Specification<T>
         return _predicate(entity);
     }
 
-    /// <summary>
-    /// Returns a string representation of the lambda expression.
-    /// </summary>
+    /// <summary>Returns a string representation of the lambda expression.</summary>
     public override string ToString() => ToExpression().ToString();
 }

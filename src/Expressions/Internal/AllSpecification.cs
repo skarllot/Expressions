@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace Raiqub.Expressions;
+namespace Raiqub.Expressions.Internal;
 
 internal sealed class AllSpecification<T> : Specification<T>
 {
