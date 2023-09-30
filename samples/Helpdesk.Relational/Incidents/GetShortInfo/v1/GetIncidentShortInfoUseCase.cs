@@ -1,4 +1,5 @@
-﻿using Raiqub.Expressions.Sessions;
+﻿using Raiqub.Expressions.Queries;
+using Raiqub.Expressions.Sessions;
 
 namespace Helpdesk.Relational.Incidents.GetShortInfo.v1;
 
@@ -11,10 +12,10 @@ public class GetIncidentShortInfoUseCase
         _dbQuerySession = dbQuerySession;
     }
 
-    public async Task<IReadOnlyList<IncidentShortInfo>> Execute(Guid customerId, int? pageNumber, int? pageSize, CancellationToken cancellationToken)
+    public async Task<PagedResult<IncidentShortInfo>> Execute(Guid customerId, int? pageNumber, int? pageSize, CancellationToken cancellationToken)
     {
         return await _dbQuerySession
-            .Query(new GetIncidentShortInfoQueryStrategy(customerId, pageNumber ?? 1, pageSize ?? 10))
-            .ToListAsync(cancellationToken);
+            .Query(new GetIncidentShortInfoQueryStrategy(customerId))
+            .ToPagedListAsync(pageNumber ?? 1, pageSize ?? 10, cancellationToken);
     }
 }

@@ -5,16 +5,12 @@ namespace Helpdesk.Relational.Incidents.GetShortInfo;
 
 public class GetIncidentShortInfoQueryStrategy : EntityQueryStrategy<Incident, IncidentShortInfo>
 {
-    public GetIncidentShortInfoQueryStrategy(Guid customerId, int pageNumber, int pageSize)
+    public GetIncidentShortInfoQueryStrategy(Guid customerId)
     {
         CustomerId = customerId;
-        PageNumber = pageNumber;
-        PageSize = pageSize;
     }
 
     public Guid CustomerId { get; }
-    public int PageNumber { get; }
-    public int PageSize { get; }
 
     protected override IEnumerable<Specification<Incident>> GetPreconditions()
     {
@@ -22,15 +18,12 @@ public class GetIncidentShortInfoQueryStrategy : EntityQueryStrategy<Incident, I
     }
 
     protected override IQueryable<IncidentShortInfo> ExecuteCore(IQueryable<Incident> source) =>
-        source
-            .Skip((PageNumber - 1) * PageSize)
-            .Take(PageSize)
-            .Select(
-                incident => new IncidentShortInfo(
-                    incident.Id,
-                    incident.CustomerId,
-                    incident.Status,
-                    incident.Responses.Count,
-                    incident.Category,
-                    incident.Priority));
+        source.Select(
+            incident => new IncidentShortInfo(
+                incident.Id,
+                incident.CustomerId,
+                incident.Status,
+                incident.Responses.Count,
+                incident.Category,
+                incident.Priority));
 }
