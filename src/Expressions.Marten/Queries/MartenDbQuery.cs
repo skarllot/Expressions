@@ -3,6 +3,7 @@ using Marten;
 using Marten.Linq;
 using Microsoft.Extensions.Logging;
 using Raiqub.Expressions.Queries;
+using Raiqub.Expressions.Queries.Paging;
 
 namespace Raiqub.Expressions.Marten.Queries;
 
@@ -84,22 +85,22 @@ public class MartenDbQuery<TResult> : IDbQuery<TResult>
         }
     }
 
-    public async Task<PagedResult<TResult>> ToPagedListAsync(
+    public async Task<TPage> ToPagedListAsync<TPage>(
         int pageNumber,
         int pageSize,
+        PagedResultFactory<TResult, TPage> pagedResultFactory,
         CancellationToken cancellationToken = default)
     {
         var queryable = _dataSource.As<IMartenQueryable<TResult>>()
             .Stats(out QueryStatistics stats)
             .PrepareQueryForPaging(pageNumber, pageSize);
 
+        IReadOnlyList<TResult> items;
         try
         {
-            var items = await queryable
+            items = await queryable
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(false);
-
-            return new PagedResult<TResult>(pageNumber, pageSize, items, stats.TotalResults);
         }
         catch (Exception exception) when (exception is not ArgumentNullException
                                               and not OperationCanceledException)
@@ -107,13 +108,17 @@ public class MartenDbQuery<TResult> : IDbQuery<TResult>
             QueryLog.PagedListError(_logger, exception);
             throw;
         }
+
+        QueryLog.PagedListCountInfo(_logger, items.Count, stats.TotalResults);
+        return pagedResultFactory(new PageInfo(pageNumber, pageSize, stats.TotalResults), items);
     }
 
     public async Task<IReadOnlyList<TResult>> ToListAsync(CancellationToken cancellationToken = default)
     {
+        IReadOnlyList<TResult> items;
         try
         {
-            return await _dataSource
+            items = await _dataSource
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
@@ -123,6 +128,9 @@ public class MartenDbQuery<TResult> : IDbQuery<TResult>
             QueryLog.ListError(_logger, exception);
             throw;
         }
+
+        QueryLog.ListCountInfo(_logger, items.Count);
+        return items;
     }
 
     public async Task<TResult> SingleAsync(CancellationToken cancellationToken = default)

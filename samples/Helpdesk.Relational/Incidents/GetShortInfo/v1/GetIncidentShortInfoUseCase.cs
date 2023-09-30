@@ -1,4 +1,5 @@
 ﻿using Raiqub.Expressions.Queries;
+using Raiqub.Expressions.Queries.Paging;
 using Raiqub.Expressions.Sessions;
 
 namespace Helpdesk.Relational.Incidents.GetShortInfo.v1;

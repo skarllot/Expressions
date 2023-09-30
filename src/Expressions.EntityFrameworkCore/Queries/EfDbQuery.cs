@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Raiqub.Expressions.Queries;
-using Raiqub.Expressions.Queries.Internal;
+using Raiqub.Expressions.Queries.Paging;
 
 namespace Raiqub.Expressions.EntityFrameworkCore.Queries;
 
@@ -84,43 +84,50 @@ public class EfDbQuery<TResult> : IDbQuery<TResult>
         }
     }
 
-    public async Task<PagedResult<TResult>> ToPagedListAsync(
+    public async Task<TPage> ToPagedListAsync<TPage>(
         int pageNumber,
         int pageSize,
+        PagedResultFactory<TResult, TPage> pagedResultFactory,
         CancellationToken cancellationToken = default)
     {
         var pagedQuery = _dataSource.PrepareQueryForPaging(pageNumber, pageSize);
 
+        long totalCount;
+        IReadOnlyList<TResult> items = Array.Empty<TResult>();
         try
         {
-            long totalCount = await _dataSource
+            totalCount = await _dataSource
                 .LongCountAsync(cancellationToken)
                 .ConfigureAwait(false);
 
-            if (!Paging.PageNumberExists(pageNumber, pageSize, totalCount))
+            if (PageInfo.PageNumberExists(pageNumber, pageSize, totalCount))
             {
-                return new PagedResult<TResult>(pageNumber, pageSize, Array.Empty<TResult>(), 0L);
+                items = await pagedQuery
+                    .ToListAsync(cancellationToken)
+                    .ConfigureAwait(false);
             }
-
-            var items = await pagedQuery
-                .ToListAsync(cancellationToken)
-                .ConfigureAwait(false);
-
-            return new PagedResult<TResult>(pageNumber, pageSize, items, totalCount);
+            else
+            {
+                totalCount = 0L;
+            }
         }
         catch (Exception exception) when (exception is not ArgumentNullException
                                               and not OperationCanceledException)
         {
-            QueryLog.ListError(_logger, exception);
+            QueryLog.PagedListError(_logger, exception);
             throw;
         }
+
+        QueryLog.PagedListCountInfo(_logger, items.Count, totalCount);
+        return pagedResultFactory(new PageInfo(pageNumber, pageSize, totalCount), items);
     }
 
     public async Task<IReadOnlyList<TResult>> ToListAsync(CancellationToken cancellationToken = default)
     {
+        List<TResult> items;
         try
         {
-            return await _dataSource
+            items = await _dataSource
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
@@ -130,6 +137,9 @@ public class EfDbQuery<TResult> : IDbQuery<TResult>
             QueryLog.ListError(_logger, exception);
             throw;
         }
+
+        QueryLog.ListCountInfo(_logger, items.Count);
+        return items;
     }
 
     public async Task<TResult> SingleAsync(CancellationToken cancellationToken = default)

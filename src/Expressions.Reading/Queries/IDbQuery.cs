@@ -1,4 +1,6 @@
-﻿namespace Raiqub.Expressions.Queries;
+﻿using Raiqub.Expressions.Queries.Paging;
+
+namespace Raiqub.Expressions.Queries;
 
 /// <summary>
 /// Represents a query that can be executed to retrieve entities of type <typeparamref name="T"/>.
@@ -33,10 +35,15 @@ public interface IDbQuery<T>
     /// <summary>Returns a page from the available elements in the query result.</summary>
     /// <param name="pageNumber">The one-based page number to retrieve.</param>
     /// <param name="pageSize">The maximum number of elements to return.</param>
+    /// <param name="pagedResultFactory">The factory to build the paged result.</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the elements of the page and related information to help pagination.</returns>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="pageNumber"/> or <paramref name="pageSize"/> is less than 1.</exception>
-    Task<PagedResult<T>> ToPagedListAsync(int pageNumber, int pageSize, CancellationToken cancellationToken = default);
+    Task<TPage> ToPagedListAsync<TPage>(
+        int pageNumber,
+        int pageSize,
+        PagedResultFactory<T, TPage> pagedResultFactory,
+        CancellationToken cancellationToken = default);
 
     /// <summary>Returns a read-only list of the elements in the query result.</summary>
     /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
