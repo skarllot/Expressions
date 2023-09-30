@@ -5,7 +5,7 @@
     <RootNamespace>Raiqub.Expressions</RootNamespace>
     <Description>Provides abstractions for creating query strategies, query sessions and querying from database (defines IDbQuerySessionFactory and IDbQuerySession interfaces).</Description>
     <PackageTags>
-      query;querystrategy;strategy;session;ddd;domain;core;repository;expressions;lambda;db;database
+      query;querystrategy;strategy;session;ddd;domain;core;repository;expressions;lambda;db;database;paging;pagination;page
     </PackageTags>
   </PropertyGroup>
 

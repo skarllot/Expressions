@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Raiqub.Expressions.Queries;
+using Raiqub.Expressions.Queries.Internal;
 
 namespace Raiqub.Expressions.EntityFrameworkCore.Queries;
 
@@ -79,6 +80,38 @@ public class EfDbQuery<TResult> : IDbQuery<TResult>
                                               and not OperationCanceledException)
         {
             QueryLog.FirstError(_logger, exception);
+            throw;
+        }
+    }
+
+    public async Task<PagedResult<TResult>> ToPagedListAsync(
+        int pageNumber,
+        int pageSize,
+        CancellationToken cancellationToken = default)
+    {
+        var pagedQuery = _dataSource.PrepareQueryForPaging(pageNumber, pageSize);
+
+        try
+        {
+            long totalCount = await _dataSource
+                .LongCountAsync(cancellationToken)
+                .ConfigureAwait(false);
+
+            if (!Paging.PageNumberExists(pageNumber, pageSize, totalCount))
+            {
+                return new PagedResult<TResult>(pageNumber, pageSize, Array.Empty<TResult>(), 0L);
+            }
+
+            var items = await pagedQuery
+                .ToListAsync(cancellationToken)
+                .ConfigureAwait(false);
+
+            return new PagedResult<TResult>(pageNumber, pageSize, items, totalCount);
+        }
+        catch (Exception exception) when (exception is not ArgumentNullException
+                                              and not OperationCanceledException)
+        {
+            QueryLog.ListError(_logger, exception);
             throw;
         }
     }

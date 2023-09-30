@@ -4,7 +4,7 @@
     <TargetFrameworks>net6.0;netstandard2.1</TargetFrameworks>
     <Description>Provides implementation of sessions and factories using Entity Framework Core.</Description>
     <PackageTags>
-      spec;specification;ddd;domain;ef;efcore;core;query;querymodel;command;expressions;lambda;db;database;relational
+      spec;specification;ddd;domain;ef;efcore;core;query;querymodel;command;expressions;lambda;db;database;relational;paging;pagination;page
     </PackageTags>
   </PropertyGroup>
 

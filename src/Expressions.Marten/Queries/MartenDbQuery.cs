@@ -1,4 +1,6 @@
-﻿using Marten;
+﻿using JasperFx.Core.Reflection;
+using Marten;
+using Marten.Linq;
 using Microsoft.Extensions.Logging;
 using Raiqub.Expressions.Queries;
 
@@ -78,6 +80,31 @@ public class MartenDbQuery<TResult> : IDbQuery<TResult>
                                               and not OperationCanceledException)
         {
             QueryLog.FirstError(_logger, exception);
+            throw;
+        }
+    }
+
+    public async Task<PagedResult<TResult>> ToPagedListAsync(
+        int pageNumber,
+        int pageSize,
+        CancellationToken cancellationToken = default)
+    {
+        var queryable = _dataSource.As<IMartenQueryable<TResult>>()
+            .Stats(out QueryStatistics stats)
+            .PrepareQueryForPaging(pageNumber, pageSize);
+
+        try
+        {
+            var items = await queryable
+                .ToListAsync(cancellationToken)
+                .ConfigureAwait(false);
+
+            return new PagedResult<TResult>(pageNumber, pageSize, items, stats.TotalResults);
+        }
+        catch (Exception exception) when (exception is not ArgumentNullException
+                                              and not OperationCanceledException)
+        {
+            QueryLog.PagedListError(_logger, exception);
             throw;
         }
     }

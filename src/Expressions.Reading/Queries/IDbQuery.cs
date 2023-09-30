@@ -30,6 +30,14 @@ public interface IDbQuery<T>
     /// <returns>A task that represents the asynchronous operation. The task result contains the first element of the query result, or <see langword="null"/> if the query result contains no elements.</returns>
     Task<T?> FirstOrDefaultAsync(CancellationToken cancellationToken = default);
 
+    /// <summary>Returns a page from the available elements in the query result.</summary>
+    /// <param name="pageNumber">The one-based page number to retrieve.</param>
+    /// <param name="pageSize">The maximum number of elements to return.</param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the elements of the page and related information to help pagination.</returns>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="pageNumber"/> or <paramref name="pageSize"/> is less than 1.</exception>
+    Task<PagedResult<T>> ToPagedListAsync(int pageNumber, int pageSize, CancellationToken cancellationToken = default);
+
     /// <summary>Returns a read-only list of the elements in the query result.</summary>
     /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains a read-only list of the elements in the query result.</returns>

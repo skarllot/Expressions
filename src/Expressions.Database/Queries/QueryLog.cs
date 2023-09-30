@@ -34,9 +34,15 @@ internal static class QueryLog
         5,
         "Error trying to enumerate found elements");
 
+    private static readonly Action<ILogger, Exception?> s_pagedListErrorCallback = LoggerMessage.Define(
+        LogLevel.Error,
+        6,
+        "Error trying to query a page of found elements");
+
     public static void AnyError(ILogger logger, Exception exception) => s_anyErrorCallback(logger, exception);
     public static void CountError(ILogger logger, Exception exception) => s_countErrorCallback(logger, exception);
     public static void FirstError(ILogger logger, Exception exception) => s_firstErrorCallback(logger, exception);
+    public static void PagedListError(ILogger logger, Exception exception) => s_pagedListErrorCallback(logger, exception);
     public static void ListError(ILogger logger, Exception exception) => s_listErrorCallback(logger, exception);
     public static void SingleError(ILogger logger, Exception exception) => s_singleErrorCallback(logger, exception);
 

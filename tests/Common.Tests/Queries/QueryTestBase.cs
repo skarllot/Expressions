@@ -88,6 +88,48 @@ public abstract class QueryTestBase : DatabaseTestBase
     }
 
     [Fact]
+    public async Task ToPagedListShouldReturnPage()
+    {
+        await AddBlogs(GetBlogs());
+        await using var session = CreateSession();
+        var query = session.Query<Blog>();
+
+        var pagedResult1 = await query.ToPagedListAsync(1, 10);
+        var pagedResult2 = await query.ToPagedListAsync(2, 2);
+        var pagedResult3 = await query.ToPagedListAsync(3, 2);
+
+        pagedResult1.TotalCount.Should().Be(3);
+        pagedResult1.Items.Should().HaveCount(3);
+        pagedResult1.IsFirstPage.Should().BeTrue();
+        pagedResult1.IsLastPage.Should().BeTrue();
+        pagedResult1.HasNextPage.Should().BeFalse();
+        pagedResult1.HasPreviousPage.Should().BeFalse();
+        pagedResult1.PageCount.Should().Be(1);
+        pagedResult1.FirstItemOnPage.Should().Be(1);
+        pagedResult1.LastItemOnPage.Should().Be(3);
+
+        pagedResult2.TotalCount.Should().Be(3);
+        pagedResult2.Items.Should().HaveCount(1);
+        pagedResult2.IsFirstPage.Should().BeFalse();
+        pagedResult2.IsLastPage.Should().BeTrue();
+        pagedResult2.HasNextPage.Should().BeFalse();
+        pagedResult2.HasPreviousPage.Should().BeTrue();
+        pagedResult2.PageCount.Should().Be(2);
+        pagedResult2.FirstItemOnPage.Should().Be(3);
+        pagedResult2.LastItemOnPage.Should().Be(3);
+
+        pagedResult3.TotalCount.Should().Be(0);
+        pagedResult3.Items.Should().BeEmpty();
+        pagedResult3.IsFirstPage.Should().BeFalse();
+        pagedResult3.IsLastPage.Should().BeFalse();
+        pagedResult3.HasNextPage.Should().BeFalse();
+        pagedResult3.HasPreviousPage.Should().BeFalse();
+        pagedResult3.PageCount.Should().Be(0);
+        pagedResult3.FirstItemOnPage.Should().Be(0);
+        pagedResult3.LastItemOnPage.Should().Be(0);
+    }
+
+    [Fact]
     public async Task ToListShouldReturnAll()
     {
         await AddBlogs(GetBlogs());
