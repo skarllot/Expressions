@@ -85,6 +85,22 @@ public class MartenDbQuery<TResult> : IDbQuery<TResult>
         }
     }
 
+    public async Task<long> LongCountAsync(CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            return await _dataSource
+                .LongCountAsync(cancellationToken)
+                .ConfigureAwait(false);
+        }
+        catch (Exception exception) when (exception is not ArgumentNullException
+                                              and not OperationCanceledException)
+        {
+            QueryLog.CountError(_logger, exception);
+            throw;
+        }
+    }
+
     public async Task<TPage> ToPagedListAsync<TPage>(
         int pageNumber,
         int pageSize,

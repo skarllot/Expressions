@@ -32,6 +32,11 @@ public interface IDbQuery<T>
     /// <returns>A task that represents the asynchronous operation. The task result contains the first element of the query result, or <see langword="null"/> if the query result contains no elements.</returns>
     Task<T?> FirstOrDefaultAsync(CancellationToken cancellationToken = default);
 
+    /// <summary>Gets the number of elements in the query result.</summary>
+    /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the number of elements in the query result.</returns>
+    Task<long> LongCountAsync(CancellationToken cancellationToken = default);
+
     /// <summary>Returns a page from the available elements in the query result.</summary>
     /// <param name="pageNumber">The one-based page number to retrieve.</param>
     /// <param name="pageSize">The maximum number of elements to return.</param>

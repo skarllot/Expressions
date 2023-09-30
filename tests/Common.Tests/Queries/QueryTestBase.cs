@@ -56,19 +56,21 @@ public abstract class QueryTestBase : DatabaseTestBase
     }
 
     [Theory]
-    [InlineData("First", 2L)]
-    [InlineData("Second", 1L)]
-    [InlineData("Third", 0L)]
-    [InlineData("Fourth", 0L)]
-    public async Task CountShouldReturnExpected(string name, long expected)
+    [InlineData("First", 2)]
+    [InlineData("Second", 1)]
+    [InlineData("Third", 0)]
+    [InlineData("Fourth", 0)]
+    public async Task CountShouldReturnExpected(string name, int expected)
     {
         await AddBlogs(GetBlogs());
         await using var session = CreateSession();
         var query = session.Query(new GetBlogPostsAggregateQueryStrategy(name));
 
-        long count = await query.CountAsync();
+        int count1 = await query.CountAsync();
+        long count2 = await query.LongCountAsync();
 
-        count.Should().Be(expected);
+        count1.Should().Be(expected);
+        count2.Should().Be(expected);
     }
 
     [Theory]
@@ -99,7 +101,7 @@ public abstract class QueryTestBase : DatabaseTestBase
         var pagedResult3 = await query.ToPagedListAsync(3, 2);
 
         pagedResult1.TotalCount.Should().Be(3);
-        pagedResult1.Items.Should().HaveCount(3);
+        pagedResult1.Should().HaveCount(3);
         pagedResult1.IsFirstPage.Should().BeTrue();
         pagedResult1.IsLastPage.Should().BeTrue();
         pagedResult1.HasNextPage.Should().BeFalse();
@@ -109,7 +111,7 @@ public abstract class QueryTestBase : DatabaseTestBase
         pagedResult1.LastItemOnPage.Should().Be(3);
 
         pagedResult2.TotalCount.Should().Be(3);
-        pagedResult2.Items.Should().HaveCount(1);
+        pagedResult2.Should().HaveCount(1);
         pagedResult2.IsFirstPage.Should().BeFalse();
         pagedResult2.IsLastPage.Should().BeTrue();
         pagedResult2.HasNextPage.Should().BeFalse();
@@ -119,7 +121,7 @@ public abstract class QueryTestBase : DatabaseTestBase
         pagedResult2.LastItemOnPage.Should().Be(3);
 
         pagedResult3.TotalCount.Should().Be(0);
-        pagedResult3.Items.Should().BeEmpty();
+        pagedResult3.Should().BeEmpty();
         pagedResult3.IsFirstPage.Should().BeFalse();
         pagedResult3.IsLastPage.Should().BeFalse();
         pagedResult3.HasNextPage.Should().BeFalse();
