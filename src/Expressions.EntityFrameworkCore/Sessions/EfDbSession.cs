@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Raiqub.Expressions.EntityFrameworkCore.Options;
 using Raiqub.Expressions.EntityFrameworkCore.Queries;
 using Raiqub.Expressions.Queries;
 using Raiqub.Expressions.Sessions;
@@ -17,12 +18,13 @@ public class EfDbSession<TContext> : IDbSession<TContext>
         ILogger<EfDbSession<TContext>> logger,
         TContext context,
         ISqlProviderSelector sqlProviderSelector,
+        EntityOptionsSelector optionsSelector,
         ChangeTracking tracking)
     {
         _logger = logger;
         Context = context;
         Tracking = tracking;
-        _querySource = new EfQuerySource(context, sqlProviderSelector, tracking);
+        _querySource = new EfQuerySource(context, sqlProviderSelector, optionsSelector, tracking);
     }
 
     public TContext Context { get; }

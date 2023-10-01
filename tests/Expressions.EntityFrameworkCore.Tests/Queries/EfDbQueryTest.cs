@@ -7,6 +7,7 @@ using Raiqub.Common.Tests.Examples;
 using Raiqub.Common.Tests.Queries;
 using Raiqub.Expressions.EntityFrameworkCore.Queries;
 using Raiqub.Expressions.EntityFrameworkCore.Tests.Examples;
+using Xunit.Abstractions;
 
 namespace Raiqub.Expressions.EntityFrameworkCore.Tests.Queries;
 
@@ -15,11 +16,11 @@ public sealed class EfDbQueryTest : QueryTestBase, IAsyncLifetime
 {
     private readonly PostgreSqlFixture _fixture;
 
-    public EfDbQueryTest(PostgreSqlFixture fixture)
+    public EfDbQueryTest(PostgreSqlFixture fixture, ITestOutputHelper testOutputHelper)
         : base(
             services => services
                 .AddSingleton<ILoggerFactory>(new NullLoggerFactory())
-                .AddPostgreSqlDbContext<BloggingContext>(fixture.ConnectionString)
+                .AddPostgreSqlDbContext<BloggingContext>(testOutputHelper, fixture.ConnectionString)
                 .AddEntityFrameworkExpressions()
                 .AddSingleContext<BloggingContext>())
     {

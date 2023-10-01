@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Raiqub.Expressions.EntityFrameworkCore.Options;
 using Raiqub.Expressions.EntityFrameworkCore.Queries;
 using Raiqub.Expressions.EntityFrameworkCore.Sessions;
 using Raiqub.Expressions.Sessions;
@@ -21,6 +22,8 @@ public sealed class ExpressionsSessionBuilder
     {
         _services = services;
         _tracking = tracking;
+
+        _services.TryAddSingleton<EntityOptionsSelector>();
     }
 
     /// <summary>
@@ -56,7 +59,8 @@ public sealed class ExpressionsSessionBuilder
         var combinedTracking = tracking ?? _tracking;
 
         _services.AddSingleton<EfDbSessionFactory<TDbContext>>();
-        _services.AddSingleton<IDbSessionFactory<TContext>>(sp => sp.GetRequiredService<EfDbSessionFactory<TDbContext>>());
+        _services.AddSingleton<IDbSessionFactory<TContext>>(
+            sp => sp.GetRequiredService<EfDbSessionFactory<TDbContext>>());
         _services.AddSingleton<IDbQuerySessionFactory<TContext>>(
             sp => sp.GetRequiredService<EfDbSessionFactory<TDbContext>>());
         _services.TryAddSingleton<ISqlProviderSelector, SqlProviderSelector>();
@@ -65,6 +69,16 @@ public sealed class ExpressionsSessionBuilder
         _services.AddScoped<IDbQuerySession<TContext>>(
             sp => sp.GetRequiredService<IDbQuerySessionFactory<TContext>>().Create());
 
+        return this;
+    }
+
+    /// <summary>Registers an action used to configure the options for querying an entity.</summary>
+    /// <param name="configure">The action used to configure the options.</param>
+    /// <typeparam name="TEntity">The type of the entity to configure.</typeparam>
+    /// <returns>The current <see cref="ExpressionsSessionBuilder"/>.</returns>
+    public ExpressionsSessionBuilder Configure<TEntity>(Action<EntityOptions> configure)
+    {
+        _services.AddSingleton(new EntityOptionsConfiguration(typeof(TEntity), configure));
         return this;
     }
 }

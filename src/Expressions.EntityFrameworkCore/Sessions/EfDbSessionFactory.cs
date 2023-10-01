@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Raiqub.Expressions.EntityFrameworkCore.Options;
 using Raiqub.Expressions.EntityFrameworkCore.Queries;
 using Raiqub.Expressions.Sessions;
 using Raiqub.Expressions.Sessions.BoundedContext;
@@ -13,21 +14,25 @@ public class EfDbSessionFactory<TContext>
     private readonly ILoggerFactory _loggerFactory;
     private readonly IDbContextFactory<TContext> _contextFactory;
     private readonly ISqlProviderSelector _sqlProviderSelector;
+    private readonly EntityOptionsSelector _optionsSelector;
 
     public EfDbSessionFactory(
         ILoggerFactory loggerFactory,
         IDbContextFactory<TContext> contextFactory,
-        ISqlProviderSelector sqlProviderSelector)
+        ISqlProviderSelector sqlProviderSelector,
+        EntityOptionsSelector optionsSelector)
     {
         _loggerFactory = loggerFactory;
         _contextFactory = contextFactory;
         _sqlProviderSelector = sqlProviderSelector;
+        _optionsSelector = optionsSelector;
     }
 
     public EfDbSession<TContext> Create(ChangeTracking? tracking = null) => new(
         _loggerFactory.CreateLogger<EfDbSession<TContext>>(),
         _contextFactory.CreateDbContext(),
         _sqlProviderSelector,
+        _optionsSelector,
         tracking ?? ChangeTracking.Default);
 
     public EfDbSession<TContext> CreateForQuery() => Create(ChangeTracking.Disable);

@@ -7,6 +7,7 @@ using Raiqub.Common.Tests.Examples;
 using Raiqub.Common.Tests.Sessions;
 using Raiqub.Expressions.EntityFrameworkCore.Tests.Examples;
 using Raiqub.Expressions.Sessions;
+using Xunit.Abstractions;
 
 namespace Raiqub.Expressions.EntityFrameworkCore.Tests.Sessions;
 
@@ -15,11 +16,11 @@ public sealed class EfSessionFactoryTest : SessionFactoryTestBase, IAsyncLifetim
 {
     private readonly PostgreSqlFixture _fixture;
 
-    public EfSessionFactoryTest(PostgreSqlFixture fixture)
+    public EfSessionFactoryTest(PostgreSqlFixture fixture, ITestOutputHelper testOutputHelper)
         : base(
             services => services
                 .AddSingleton<ILoggerFactory>(new NullLoggerFactory())
-                .AddPostgreSqlDbContext<BloggingContext>(fixture.ConnectionString)
+                .AddPostgreSqlDbContext<BloggingContext>(testOutputHelper, fixture.ConnectionString)
                 .AddEntityFrameworkExpressions()
                 .AddSingleContext<BloggingContext>())
     {
