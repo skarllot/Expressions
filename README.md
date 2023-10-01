@@ -262,13 +262,11 @@ await using (var session = sessionFactory.Create())
 ```
 
 ### Defining custom SQL query for entity (Entity Framework)
-To define a custom SQL query for retrieving a entity from database, follow these steps:
+Sometimes, you may need to define custom SQL queries to retrieve entities from the database in Entity Framework. This can be useful when you have complex queries that cannot be easily expressed using the standard LINQ queries. Here are the steps to define a custom SQL query for an entity:
 
-1. Create a new class implementing the **\`ISqlProvider\<TEntity\>\`** interface;
-2. Implement the **\`GetQuerySql()\`** method returning a raw or an interpolated SQL string;
-3. Register the created class as a implementation of _ISqlProvider_ interface for dependency injection using the singleton lifetime.
+#### Step 1: Create a Custom SQL Provider
 
-Example implementing a custom SQL query for _Blog_ entity:
+To define a custom SQL query, start by creating a class that implements the `ISqlProvider<TEntity>` interface. This interface defines a method, `GetQuerySql()`, where you can specify your custom SQL query.
 
 ```csharp
 private class BlogSqlProvider : ISqlProvider<Blog>
@@ -277,11 +275,51 @@ private class BlogSqlProvider : ISqlProvider<Blog>
 }
 ```
 
-And then, registering it:
+In this example, we've created a `BlogSqlProvider` class that implements the `ISqlProvider<Blog>` interface and defines a custom SQL query for retrieving blog entities.
+
+#### Step 2: Implement the `GetQuerySql()` Method
+Inside your custom SQL provider class, implement the `GetQuerySql()` method. This method should return a `SqlString` instance containing your raw or interpolated SQL query. Customize the query to match your specific requirements and entity structure.
+
+#### Step 3: Register the Custom SQL Provider
+To make your custom SQL provider available for dependency injection, you need to register it with your application's service container. You need to register it using the singleton lifetime, as show below:
 
 ```csharp
 services.AddSingleton<ISqlProvider, BlogSqlProvider>();
 ```
+
+In this registration, we specify the interface `ISqlProvider` and its corresponding implementation `BlogSqlProvider`. This allows the _Raiqub.Expressions_  to resolve and use your custom SQL provider when needed.
+
+#### Best Practices
+- **Keep Queries Simple**: While custom SQL queries provide flexibility, it's essential to keep them as simple and readable as possible. Avoid complex queries that can be hard to maintain.
+- **Use Parameters**: If your custom query requires input parameters, use parameterized queries to prevent SQL injection and improve performance.
+- **Test Thoroughly**: Custom SQL queries may bypass some of Entity Framework's built-in protections. Ensure thorough testing to validate the correctness and security of your queries.
+
+### Split queries (Entity Framework)
+When working with Entity Framework, you may encounter situations where loading related entities in a single query can lead to a "cartesian explosion". This happens when multiple related entities are included in the query, and the resulting dataset becomes excessively large due to cartesian products, impacting performance.
+
+To mitigate this issue, Entity Framework Core allows you to specify the use of split queries for loading related entities. Split queries separate the loading of each related entity into its own query, preventing the cartesian explosion problem.
+
+You can enable split queries for a specific entity by configuring the query options in your application's service configuration. Here's how you can do it:
+
+```csharp
+services.AddEntityFrameworkExpressions()
+    .Configure<Blog>(options => options.UseSplitQuery = true)
+    .AddSingleContext<YourDbContext>();
+```
+
+In this example:
+- `services.AddEntityFrameworkExpressions()` registers the necessary services for Entity Framework Expressions.
+- `.Configure<Blog>(options => options.UseSplitQuery = true)` configures the split query option for the Blog entity. Replace _Blog_ with the entity type for which you want to enable split queries.
+- `.AddSingleContext<YourDbContext>()` adds the Entity Framework context to your application.
+
+#### When to Use Split Queries
+Split queries are particularly useful when you have large datasets or complex relationships between entities, and you want to optimize performance by avoiding the cartesian explosion issue. However, enabling split queries should be considered on a case-by-case basis, as it may introduce additional database queries.
+
+Keep in mind that using split queries is just one of many performance optimization techniques available in Entity Framework. Careful consideration of your data model, query patterns, and database design is essential for achieving optimal performance.
+
+By configuring split queries when appropriate, you can strike a balance between efficient data retrieval and preventing performance bottlenecks caused by cartesian explosions.
+
+For more information refer to [Single vs. Split Queries](https://learn.microsoft.com/en-us/ef/core/querying/single-split-queries) article.
 
 ### Supported Databases
 Currently, Raiqub.Expressions supports the following ORM libraries:
@@ -293,16 +331,16 @@ If you need to use another ORM library, you will need to implement your own data
 ## Migration Guide
 
 ### Key Changes in 2.0.0
-The V2 release renamed the **\`IQueryModel\`**-related interfaces and classes to **\`IQueryStrategy\`**. This is the list of relevant renames:
+The V2 release renamed the `IQueryModel`-related interfaces and classes to `IQueryStrategy`. This is the list of relevant renames:
 
-| V1                                      | V2                                         |
-|-----------------------------------------|--------------------------------------------|
-| IQueryModel&lt;TResult&gt;              | IQueryStrategy&ltTResult&gt;               |
-| IEntityQueryModel&ltTResult&gt;         | IEntityQueryStrategy&ltTResult&gt;         |
-| EntityQueryModel&ltTSource, TResult&gt; | EntityQueryStrategy&ltTSource, TResult&gt; |
-| QueryModel                              | QueryStrategy                              |
+| V1                                       | V2                                          |
+|------------------------------------------|---------------------------------------------|
+| IQueryModel&lt;TResult&gt;               | IQueryStrategy&ltTResult&gt;                |
+| IEntityQueryModel&lt;TResult&gt;         | IEntityQueryStrategy&lt;TResult&gt;         |
+| EntityQueryModel&lt;TSource, TResult&gt; | EntityQueryStrategy&lt;TSource, TResult&gt; |
+| QueryModel                               | QueryStrategy                               |
 
-Additionally, the **\`IEntityQueryStrategy\`** interface extends the **\`IQueryStrategy\`** interface.
+Additionally, the `IEntityQueryStrategy` interface extends the `IQueryStrategy` interface.
 
 ## Contributing
 
