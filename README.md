@@ -90,11 +90,16 @@ var customers = await query.ToListAsync();
 ## Guide
 
 ### Creating Specifications
+
 The Specification Pattern is a behavioral design pattern used to encapsulate business rules into composable, reusable and testable objects. This pattern is often used in domains where queries or validation rules need to be expressed in a more readable and maintainable form.
 
-The **\`Raiqub.Expressions\`** package provides the **\`Specification&lt;T&gt;**\` base class for creating specifications. It is optimized to allow ORM frameworks to evaluate and translate it into SQL queries.
+A specification, in the context of this package, is an object that defines a condition that must be satisfied by elements of a certain type. These conditions can be as simple or as complex as needed and are expressed using lambda expressions.
 
-Here's an example of creating a specification by inheriting from **\`Specification&lt;T&gt;**\` base class:
+#### Creating a Simple Specification
+
+The **\`Raiqub.Expressions\`** package provides the `Specification<T>` base class for creating specifications. It is optimized to allow ORM frameworks to evaluate and translate it into SQL queries.
+
+Here's a basic example of a specification that checks if a product is in stock:
 
 ```csharp
 public class ProductIsInStock : Specification<Product>
@@ -106,7 +111,9 @@ public class ProductIsInStock : Specification<Product>
 }
 ```
 
-or, you can create a static class to provide the specifications of an object:
+#### Creating Specification Factories
+
+You can also create specification factories, which are static classes that provide predefined specifications. Here's an example of a specification factory for products:
 
 ```csharp
 public static class ProductSpecification
@@ -119,7 +126,9 @@ public static class ProductSpecification
 }
 ```
 
-The specifications can be combined using the available extension methods or the logical operators:
+#### Combining Specifications
+
+Specifications can be combined using extension methods or logical operators to create more complex conditions. This flexibility allows you to express intricate business rules concisely. Here are examples of combining specifications for incidents:
 
 ```csharp
     public static Specification<Incident> IsClosed { get; } =
@@ -147,13 +156,17 @@ The specifications can be combined using the available extension methods or the 
         IsResolved | IsClosed;
 ```
 
+#### Practical Use Cases
+
+Specifications are valuable for filtering data, composing complex queries, and validating entities against business rules. They are particularly useful when working with Object-Relational Mapping (ORM) frameworks, as they can be translated into SQL queries for efficient database operations.
+
 ### Creating Query Strategies
 The query strategy is based on the Strategy Pattern by defining a strategy for querying the database allowing better concern separation, maintainability and reusability than the repository pattern.
 
 The **\`Raiqub.Expressions.Reading\`** package provides abstractions for creating query strategies. You can create a new query strategy by choosing one of several ways available to implement a query strategy.
 
 #### Single Entity Query
-The most common strategy is querying a single entity and for that purpose the interface **\`IEntityQueryStrategy&lt;TSource, TResult&gt;\`** was created and its abstract class implementation **\`EntityQueryStrategy&lt;TSource, TResult&gt;\`**.
+The most common strategy is querying a single entity and for that purpose the interface `IEntityQueryStrategy<TSource, TResult>` was created and its abstract class implementation `EntityQueryStrategy<TSource, TResult>`.
 
 Here's an example of a entity query strategy that filters a list of entities based on a set of conditions:
 
@@ -197,7 +210,7 @@ public static class ProductQueryStrategy
 ```
 
 #### Multiple Entities Query
-For the cases where multiple entities need to be queried the interface **\`IQueryStrategy&lt;TResult&gt;\`** was created.
+For the cases where multiple entities need to be queried the interface `IQueryStrategy<TResult>` was created.
 
 You can implement the interface directly, as the example below:
 
@@ -231,10 +244,10 @@ public static class ProductQueryStrategy
 ### Creating Query Sessions and Querying Data
 To create a query session and query data using a query strategy, follow these steps:
 
-1. Inject an instance of **\`IDbQuerySessionFactory\`** into your service or controller.
-2. Use the **\`Create()\`** method of the **\`IDbQuerySessionFactory\`** interface to create a new query session.
-3. Call the **\`Query()\`** method on the query session, passing in your query strategy or specification instance.
-4. Call one of the methods on the resulting **\`IDbQuery&lt;T&gt;\`** interface to execute the query and retrieve the results.
+1. Inject an instance of `IDbQuerySessionFactory` into your service or controller.
+2. Use the `Create()` method of the `IDbQuerySessionFactory` interface to create a new query session.
+3. Call the `Query()` method on the query session, passing in your query strategy or specification instance.
+4. Call one of the methods on the resulting `IDbQuery<T>` interface to execute the query and retrieve the results.
 
 ```csharp
 await using (var session = querySessionFactory.Create())
@@ -247,10 +260,10 @@ await using (var session = querySessionFactory.Create())
 ### Creating Write Sessions and Writing Data
 To create a write session and write data to the database, follow these steps:
 
-1. Inject an instance of **\`IDbSessionFactory\`** into your service or controller.
-2. Use the **\`Create()\`** method of the **\`IDbSessionFactory\`** interface to create a new write session.
+1. Inject an instance of `IDbSessionFactory` into your service or controller.
+2. Use the `Create()` method of the `IDbSessionFactory` interface to create a new write session.
 3. Call the appropriate methods on the write session to perform insert, update, or delete operations on your entities.
-4. Call the **\`SaveChangesAsync()\`** method on the write session to persist your changes to the database.
+4. Call the `SaveChangesAsync()` method on the write session to persist your changes to the database.
 
 ```csharp
 await using (var session = sessionFactory.Create())
@@ -331,16 +344,18 @@ If you need to use another ORM library, you will need to implement your own data
 ## Migration Guide
 
 ### Key Changes in 2.0.0
-The V2 release renamed the `IQueryModel`-related interfaces and classes to `IQueryStrategy`. This is the list of relevant renames:
+In the Version 2.0.0 release of our library, the `IQueryModel`-related interfaces and classes was renamed to `IQueryStrategy`. These changes are summarized in the table below:
 
 | V1                                       | V2                                          |
 |------------------------------------------|---------------------------------------------|
-| IQueryModel&lt;TResult&gt;               | IQueryStrategy&ltTResult&gt;                |
+| IQueryModel&lt;TResult&gt;               | IQueryStrategy&lt;TResult&gt;               |
 | IEntityQueryModel&lt;TResult&gt;         | IEntityQueryStrategy&lt;TResult&gt;         |
 | EntityQueryModel&lt;TSource, TResult&gt; | EntityQueryStrategy&lt;TSource, TResult&gt; |
 | QueryModel                               | QueryStrategy                               |
 
-Additionally, the `IEntityQueryStrategy` interface extends the `IQueryStrategy` interface.
+We chose to rename these interfaces and classes to use the "Strategy" suffix (`IQueryStrategy`, `IEntityQueryStrategy`, etc.) to better reflect their purpose. This new naming convention aligns with design patterns like the Strategy Pattern, which emphasizes encapsulating algorithms and making them interchangeable.
+
+It's important to note that the `IEntityQueryStrategy` interface now extends the `IQueryStrategy` interface. This hierarchy reflects the relationship between entity-specific query strategies and general query strategies. You can use this inheritance structure to create custom query strategies that build upon the foundation provided by `IQueryStrategy`.
 
 ## Contributing
 
