@@ -28,20 +28,29 @@ public class EfDbSessionFactory<TContext>
         _optionsSelector = optionsSelector;
     }
 
-    public EfDbSession<TContext> Create(ChangeTracking? tracking = null) => new(
+    public EfDbSession<TContext> Create(ChangeTracking? tracking = null) => CreateWithContext(tracking);
+
+    public EfDbSession<TContext> CreateForQuery() => Create(ChangeTracking.Disable);
+
+    IDbSession IDbSessionFactory.Create(ChangeTracking? tracking) => CreateWithoutContext(tracking);
+
+    IDbSession<TContext> IDbSessionFactory<TContext>.Create(ChangeTracking? tracking) => CreateWithContext(tracking);
+
+    IDbQuerySession IDbQuerySessionFactory.Create() => CreateWithoutContext(ChangeTracking.Disable);
+
+    IDbQuerySession<TContext> IDbQuerySessionFactory<TContext>.Create() => CreateWithContext(ChangeTracking.Disable);
+
+    private EfDbSession<TContext> CreateWithContext(ChangeTracking? tracking = null) => new(
         _loggerFactory.CreateLogger<EfDbSession<TContext>>(),
         _contextFactory.CreateDbContext(),
         _sqlProviderSelector,
         _optionsSelector,
         tracking ?? ChangeTracking.Default);
 
-    public EfDbSession<TContext> CreateForQuery() => Create(ChangeTracking.Disable);
-
-    IDbSession IDbSessionFactory.Create(ChangeTracking? tracking) => Create(tracking);
-
-    IDbSession<TContext> IDbSessionFactory<TContext>.Create(ChangeTracking? tracking) => Create(tracking);
-
-    IDbQuerySession IDbQuerySessionFactory.Create() => CreateForQuery();
-
-    IDbQuerySession<TContext> IDbQuerySessionFactory<TContext>.Create() => CreateForQuery();
+    private EfDbSession CreateWithoutContext(ChangeTracking? tracking = null) => new(
+        _loggerFactory.CreateLogger<EfDbSession<TContext>>(),
+        _contextFactory.CreateDbContext(),
+        _sqlProviderSelector,
+        _optionsSelector,
+        tracking ?? ChangeTracking.Default);
 }

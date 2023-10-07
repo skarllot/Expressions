@@ -15,6 +15,8 @@ public class MartenDbSession : MartenDbQuerySession, IDbSession
         Tracking = tracking;
     }
 
+    public override IDocumentSession MartenSession => _session;
+
     public ChangeTracking Tracking { get; }
 
     public ValueTask<IDbSessionTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
@@ -41,7 +43,7 @@ public class MartenDbSession : MartenDbQuerySession, IDbSession
         where TEntity : class
     {
         _session.Store(entities);
-        return default;
+        return ValueTask.CompletedTask;
     }
 
     public void Remove<TEntity>(TEntity entity)

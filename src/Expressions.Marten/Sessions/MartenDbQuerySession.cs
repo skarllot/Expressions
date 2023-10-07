@@ -19,6 +19,8 @@ public class MartenDbQuerySession : IDbQuerySession
         _querySource = new MartenQuerySource(session);
     }
 
+    public virtual IQuerySession MartenSession => _session;
+
     public IDbQuery<TResult> Query<TResult>(IQueryStrategy<TResult> queryStrategy)
     {
         return new MartenDbQuery<TResult>(_logger, queryStrategy.Execute(_querySource));
