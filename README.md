@@ -9,24 +9,26 @@ _Raiqub.Expressions is a library that provides abstractions for creating specifi
 <hr />
 
 ## Features
-* Abstractions for creating specifications and query strategies
-* Abstractions for querying and writing to databases
-* Supports Entity Framework Core and Marten providers
-* Built with .NET Standard 2.0, 2.1, and .NET Core 6.0
+* Easily define and compose specifications to encapsulate business rules
+* Create custom query strategies for flexible and efficient data retrieval
+* Simplify database operations by using consistent abstractions
+* Seamlessly integrate with Entity Framework Core for database interactions
+* Utilize Marten providers for a NoSQL document database experience
+* Built with .NET Standard 2.0, 2.1, and .NET 6.0
 
 ## NuGet Packages
-* **Raiqub.Expressions**: abstractions for creating specifications
-* **Raiqub.Expressions.Reading**: abstractions for creating query strategies and query sessions and querying from database (defines IDbQuerySessionFactory and IDbQuerySession interfaces)
-* **Raiqub.Expressions.Writing**: abstractions for creating write sessions and writing to database (defines IDbSessionFactory and IDbSession interfaces)
-* **Raiqub.Expressions.EntityFrameworkCore**: implementation of sessions and factories using Entity Framework Core
-* **Raiqub.Expressions.Marten**: implementation of sessions and factories using Marten library
+* **Raiqub.Expressions**: provides abstractions for creating specifications
+* **Raiqub.Expressions.Reading**: provides abstractions for creating query strategies and query sessions. Defines the `IDbQuerySession` and `IDbQuerySessionFactory` interfaces for querying from the database
+* **Raiqub.Expressions.Writing**: provides abstractions for creating write sessions and performing write operations. Defines the `IDbSession` and `IDbSessionFactory` interfaces for writing to the database
+* **Raiqub.Expressions.EntityFrameworkCore**: implements sessions and factories using Entity Framework Core. Ideal for integrating with Entity Framework Core for database access
+* **Raiqub.Expressions.Marten**: implements sessions and factories using Marten library. Perfect for leveraging Marten's NoSQL document database capabilities
 
 ## Prerequisites
 Before you begin, you'll need the following:
 
 * .NET Standard 2.0 or 2.1, or .NET Core 6.0 installed on your machine
 * An IDE such as Visual Studio, Visual Studio Code, or JetBrains Rider
-* A database to query against (if using the reading package) or write to (if using the writing package)
+* If you plan to use the reading package, have a database available for querying. If you intend to use the writing package, ensure you have a writable database to perform write operations
 
 ## Quickstart
 
@@ -66,8 +68,21 @@ To use Raiqub.Expressions in your project, follow these steps:
 
 ### Using
 
-Inject the appropriate session interface (**\`IDbQuerySession\`** for read sessions, **\`IDbSession\`** for write sessions) into your services, and use it read and write from/to database.
+Inject the appropriate session interface (`IDbQuerySession` for read sessions, `IDbSession` for read and write sessions) into your services, and use it read and write from/to database.
 
+```csharp
+public class YourService
+{
+    private readonly IDbSession _dbSession;
+
+    public YourService(IDbSession dbSession)
+    {
+        _dbSession = dbSession;
+    }
+
+    // ...
+}
+```
 You can also create specifications and query strategies. Here's an example of how to create a simple specification:
 
 ```csharp
@@ -82,7 +97,7 @@ public class CustomerIsActive : Specification<Customer>
 And here's an example of how to use the specification:
 
 ```csharp
-// session is of type IDbSession or IDbQuerySession and can be injected
+// Assuming 'session' is of type IDbSession or IDbQuerySession and has been injected
 var query = session.Query(new CustomerIsActive());
 var customers = await query.ToListAsync();
 ```

@@ -10,6 +10,10 @@ public readonly ref struct QueryStrategyDownCasting<TSource, TResult>
 {
     private readonly IEntityQueryStrategy<TSource, TResult> _queryStrategy;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="QueryStrategyDownCasting{TSource,TResult}"/> struct.
+    /// </summary>
+    /// <param name="queryStrategy">The query strategy to down cast.</param>
     public QueryStrategyDownCasting(IEntityQueryStrategy<TSource, TResult> queryStrategy) => _queryStrategy = queryStrategy;
 
     /// <summary>Returns a query strategy that has been downcasted to the source type.</summary>

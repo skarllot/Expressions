@@ -15,6 +15,10 @@ public readonly struct PageInfo
     /// <summary>The number of available pages.</summary>
     public readonly long PageCount;
 
+    /// <summary>Initializes a new instance of the <see cref="PageInfo"/> class.</summary>
+    /// <param name="pageNumber">The current page number (one-based).</param>
+    /// <param name="pageSize">The page size.</param>
+    /// <param name="totalCount">The total number of records.</param>
     public PageInfo(long pageNumber, int pageSize, long totalCount)
     {
         PageNumber = pageNumber;

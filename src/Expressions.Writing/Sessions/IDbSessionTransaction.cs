@@ -1,5 +1,6 @@
 ﻿namespace Raiqub.Expressions.Sessions;
 
+/// <summary>Represents a started database transaction.</summary>
 public interface IDbSessionTransaction : IAsyncDisposable, IDisposable
 {
     /// <summary>Commits all changes made to the database in the current transaction.</summary>

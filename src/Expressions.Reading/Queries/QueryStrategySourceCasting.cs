@@ -9,6 +9,10 @@ public readonly ref struct QueryStrategySourceCasting<TSource, TResult>
 {
     private readonly IEntityQueryStrategy<TSource, TResult> _queryStrategy;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="QueryStrategySourceCasting{TSource,TResult}"/> struct.
+    /// </summary>
+    /// <param name="queryStrategy">The query strategy for casting the source type.</param>
     public QueryStrategySourceCasting(IEntityQueryStrategy<TSource, TResult> queryStrategy) => _queryStrategy = queryStrategy;
 
     /// <summary>Returns a query strategy with the source type casted to the specified derived type.</summary>

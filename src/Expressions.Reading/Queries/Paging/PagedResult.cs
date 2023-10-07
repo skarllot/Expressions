@@ -9,6 +9,11 @@ public sealed class PagedResult<TResult> : IReadOnlyList<TResult>
     private readonly PageInfo _pageInfo;
     private readonly IReadOnlyList<TResult> _items;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PagedResult{TResult}"/> class with <see cref="PageInfo"/> and result collection.
+    /// </summary>
+    /// <param name="pageInfo">The information of the queried page.</param>
+    /// <param name="items">The collection of the items returned by the query result.</param>
     public PagedResult(PageInfo pageInfo, IReadOnlyList<TResult> items)
     {
         _pageInfo = pageInfo;

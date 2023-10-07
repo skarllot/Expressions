@@ -1,5 +1,6 @@
 ﻿namespace Raiqub.Expressions.Queries;
 
+/// <summary>Provides extensions for <see cref="IEntityQueryStrategy{TSource,TResult}"/> instances.</summary>
 public static class QueryStrategyExtensions
 {
     /// <summary>Prepares a query strategy for down-casting.</summary>

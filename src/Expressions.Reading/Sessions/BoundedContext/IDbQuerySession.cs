@@ -1,5 +1,7 @@
 ﻿namespace Raiqub.Expressions.Sessions.BoundedContext;
 
+/// <summary>Represents a session for querying data from database of a bounded context.</summary>
+/// <typeparam name="TContext">The type of the bounded context.</typeparam>
 public interface IDbQuerySession<out TContext> : IDbQuerySession
 {
     /// <summary>Gets the bounded context associated with this query session.</summary>

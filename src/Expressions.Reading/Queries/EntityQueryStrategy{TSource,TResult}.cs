@@ -41,26 +41,19 @@ public abstract class EntityQueryStrategy<TSource, TResult>
     private Specification<TSource> CombinedSpecification =>
         _restrictions.And(Specification.And(GetPreconditions()));
 
-    /// <summary>
-    /// Executes the query strategy on the specified data source and returns the query result as an <see cref="IQueryable{T}"/>.
-    /// </summary>
-    /// <param name="source">The data source to execute the query.</param>
-    /// <returns>An <see cref="IQueryable{T}"/> that represents the query result.</returns>
+    /// <inheritdoc />
     public IQueryable<TResult> Execute(IQueryable<TSource> source)
     {
         return ExecuteCore(source.Where(CombinedSpecification));
     }
 
-    /// <summary>
-    /// Executes the query strategy on the specified data source and returns the query result as an <see cref="IEnumerable{T}"/>.
-    /// </summary>
-    /// <param name="source">The data source to execute the query.</param>
-    /// <returns>An <see cref="IEnumerable{T}"/> that represents the query result.</returns>
+    /// <inheritdoc />
     public IEnumerable<TResult> Execute(IEnumerable<TSource> source)
     {
         return Execute(source.AsQueryable());
     }
 
+    /// <inheritdoc />
     public IQueryable<TResult> Execute(IQuerySource source)
     {
         return Execute(source.GetSet<TSource>());

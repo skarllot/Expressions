@@ -3,6 +3,9 @@ using Raiqub.Expressions.Queries.Internal;
 
 namespace Raiqub.Expressions.Queries;
 
+/// <summary>
+/// Provides initialization of <see cref="IQueryStrategy{TResult}"/> and <see cref="IEntityQueryStrategy{TSource,TResult}"/> instances.
+/// </summary>
 public static class QueryStrategy
 {
     /// <summary>Returns a query strategy for the specified type <typeparamref name="TSource"/> that returns all items.</summary>
