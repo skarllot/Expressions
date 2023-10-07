@@ -3,8 +3,9 @@
 namespace Raiqub.Expressions.Queries;
 
 /// <summary>
-/// Represents a query that can be executed to retrieve entities of type <typeparamref name="T"/>.
+/// Represents a query that can be executed to retrieve instances of type <typeparamref name="T"/>.
 /// </summary>
+/// <typeparam name="T">The type of the result returned.</typeparam>
 public interface IDbQuery<T>
 {
     /// <summary>Determines whether the query returns any elements.</summary>

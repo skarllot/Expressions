@@ -3,9 +3,12 @@ using Raiqub.Expressions.Sessions;
 
 namespace Raiqub.Expressions.Marten;
 
+/// <summary>
+/// Extension methods for setting up Raiqub Expressions related services in an <see cref="IServiceCollection"/>.
+/// </summary>
 public static class ExpressionsServiceCollectionExtensions
 {
-    /// <summary>Gets a builder for registering sessions and session factories using Entity Framework Core.</summary>
+    /// <summary>Gets a builder for registering sessions and session factories using Marten.</summary>
     /// <param name="services">The <see cref="IServiceCollection"/> to add services to.</param>
     /// <param name="tracking">The change tracking mode of injected sessions.</param>
     /// <returns>The <see cref="ExpressionsSessionBuilder"/> so that add context calls can be chained in it.</returns>

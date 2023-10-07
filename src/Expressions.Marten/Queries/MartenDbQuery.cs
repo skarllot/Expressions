@@ -7,11 +7,18 @@ using Raiqub.Expressions.Queries.Paging;
 
 namespace Raiqub.Expressions.Marten.Queries;
 
+/// <summary>
+/// Marten-based implementation of a query that can be executed to retrieve instances of type <typeparamref name="TResult"/>.
+/// </summary>
+/// <typeparam name="TResult">The type of the result returned.</typeparam>
 public class MartenDbQuery<TResult> : IDbQuery<TResult>
 {
     private readonly ILogger _logger;
     private readonly IQueryable<TResult> _dataSource;
 
+    /// <summary>Initializes a new instance of the <see cref="MartenDbQuery{TResult}"/> class.</summary>
+    /// <param name="logger">The <see cref="ILogger"/> to log to.</param>
+    /// <param name="dataSource">The data source to query from.</param>
     public MartenDbQuery(
         ILogger logger,
         IQueryable<TResult> dataSource)
@@ -20,6 +27,7 @@ public class MartenDbQuery<TResult> : IDbQuery<TResult>
         _dataSource = dataSource;
     }
 
+    /// <inheritdoc />
     public async Task<bool> AnyAsync(CancellationToken cancellationToken = default)
     {
         try
@@ -36,6 +44,7 @@ public class MartenDbQuery<TResult> : IDbQuery<TResult>
         }
     }
 
+    /// <inheritdoc />
     public async Task<int> CountAsync(CancellationToken cancellationToken = default)
     {
         try
@@ -52,6 +61,7 @@ public class MartenDbQuery<TResult> : IDbQuery<TResult>
         }
     }
 
+    /// <inheritdoc />
     public async Task<TResult> FirstAsync(CancellationToken cancellationToken = default)
     {
         try
@@ -69,6 +79,7 @@ public class MartenDbQuery<TResult> : IDbQuery<TResult>
         }
     }
 
+    /// <inheritdoc />
     public async Task<TResult?> FirstOrDefaultAsync(CancellationToken cancellationToken = default)
     {
         try
@@ -85,6 +96,7 @@ public class MartenDbQuery<TResult> : IDbQuery<TResult>
         }
     }
 
+    /// <inheritdoc />
     public async Task<long> LongCountAsync(CancellationToken cancellationToken = default)
     {
         try
@@ -101,6 +113,7 @@ public class MartenDbQuery<TResult> : IDbQuery<TResult>
         }
     }
 
+    /// <inheritdoc />
     public async Task<TPage> ToPagedListAsync<TPage>(
         int pageNumber,
         int pageSize,
@@ -129,6 +142,7 @@ public class MartenDbQuery<TResult> : IDbQuery<TResult>
         return pagedResultFactory(new PageInfo(pageNumber, pageSize, stats.TotalResults), items);
     }
 
+    /// <inheritdoc />
     public async Task<IReadOnlyList<TResult>> ToListAsync(CancellationToken cancellationToken = default)
     {
         IReadOnlyList<TResult> items;
@@ -149,6 +163,7 @@ public class MartenDbQuery<TResult> : IDbQuery<TResult>
         return items;
     }
 
+    /// <inheritdoc />
     public async Task<TResult> SingleAsync(CancellationToken cancellationToken = default)
     {
         try
@@ -166,6 +181,7 @@ public class MartenDbQuery<TResult> : IDbQuery<TResult>
         }
     }
 
+    /// <inheritdoc />
     public async Task<TResult?> SingleOrDefaultAsync(CancellationToken cancellationToken = default)
     {
         try
@@ -183,6 +199,7 @@ public class MartenDbQuery<TResult> : IDbQuery<TResult>
         }
     }
 
+    /// <inheritdoc />
     public IAsyncEnumerable<TResult> ToAsyncEnumerable(CancellationToken cancellationToken = default)
     {
         return _dataSource.ToAsyncEnumerable(cancellationToken);

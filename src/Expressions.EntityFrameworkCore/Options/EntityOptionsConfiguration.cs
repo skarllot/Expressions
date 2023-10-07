@@ -5,6 +5,9 @@ public sealed class EntityOptionsConfiguration
 {
     private readonly Action<EntityOptions> _configure;
 
+    /// <summary>Initializes a new instance of the <see cref="EntityOptionsConfiguration"/> class.</summary>
+    /// <param name="entityType">The type of the entity to configure.</param>
+    /// <param name="configure">The action used to configure the options.</param>
     public EntityOptionsConfiguration(Type entityType, Action<EntityOptions> configure)
     {
         EntityType = entityType;

@@ -7,6 +7,8 @@ namespace Raiqub.Expressions.EntityFrameworkCore.Options;
 /// </summary>
 public sealed class EntityOptions
 {
+    /// <summary>Initializes a new instance of the <see cref="EntityOptions"/> class.</summary>
+    /// <param name="entityType">The type of the entity to configure.</param>
     public EntityOptions(Type entityType) => EntityType = entityType;
 
     /// <summary>The type of the entity that this options configures.</summary>

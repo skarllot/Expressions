@@ -3,10 +3,13 @@
 /// <summary>An selector that retrieves an <see cref="EntityOptions"/> based on a specified entity type.</summary>
 public sealed class EntityOptionsSelector
 {
+    /// <summary>Provides a value to use with sessions that do not have configuration.</summary>
     public static readonly EntityOptionsSelector Empty = new(Array.Empty<EntityOptionsConfiguration>());
 
     private readonly Dictionary<Type, EntityOptions> _dictionary;
 
+    /// <summary>Initializes a new instance of the <see cref="EntityOptionsSelector"/> class.</summary>
+    /// <param name="configurations">The collection of configurations.</param>
     public EntityOptionsSelector(IEnumerable<EntityOptionsConfiguration> configurations)
     {
         _dictionary = configurations

@@ -3,6 +3,9 @@ using Raiqub.Expressions.Sessions;
 
 namespace Raiqub.Expressions.EntityFrameworkCore;
 
+/// <summary>
+/// Extension methods for setting up Raiqub Expressions related services in an <see cref="IServiceCollection"/>.
+/// </summary>
 public static class ExpressionsServiceCollectionExtensions
 {
     /// <summary>Gets a builder for registering sessions and session factories using Entity Framework Core.</summary>

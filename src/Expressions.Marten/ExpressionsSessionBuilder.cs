@@ -7,11 +7,17 @@ using Raiqub.Expressions.Sessions.BoundedContext;
 
 namespace Raiqub.Expressions.Marten;
 
+/// <summary>Used to configure the registration of sessions and sessions factories.</summary>
 public sealed class ExpressionsSessionBuilder
 {
     private readonly IServiceCollection _services;
     private readonly ChangeTracking? _tracking;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ExpressionsSessionBuilder"/> class.
+    /// </summary>
+    /// <param name="services">The <see cref="IServiceCollection"/> to add services to.</param>
+    /// <param name="tracking">The change tracking mode of injected sessions.</param>
     public ExpressionsSessionBuilder(IServiceCollection services, ChangeTracking? tracking)
     {
         _services = services;

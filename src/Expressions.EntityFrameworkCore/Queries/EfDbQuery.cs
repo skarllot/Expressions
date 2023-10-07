@@ -6,11 +6,18 @@ using Raiqub.Expressions.Queries.Paging;
 
 namespace Raiqub.Expressions.EntityFrameworkCore.Queries;
 
+/// <summary>
+/// Entity Framework-based implementation of a query that can be executed to retrieve instances of type <typeparamref name="TResult"/>.
+/// </summary>
+/// <typeparam name="TResult">The type of the result returned.</typeparam>
 public class EfDbQuery<TResult> : IDbQuery<TResult>
 {
     private readonly ILogger _logger;
     private readonly IQueryable<TResult> _dataSource;
 
+    /// <summary>Initializes a new instance of the <see cref="EfDbQuery{TResult}"/> class.</summary>
+    /// <param name="logger">The <see cref="ILogger"/> to log to.</param>
+    /// <param name="dataSource">The data source to query from.</param>
     public EfDbQuery(
         ILogger logger,
         IQueryable<TResult> dataSource)
@@ -19,6 +26,7 @@ public class EfDbQuery<TResult> : IDbQuery<TResult>
         _dataSource = dataSource;
     }
 
+    /// <inheritdoc />
     public async Task<bool> AnyAsync(CancellationToken cancellationToken = default)
     {
         try
@@ -35,6 +43,7 @@ public class EfDbQuery<TResult> : IDbQuery<TResult>
         }
     }
 
+    /// <inheritdoc />
     public async Task<int> CountAsync(CancellationToken cancellationToken = default)
     {
         try
@@ -51,6 +60,7 @@ public class EfDbQuery<TResult> : IDbQuery<TResult>
         }
     }
 
+    /// <inheritdoc />
     public async Task<TResult> FirstAsync(CancellationToken cancellationToken = default)
     {
         try
@@ -68,6 +78,7 @@ public class EfDbQuery<TResult> : IDbQuery<TResult>
         }
     }
 
+    /// <inheritdoc />
     public async Task<TResult?> FirstOrDefaultAsync(CancellationToken cancellationToken = default)
     {
         try
@@ -84,6 +95,7 @@ public class EfDbQuery<TResult> : IDbQuery<TResult>
         }
     }
 
+    /// <inheritdoc />
     public async Task<long> LongCountAsync(CancellationToken cancellationToken = default)
     {
         try
@@ -100,6 +112,7 @@ public class EfDbQuery<TResult> : IDbQuery<TResult>
         }
     }
 
+    /// <inheritdoc />
     public async Task<TPage> ToPagedListAsync<TPage>(
         int pageNumber,
         int pageSize,
@@ -138,6 +151,7 @@ public class EfDbQuery<TResult> : IDbQuery<TResult>
         return pagedResultFactory(new PageInfo(pageNumber, pageSize, totalCount), items);
     }
 
+    /// <inheritdoc />
     public async Task<IReadOnlyList<TResult>> ToListAsync(CancellationToken cancellationToken = default)
     {
         List<TResult> items;
@@ -158,6 +172,7 @@ public class EfDbQuery<TResult> : IDbQuery<TResult>
         return items;
     }
 
+    /// <inheritdoc />
     public async Task<TResult> SingleAsync(CancellationToken cancellationToken = default)
     {
         try
@@ -175,6 +190,7 @@ public class EfDbQuery<TResult> : IDbQuery<TResult>
         }
     }
 
+    /// <inheritdoc />
     public async Task<TResult?> SingleOrDefaultAsync(CancellationToken cancellationToken = default)
     {
         try
@@ -192,6 +208,7 @@ public class EfDbQuery<TResult> : IDbQuery<TResult>
         }
     }
 
+    /// <inheritdoc />
     public async IAsyncEnumerable<TResult> ToAsyncEnumerable(
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
