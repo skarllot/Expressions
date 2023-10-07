@@ -30,7 +30,12 @@ public sealed class ExpressionsSessionBuilder
         _services.AddSingleton<MartenDbSessionFactory>();
         _services.AddSingleton<IDbSessionFactory>(sp => sp.GetRequiredService<MartenDbSessionFactory>());
         _services.AddSingleton<IDbQuerySessionFactory>(sp => sp.GetRequiredService<MartenDbSessionFactory>());
-        _services.AddScoped<IDbSession>(sp => sp.GetRequiredService<IDbSessionFactory>().Create(combinedTracking));
+
+        if (combinedTracking is null)
+            _services.AddScoped<IDbSession>(sp => sp.GetRequiredService<IDbSessionFactory>().Create());
+        else
+            _services.AddScoped<IDbSession>(sp => sp.GetRequiredService<IDbSessionFactory>().Create(combinedTracking));
+
         _services.AddScoped<IDbQuerySession>(sp => sp.GetRequiredService<IDbQuerySessionFactory>().Create());
     }
 
@@ -48,11 +53,18 @@ public sealed class ExpressionsSessionBuilder
         var combinedTracking = tracking ?? _tracking;
 
         _services.AddSingleton<MartenDbSessionFactory<TDbContext>>();
-        _services.AddSingleton<IDbSessionFactory<TContext>>(sp => sp.GetRequiredService<MartenDbSessionFactory<TDbContext>>());
+        _services.AddSingleton<IDbSessionFactory<TContext>>(
+            sp => sp.GetRequiredService<MartenDbSessionFactory<TDbContext>>());
         _services.AddSingleton<IDbQuerySessionFactory<TContext>>(
             sp => sp.GetRequiredService<MartenDbSessionFactory<TDbContext>>());
-        _services.AddScoped<IDbSession<TContext>>(
-            sp => sp.GetRequiredService<IDbSessionFactory<TContext>>().Create(combinedTracking));
+
+        if (combinedTracking is null)
+            _services.AddScoped<IDbSession<TContext>>(
+                sp => sp.GetRequiredService<IDbSessionFactory<TContext>>().Create());
+        else
+            _services.AddScoped<IDbSession<TContext>>(
+                sp => sp.GetRequiredService<IDbSessionFactory<TContext>>().Create(combinedTracking));
+
         _services.AddScoped<IDbQuerySession<TContext>>(
             sp => sp.GetRequiredService<IDbQuerySessionFactory<TContext>>().Create());
 
