@@ -1,7 +1,7 @@
 # Expressions
 
 [![Build status](https://github.com/skarllot/Expressions/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/skarllot/Expressions/actions)
-![CodeQL](https://github.com/skarllot/Expressions/actions/workflows/codeql.yaml/badge.svg?branch=main)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/skarllot/Expressions/badge)](https://securityscorecards.dev/viewer/?uri=github.com/skarllot/Expressions)
 [![Code coverage](https://codecov.io/gh/skarllot/Expressions/branch/main/graph/badge.svg)](https://codecov.io/gh/skarllot/Expressions)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/skarllot/Expressions/master/LICENSE)
 
