@@ -1,6 +1,6 @@
 # Expressions
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/EngRajabi/Enum.Source.Generator/master/LICENSE) [![Nuget](https://img.shields.io/nuget/v/Raiqub.Expressions)](https://www.nuget.org/packages/Raiqub.Expressions) [![Nuget](https://img.shields.io/nuget/dt/Raiqub.Expressions?label=Nuget.org%20Downloads&style=flat-square&color=blue)](https://www.nuget.org/packages/Raiqub.Expressions)
+[![Build status](https://github.com/skarllot/Expressions/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/skarllot/Expressions/actions) [![Code coverage](https://codecov.io/gh/skarllot/Expressions/branch/main/graph/badge.svg)](https://codecov.io/gh/skarllot/Expressions) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/skarllot/Expressions/master/LICENSE)
 
 _Raiqub.Expressions is a library that provides abstractions for creating specifications and query strategies using LINQ expressions. It also supports querying and writing to databases using various providers._
 
@@ -17,11 +17,11 @@ _Raiqub.Expressions is a library that provides abstractions for creating specifi
 * Built with .NET Standard 2.0, 2.1, and .NET 6.0
 
 ## NuGet Packages
-* **Raiqub.Expressions**: provides abstractions for creating specifications
-* **Raiqub.Expressions.Reading**: provides abstractions for creating query strategies and query sessions. Defines the `IDbQuerySession` and `IDbQuerySessionFactory` interfaces for querying from the database
-* **Raiqub.Expressions.Writing**: provides abstractions for creating write sessions and performing write operations. Defines the `IDbSession` and `IDbSessionFactory` interfaces for writing to the database
-* **Raiqub.Expressions.EntityFrameworkCore**: implements sessions and factories using Entity Framework Core. Ideal for integrating with Entity Framework Core for database access
-* **Raiqub.Expressions.Marten**: implements sessions and factories using Marten library. Perfect for leveraging Marten's NoSQL document database capabilities
+* [![NuGet](https://buildstats.info/nuget/Raiqub.Expressions)](https://www.nuget.org/packages/Raiqub.Expressions/) **Raiqub.Expressions**: provides abstractions for creating specifications
+* [![NuGet](https://buildstats.info/nuget/Raiqub.Expressions.Reading)](https://www.nuget.org/packages/Raiqub.Expressions.Reading/) **Raiqub.Expressions.Reading**: provides abstractions for creating query strategies and query sessions. Defines the `IDbQuerySession` and `IDbQuerySessionFactory` interfaces for querying from the database
+* [![NuGet](https://buildstats.info/nuget/Raiqub.Expressions.Writing)](https://www.nuget.org/packages/Raiqub.Expressions.Writing/) **Raiqub.Expressions.Writing**: provides abstractions for creating write sessions and performing write operations. Defines the `IDbSession` and `IDbSessionFactory` interfaces for writing to the database
+* [![NuGet](https://buildstats.info/nuget/Raiqub.Expressions.EntityFrameworkCore)](https://www.nuget.org/packages/Raiqub.Expressions.EntityFrameworkCore/) **Raiqub.Expressions.EntityFrameworkCore**: implements sessions and factories using Entity Framework Core. Ideal for integrating with Entity Framework Core for database access
+* [![NuGet](https://buildstats.info/nuget/Raiqub.Expressions.Marten)](https://www.nuget.org/packages/Raiqub.Expressions.Marten/) **Raiqub.Expressions.Marten**: implements sessions and factories using Marten library. Perfect for leveraging Marten's NoSQL document database capabilities
 
 ## Prerequisites
 Before you begin, you'll need the following:

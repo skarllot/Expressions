@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\Expressions.EntityFrameworkCore\Expressions.EntityFrameworkCore.csproj" />
   </ItemGroup>
 
