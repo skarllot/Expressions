@@ -9,12 +9,12 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    ignore:
+      # Ignore the libraries which are pinned
+      - dependency-name: "Microsoft.Bcl.AsyncInterfaces"
+      - dependency-name: "Microsoft.Extensions.Logging"
+      - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
   - package-ecosystem: "github-actions"
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
-    ignore:
-    # Ignore the libraries which are pinned
-    - dependency-name: "Microsoft.Bcl.AsyncInterfaces"
-    - dependency-name: "Microsoft.Extensions.Logging"
-    - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
