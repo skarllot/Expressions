@@ -12,8 +12,11 @@ updates:
     ignore:
       # Ignore the libraries which are pinned
       - dependency-name: "Microsoft.Bcl.AsyncInterfaces"
-      - dependency-name: "Microsoft.Extensions.Logging"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "Microsoft.EntityFrameworkCore.Relational"
+        update-types: ["version-update:semver-major"]
       - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: "github-actions"
     directory: "/" # Location of package manifests
     schedule:
