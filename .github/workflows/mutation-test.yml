@@ -53,11 +53,14 @@ jobs:
       - name: Stryker (Diff)
         run: |
           dotnet tool install dotnet-stryker
-          dotnet stryker -f .config/stryker-config.json -O StrykerOutput -r html --since:main
+          dotnet stryker -f .config/stryker-config.json -O StrykerOutput -r html -r markdown --since:main
         if: github.event_name == 'pull_request'
 
       - name: Upload Mutation Report
         uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3
         with:
           name: mutation-report
-          path: StrykerOutput/reports/mutation-report.html
+          path: StrykerOutput/reports
+
+      - name: Mutation Test Summary
+        run: cat StrykerOutput/reports/mutation-report.md >> $GITHUB_STEP_SUMMARY
