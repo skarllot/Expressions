@@ -1,0 +1,36 @@
+﻿{
+    "stryker-config": {
+        "target-framework": "net6.0",
+        "reporters": [
+            "json",
+            "html",
+            "markdown",
+            "dashboard"
+        ],
+        "ignore-methods": [
+            "*Exception.ctor",
+            "ConfigureAwait",
+            "Dispose",
+            "DisposeAsync",
+            "DisposeAsyncCore",
+            "SuppressFinalize"
+        ],
+        "mutate": [
+            "!**/Helpdesk*/**/*.*",
+            "!**/Common.Tests/**/*.*"
+        ],
+        "thresholds": {
+            "break": 50
+        },
+        "since": {
+            "ignore-changes-in": [
+                "*.md",
+                ".config/**/*.*",
+                ".idea/**/*.*",
+                ".github/**/*.*",
+                "samples/**/*.*"
+            ]
+        },
+        "ignore-mutations": []
+    }
+}

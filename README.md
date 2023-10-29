@@ -3,7 +3,8 @@
 [![Build status](https://github.com/skarllot/Expressions/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/skarllot/Expressions/actions)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/skarllot/Expressions/badge)](https://securityscorecards.dev/viewer/?uri=github.com/skarllot/Expressions)
 [![Code coverage](https://codecov.io/gh/skarllot/Expressions/branch/main/graph/badge.svg)](https://codecov.io/gh/skarllot/Expressions)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/skarllot/Expressions/master/LICENSE)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fskarllot%2FExpressions%2Fmain)](https://dashboard.stryker-mutator.io/reports/github.com/skarllot/Expressions/main)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://raw.githubusercontent.com/skarllot/Expressions/master/LICENSE)
 
 _Raiqub.Expressions is a library that provides abstractions for creating specifications and query strategies using LINQ expressions. It also supports querying and writing to databases using various providers._
 
