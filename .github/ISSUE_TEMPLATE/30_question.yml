@@ -1,4 +1,4 @@
-﻿name: 🤔 Question?
+name: 🤔 Question?
 description: You have something specific to achieve and the existing documentation hasn't covered how.
 title: '[Question]: '
 labels: ['question']
@@ -7,7 +7,7 @@ body:
     attributes:
       value: |
         Please check for an existing issue and our documentation at [README file](https://github.com/skarllot/Expressions#guide) before asking a question.
-        Also consider asking your question on [Stack Overflow](https://stackoverflow.com/questions/tagged/raiqub-expressions) instead.
+        Also consider asking your question on [Github Discussions](https://github.com/skarllot/Expressions/discussions) instead.
   - type: textarea
     attributes:
       label: What are you wanting to achieve?

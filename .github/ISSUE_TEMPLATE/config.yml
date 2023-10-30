@@ -1,4 +1,4 @@
-﻿blank_issues_enabled: true
+blank_issues_enabled: true
 contact_links:
   - name: 📚 Documentation
     url: https://github.com/skarllot/Expressions#guide
@@ -6,6 +6,6 @@ contact_links:
   - name: ⭐ Sponsor Raiqub Expressions
     url: https://www.buymeacoffee.com/skarllot
     about: Help the continued development.
-  - name: 💬 Ask on Stack Overflow
-    url: https://stackoverflow.com/questions/tagged/raiqub-expressions
+  - name: 💬 Ask on Github Discussions
+    url: https://github.com/skarllot/Expressions/discussions
     about: The best place for asking general purpose questions.
