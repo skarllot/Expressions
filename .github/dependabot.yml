@@ -9,15 +9,25 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    groups:
+      coverlet:
+        patterns:
+          - coverlet*
+      npgsql:
+        patterns:
+          - Npgsql*
+      xunit:
+        patterns:
+          - xunit*
     ignore:
       # Ignore the libraries which are pinned
       - dependency-name: "Microsoft.Bcl.AsyncInterfaces"
         update-types: ["version-update:semver-major"]
-      - dependency-name: "Microsoft.EntityFrameworkCore.Relational"
+      - dependency-name: "Microsoft.EntityFrameworkCore*"
         update-types: ["version-update:semver-major"]
-      - dependency-name: "Microsoft.Extensions.DependencyInjection"
+      - dependency-name: "Microsoft.Extensions.*"
         update-types: ["version-update:semver-major"]
-      - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
+      - dependency-name: "Npgsql*"
         update-types: ["version-update:semver-major"]
   - package-ecosystem: "github-actions"
     directory: "/"
