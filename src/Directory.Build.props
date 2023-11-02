@@ -3,8 +3,11 @@
   <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
 
   <PropertyGroup>
+    <EnablePackageValidation>true</EnablePackageValidation>
+    <PackageIcon>logo-red-white-128.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageReleaseNotes>See https://github.com/skarllot/Expressions/releases for release notes.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="$(SolutionDir)logos\logo-red-white-128.png" Pack="true" PackagePath="\" />
     <None Include="$(SolutionDir)README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 

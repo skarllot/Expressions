@@ -1,4 +1,4 @@
-# Expressions
+![Abstractions for specifications and query strategies](logos/logo-horizontal-red-black-button-slogan.png "Raiqub Expressions")
 
 [![Build status](https://github.com/skarllot/Expressions/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/skarllot/Expressions/actions)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/skarllot/Expressions/badge)](https://securityscorecards.dev/viewer/?uri=github.com/skarllot/Expressions)
