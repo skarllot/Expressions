@@ -32,9 +32,9 @@ public static class Specification
     /// <returns>A new specification that represents the conjunction of two specifications (both must be satisfied).</returns>
     public static Specification<T> And<T>(this Specification<T> left, Specification<T> right)
     {
-        if (ReferenceEquals(left, AllSpecification<T>.Instance))
+        if (left.IsTrueExpression())
             return right;
-        if (ReferenceEquals(right, AllSpecification<T>.Instance))
+        if (right.IsTrueExpression())
             return left;
         return new AnonymousSpecification<T>(left.ToExpression().And(right.ToExpression()));
     }
@@ -75,8 +75,7 @@ public static class Specification
     /// <returns>A new specification that represents the disjunction of two specifications (at least one of them must be satisfied).</returns>
     public static Specification<T> Or<T>(this Specification<T> left, Specification<T> right)
     {
-        return ReferenceEquals(left, AllSpecification<T>.Instance) ||
-               ReferenceEquals(right, AllSpecification<T>.Instance)
+        return left.IsTrueExpression() || right.IsTrueExpression()
             ? AllSpecification<T>.Instance
             : new AnonymousSpecification<T>(left.ToExpression().Or(right.ToExpression()));
     }

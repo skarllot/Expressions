@@ -8,4 +8,8 @@
     </PackageTags>
   </PropertyGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="Raiqub.Expressions.Tests" />
+  </ItemGroup>
+
 </Project>

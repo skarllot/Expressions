@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Raiqub.Expressions.Common;
 
 namespace Raiqub.Expressions.Internal;
 
@@ -6,6 +7,11 @@ internal static class ExpressionTreeExtensions
 {
     public static Expression<Func<T, bool>> And<T>(this Expression<Func<T, bool>> left, Expression<Func<T, bool>> right)
     {
+        if (IsTrueExpression(left))
+            return right;
+        if (IsTrueExpression(right))
+            return left;
+
         var rightParam = right.Parameters.Single();
         var leftParam = left.Parameters.Single();
 
@@ -20,7 +26,7 @@ internal static class ExpressionTreeExtensions
     {
         return expressions.Aggregate(
             AllSpecification<T>.s_expression,
-            static (x, y) => ReferenceEquals(x, AllSpecification<T>.s_expression) ? y : x.And(y));
+            static (x, y) => x.And(y));
     }
 
     public static Expression<Func<TDerived, bool>> CastDown<TParent, TDerived>(
@@ -36,6 +42,11 @@ internal static class ExpressionTreeExtensions
         return Expression.Lambda<Func<TDerived, bool>>(newBody, newParam);
     }
 
+    public static bool IsTrueExpression<T>(this Expression<Func<T, bool>> expression)
+    {
+        return expression.Body is ConstantExpression { Value: true };
+    }
+
     public static Expression<Func<T, bool>> Not<T>(this Expression<Func<T, bool>> expression)
     {
         var leftParam = expression.Parameters.Single();
@@ -46,6 +57,9 @@ internal static class ExpressionTreeExtensions
 
     public static Expression<Func<T, bool>> Or<T>(this Expression<Func<T, bool>> left, Expression<Func<T, bool>> right)
     {
+        if (IsTrueExpression(left) || IsTrueExpression(right))
+            return AllSpecification<T>.s_expression;
+
         var rightParam = right.Parameters.Single();
         var leftParam = left.Parameters.Single();
 
@@ -58,8 +72,6 @@ internal static class ExpressionTreeExtensions
 
     public static Expression<Func<T, bool>> Or<T>(this IEnumerable<Expression<Func<T, bool>>> expressions)
     {
-        return expressions.Aggregate(
-            AllSpecification<T>.s_expression,
-            static (x, y) => ReferenceEquals(x, AllSpecification<T>.s_expression) ? y : x.Or(y));
+        return expressions.AggregateOrDefault(static (x, y) => x.Or(y)) ?? AllSpecification<T>.s_expression;
     }
 }
