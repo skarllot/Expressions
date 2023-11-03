@@ -142,4 +142,16 @@ public class SpecificationOfTTest
         result1.Should().BeTrue();
         result2.Should().BeFalse();
     }
+
+    [Fact]
+    public void IsSatisfiedByShouldCacheCompilation()
+    {
+        var specification = new OneTimeSpecification<string>(s => s == "john");
+
+        bool isTrue = specification.IsSatisfiedBy("john");
+        bool isFalse = specification.IsSatisfiedBy("jane");
+
+        isTrue.Should().BeTrue();
+        isFalse.Should().BeFalse();
+    }
 }
