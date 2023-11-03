@@ -62,6 +62,24 @@ public class SpecificationTest
     }
 
     [Fact]
+    public void AndShouldIgnoreAllSpecifications()
+    {
+        var staticSpec = Specification.All<string>();
+        var customSpec = Specification.Create((string s) => true);
+        var isJohnSpec = Specification.Create((string s) => s == "john");
+
+        var spec1 = staticSpec.And(isJohnSpec);
+        var spec2 = customSpec.And(isJohnSpec);
+        var spec3 = isJohnSpec.And(staticSpec);
+        var spec4 = isJohnSpec.And(customSpec);
+
+        spec1.Should().BeSameAs(isJohnSpec);
+        spec2.Should().BeSameAs(isJohnSpec);
+        spec3.Should().BeSameAs(isJohnSpec);
+        spec4.Should().BeSameAs(isJohnSpec);
+    }
+
+    [Fact]
     public void AndShouldEvaluateCollectionCorrectly()
     {
         var specification = Specification.And(
@@ -104,6 +122,24 @@ public class SpecificationTest
 
         bool result = specification.IsSatisfiedBy(input);
         result.Should().BeTrue();
+    }
+
+    [Fact]
+    public void OrShouldOptimizeAllSpecifications()
+    {
+        var staticSpec = Specification.All<string>();
+        var customSpec = Specification.Create((string s) => true);
+        var isJohnSpec = Specification.Create((string s) => s == "john");
+
+        var spec1 = staticSpec.Or(isJohnSpec);
+        var spec2 = customSpec.Or(isJohnSpec);
+        var spec3 = isJohnSpec.Or(staticSpec);
+        var spec4 = isJohnSpec.Or(customSpec);
+
+        spec1.Should().BeSameAs(staticSpec);
+        spec2.Should().BeSameAs(staticSpec);
+        spec3.Should().BeSameAs(staticSpec);
+        spec4.Should().BeSameAs(staticSpec);
     }
 
     [Theory]
