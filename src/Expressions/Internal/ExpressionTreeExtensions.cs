@@ -7,13 +7,13 @@ internal static class ExpressionTreeExtensions
 {
     public static Expression<Func<T, bool>> And<T>(this Expression<Func<T, bool>> left, Expression<Func<T, bool>> right)
     {
-        var rightParam = right.Parameters.Single();
-        var leftParam = left.Parameters.Single();
         if (IsTrueExpression(left))
             return right;
         if (IsTrueExpression(right))
             return left;
 
+        var rightParam = right.Parameters.Single();
+        var leftParam = left.Parameters.Single();
 
         var newRight = new ReplaceParameterExpressionVisitor(rightParam, leftParam)
             .VisitAndConvert(right.Body, nameof(Expression.AndAlso));
@@ -57,11 +57,11 @@ internal static class ExpressionTreeExtensions
 
     public static Expression<Func<T, bool>> Or<T>(this Expression<Func<T, bool>> left, Expression<Func<T, bool>> right)
     {
-        var rightParam = right.Parameters.Single();
-        var leftParam = left.Parameters.Single();
         if (IsTrueExpression(left) || IsTrueExpression(right))
             return AllSpecification<T>.s_expression;
 
+        var rightParam = right.Parameters.Single();
+        var leftParam = left.Parameters.Single();
 
         var newRight = new ReplaceParameterExpressionVisitor(rightParam, leftParam)
             .VisitAndConvert(right.Body, nameof(Expression.OrElse));
