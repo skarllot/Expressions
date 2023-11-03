@@ -143,6 +143,29 @@ public class SpecificationTest
         result4.Should().BeFalse();
     }
 
+    [Fact]
+    public void OrShouldReturnTrueWhenAnyIsTrue()
+    {
+        var specification1 = Specification.Or(
+            Specification.Create<string>(s => false),
+            Specification.Create<string>(s => false),
+            Specification.All<string>(),
+            Specification.Create<string>(s => false),
+            Specification.Create<string>(s => false));
+        var specification2 = Specification.Or(
+            Specification.Create<string>(s => false),
+            Specification.Create<string>(s => false),
+            Specification.Create<string>(s => true),
+            Specification.Create<string>(s => false),
+            Specification.Create<string>(s => false));
+
+        bool result1 = specification1.IsSatisfiedBy("");
+        bool result2 = specification2.IsSatisfiedBy("");
+
+        result1.Should().BeTrue();
+        result2.Should().BeTrue();
+    }
+
     [Theory]
     [InlineData("John Dee")]
     [InlineData("john moor")]

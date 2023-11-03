@@ -54,4 +54,6 @@ public abstract class Specification<T>
 
     /// <summary>Returns a string representation of the lambda expression.</summary>
     public override string ToString() => ToExpression().ToString();
+
+    internal bool IsTrueExpression() => ToExpression().IsTrueExpression();
 }
