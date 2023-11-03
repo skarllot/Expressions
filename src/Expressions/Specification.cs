@@ -45,9 +45,10 @@ public static class Specification
     /// <returns>A new specification that represents the conjunction of all specifications (all must be satisfied).</returns>
     public static Specification<T> And<T>(IEnumerable<Specification<T>> specifications)
     {
-        return ReferenceEquals(specifications, Enumerable.Empty<Specification<T>>())
+        var expression = specifications.Select(static s => s.ToExpression()).And();
+        return expression.IsTrueExpression()
             ? AllSpecification<T>.Instance
-            : new AnonymousSpecification<T>(specifications.Select(static s => s.ToExpression()).And());
+            : new AnonymousSpecification<T>(expression);
     }
 
     /// <summary>Combines multiple specifications using the conditional logical AND operator.</summary>
@@ -75,9 +76,10 @@ public static class Specification
     /// <returns>A new specification that represents the disjunction of two specifications (at least one of them must be satisfied).</returns>
     public static Specification<T> Or<T>(this Specification<T> left, Specification<T> right)
     {
-        return left.IsTrueExpression() || right.IsTrueExpression()
+        var expression = left.ToExpression().Or(right.ToExpression());
+        return expression.IsTrueExpression()
             ? AllSpecification<T>.Instance
-            : new AnonymousSpecification<T>(left.ToExpression().Or(right.ToExpression()));
+            : new AnonymousSpecification<T>(expression);
     }
 
     /// <summary>Combines multiple specifications using the conditional logical OR operator.</summary>
@@ -86,9 +88,10 @@ public static class Specification
     /// <returns>A new specification that represents the disjunction of all specifications (at least one of them must be satisfied).</returns>
     public static Specification<T> Or<T>(IEnumerable<Specification<T>> specifications)
     {
-        return ReferenceEquals(specifications, Enumerable.Empty<Specification<T>>())
+        var expression = specifications.Select(static s => s.ToExpression()).Or();
+        return expression.IsTrueExpression()
             ? AllSpecification<T>.Instance
-            : new AnonymousSpecification<T>(specifications.Select(static s => s.ToExpression()).Or());
+            : new AnonymousSpecification<T>(expression);
     }
 
     /// <summary>Combines multiple specifications using the conditional logical OR operator.</summary>

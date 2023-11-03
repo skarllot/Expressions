@@ -61,6 +61,22 @@ public class SpecificationTest
         result2.Should().BeTrue();
     }
 
+    [Theory]
+    [InlineData("John Dee")]
+    [InlineData("john dee")]
+    [InlineData("johndee")]
+    public void AndShouldReturnSingleElementFromCollection(string input)
+    {
+        var specification1 = Specification.And(
+            Specification.Create((string s) => s.Contains("john", StringComparison.OrdinalIgnoreCase)));
+
+        bool result1 = specification1.IsSatisfiedBy(input);
+        bool result2 = specification1.IsSatisfiedBy(input.Replace("ohn", "ane"));
+
+        result1.Should().BeTrue();
+        result2.Should().BeFalse();
+    }
+
     [Fact]
     public void AndShouldIgnoreAllSpecifications()
     {
@@ -156,6 +172,22 @@ public class SpecificationTest
 
         result1.Should().BeTrue();
         result2.Should().BeTrue();
+    }
+
+    [Theory]
+    [InlineData("John Dee")]
+    [InlineData("john dee")]
+    [InlineData("johndee")]
+    public void OrShouldReturnSingleElementFromCollection(string input)
+    {
+        var specification1 = Specification.Or(
+            Specification.Create((string s) => s.Contains("john", StringComparison.OrdinalIgnoreCase)));
+
+        bool result1 = specification1.IsSatisfiedBy(input);
+        bool result2 = specification1.IsSatisfiedBy(input.Replace("ohn", "ane"));
+
+        result1.Should().BeTrue();
+        result2.Should().BeFalse();
     }
 
     [Fact]
