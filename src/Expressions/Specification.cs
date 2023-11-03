@@ -46,7 +46,7 @@ public static class Specification
     public static Specification<T> And<T>(IEnumerable<Specification<T>> specifications)
     {
         var expression = specifications.Select(static s => s.ToExpression()).And();
-        return expression.IsTrueExpression()
+        return expression.IsTrueConstant()
             ? AllSpecification<T>.Instance
             : new AnonymousSpecification<T>(expression);
     }
@@ -77,7 +77,7 @@ public static class Specification
     public static Specification<T> Or<T>(this Specification<T> left, Specification<T> right)
     {
         var expression = left.ToExpression().Or(right.ToExpression());
-        return expression.IsTrueExpression()
+        return expression.IsTrueConstant()
             ? AllSpecification<T>.Instance
             : new AnonymousSpecification<T>(expression);
     }
@@ -89,7 +89,7 @@ public static class Specification
     public static Specification<T> Or<T>(IEnumerable<Specification<T>> specifications)
     {
         var expression = specifications.Select(static s => s.ToExpression()).Or();
-        return expression.IsTrueExpression()
+        return expression.IsTrueConstant()
             ? AllSpecification<T>.Instance
             : new AnonymousSpecification<T>(expression);
     }

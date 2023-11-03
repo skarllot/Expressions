@@ -7,9 +7,9 @@ internal static class ExpressionTreeExtensions
 {
     public static Expression<Func<T, bool>> And<T>(this Expression<Func<T, bool>> left, Expression<Func<T, bool>> right)
     {
-        if (IsTrueExpression(left))
+        if (IsTrueConstant(left))
             return right;
-        if (IsTrueExpression(right))
+        if (IsTrueConstant(right))
             return left;
 
         var rightParam = right.Parameters[0];
@@ -40,7 +40,7 @@ internal static class ExpressionTreeExtensions
         return Expression.Lambda<Func<TDerived, bool>>(newBody, newParam);
     }
 
-    public static bool IsTrueExpression<T>(this Expression<Func<T, bool>> expression)
+    public static bool IsTrueConstant<T>(this Expression<Func<T, bool>> expression)
     {
         return expression.Body is ConstantExpression { Value: true };
     }
@@ -53,7 +53,7 @@ internal static class ExpressionTreeExtensions
 
     public static Expression<Func<T, bool>> Or<T>(this Expression<Func<T, bool>> left, Expression<Func<T, bool>> right)
     {
-        if (IsTrueExpression(left) || IsTrueExpression(right))
+        if (IsTrueConstant(left) || IsTrueConstant(right))
             return AllSpecification<T>.s_expression;
 
         var rightParam = right.Parameters[0];
