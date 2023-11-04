@@ -165,21 +165,67 @@ public abstract class SessionFactoryTestBase : DatabaseTestBase
         blogs.Should().NotContain(blog => blog.Name == "Second");
     }
 
+    [Fact]
+    public async Task QueryUsingSpecificationShouldReturnExpected()
+    {
+        var sessionFactory = CreateSessionFactory();
+
+        await using (var session = sessionFactory.Create())
+        {
+            await session.AddRangeAsync(GetBlogs());
+            await session.SaveChangesAsync();
+        }
+
+        IReadOnlyList<Blog> blogs;
+        await using (var session = sessionFactory.Create())
+        {
+            blogs = await session.Query(BlogSpecification.OfName("Second")).ToListAsync();
+        }
+
+        blogs.Should().HaveCount(1);
+        blogs[0].Name.Should().Be("Second");
+        blogs[0].Posts.Should().HaveCount(1);
+    }
+
+    [Fact]
+    public async Task QueryUsingQueryStrategyShouldReturnExpected()
+    {
+        var queryStrategy = QueryStrategy.Create(
+            source => from blog in source.GetSet<Blog>()
+                select blog.Name);
+
+        var sessionFactory = CreateSessionFactory();
+
+        await using (var session = sessionFactory.Create())
+        {
+            await session.AddRangeAsync(GetBlogs());
+            await session.SaveChangesAsync();
+        }
+
+        IReadOnlyList<string> blogs;
+        await using (var session = sessionFactory.Create())
+        {
+            blogs = await session.Query(queryStrategy).ToListAsync();
+        }
+
+        blogs.Should().Equal("First", "Second", "Third");
+    }
+
     protected IDbSessionFactory CreateSessionFactory() => ServiceProvider.GetRequiredService<IDbSessionFactory>();
 
     protected static IEnumerable<Blog> GetBlogs()
     {
         DateTimeOffset now = DateTimeOffset.UtcNow;
 
-        var first = new Blog(Guid.Empty, "First");
+        var first = new Blog(new Guid("018a7015-fd5b-48a2-9ffa-07ef1ce7486d"), "First");
         first.AddPost(new Post("Nice", "Keep writing", now.AddMilliseconds(1)));
         first.AddPost(new Post("The worst", "You should quit writing", now.AddMilliseconds(2)));
         yield return first;
 
-        var second = new Blog(Guid.Empty, "Second");
+        var second = new Blog(new Guid("018a7016-05a4-48c3-8545-63549cd3aeed"), "Second");
         second.AddPost(new Post("Thank you", "You helped a lot", now.AddMilliseconds(1)));
         yield return second;
 
-        yield return new Blog(Guid.Empty, "Third");
+        yield return new Blog(new Guid("018a7018-8fee-4acf-968b-5c89f5599f23"), "Third");
     }
 }
