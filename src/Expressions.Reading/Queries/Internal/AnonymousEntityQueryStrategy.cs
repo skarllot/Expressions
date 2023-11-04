@@ -14,6 +14,4 @@ internal sealed class AnonymousEntityQueryStrategy<TSource, TResult>
     public IQueryable<TResult> Execute(IQueryable<TSource> source) => _strategy(source);
 
     public IEnumerable<TResult> Execute(IEnumerable<TSource> source) => _strategy(source.AsQueryable());
-
-    public IQueryable<TResult> Execute(IQuerySource source) => _strategy(source.GetSet<TSource>());
 }

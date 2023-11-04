@@ -74,11 +74,28 @@ public class EfDbSession : IDbSession
     }
 
     /// <inheritdoc />
+    public IDbQuery<TEntity> Query<TEntity>() where TEntity : class
+    {
+        return new EfDbQuery<TEntity>(_logger, _querySource.GetSet<TEntity>());
+    }
+
+    /// <inheritdoc />
+    public IDbQuery<TEntity> Query<TEntity>(Specification<TEntity> specification) where TEntity : class
+    {
+        return new EfDbQuery<TEntity>(_logger, _querySource.GetSet<TEntity>().Where(specification));
+    }
+
+    /// <inheritdoc />
+    public IDbQuery<TResult> Query<TEntity, TResult>(IEntityQueryStrategy<TEntity, TResult> queryStrategy)
+        where TEntity : class
+    {
+        return new EfDbQuery<TResult>(_logger, queryStrategy.Execute(_querySource.GetSet<TEntity>()));
+    }
+
+    /// <inheritdoc />
     public IDbQuery<TResult> Query<TResult>(IQueryStrategy<TResult> queryStrategy)
     {
-        return new EfDbQuery<TResult>(
-            _logger,
-            queryStrategy.Execute(_querySource));
+        return new EfDbQuery<TResult>(_logger, queryStrategy.Execute(_querySource));
     }
 
     /// <inheritdoc />

@@ -10,6 +10,4 @@ internal sealed class SpecificationQueryStrategy<T> : IEntityQueryStrategy<T>
     public IQueryable<T> Execute(IQueryable<T> source) => source.Where(_specification);
 
     public IEnumerable<T> Execute(IEnumerable<T> source) => source.Where(_specification);
-
-    public IQueryable<T> Execute(IQuerySource source) => source.GetSet<T>().Where(_specification);
 }

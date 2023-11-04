@@ -14,7 +14,4 @@ internal sealed class DerivedEntityQueryStrategy<TParent, TDerived>
 
     public IEnumerable<TDerived> Execute(IEnumerable<TDerived> source) =>
         _originalQueryStrategy.Execute(source).OfType<TDerived>();
-
-    public IQueryable<TDerived> Execute(IQuerySource source) =>
-        Execute(source.GetSet<TDerived>());
 }

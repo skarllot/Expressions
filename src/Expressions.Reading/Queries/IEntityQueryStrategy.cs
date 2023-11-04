@@ -6,7 +6,7 @@
 /// </summary>
 /// <typeparam name="TSource">The type of the data source.</typeparam>
 /// <typeparam name="TResult">The type of the query result.</typeparam>
-public interface IEntityQueryStrategy<in TSource, out TResult> : IQueryStrategy<TResult>
+public interface IEntityQueryStrategy<in TSource, out TResult>
 {
     /// <summary>
     /// Executes the query on the specified data source of type <typeparamref name="TSource"/> and returns a query

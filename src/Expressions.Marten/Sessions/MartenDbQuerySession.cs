@@ -11,7 +11,7 @@ public class MartenDbQuerySession : IDbQuerySession
 {
     private readonly ILogger<MartenDbQuerySession> _logger;
     private readonly IQuerySession _session;
-    private readonly MartenQuerySource _querySource;
+    private MartenQuerySource? _querySource;
 
     /// <summary>Initializes a new instance of the <see cref="MartenDbQuerySession"/> class.</summary>
     /// <param name="logger">The <see cref="ILogger"/> to log to.</param>
@@ -20,16 +20,36 @@ public class MartenDbQuerySession : IDbQuerySession
     {
         _logger = logger;
         _session = session;
-        _querySource = new MartenQuerySource(session);
     }
 
     /// <summary>Gets the Marten session used by this database session.</summary>
     public virtual IQuerySession MartenSession => _session;
 
+    private MartenQuerySource QuerySource => _querySource ??= new MartenQuerySource(_session);
+
+    /// <inheritdoc />
+    public IDbQuery<TEntity> Query<TEntity>() where TEntity : class
+    {
+        return new MartenDbQuery<TEntity>(_logger, _session.Query<TEntity>());
+    }
+
+    /// <inheritdoc />
+    public IDbQuery<TEntity> Query<TEntity>(Specification<TEntity> specification) where TEntity : class
+    {
+        return new MartenDbQuery<TEntity>(_logger, _session.Query<TEntity>().Where(specification));
+    }
+
+    /// <inheritdoc />
+    public IDbQuery<TResult> Query<TEntity, TResult>(IEntityQueryStrategy<TEntity, TResult> queryStrategy)
+        where TEntity : class
+    {
+        return new MartenDbQuery<TResult>(_logger, queryStrategy.Execute(_session.Query<TEntity>()));
+    }
+
     /// <inheritdoc />
     public IDbQuery<TResult> Query<TResult>(IQueryStrategy<TResult> queryStrategy)
     {
-        return new MartenDbQuery<TResult>(_logger, queryStrategy.Execute(_querySource));
+        return new MartenDbQuery<TResult>(_logger, queryStrategy.Execute(QuerySource));
     }
 
     /// <inheritdoc />
@@ -50,6 +70,7 @@ public class MartenDbQuerySession : IDbQuerySession
     /// <summary>DisposeAsync method for implementations to write.</summary>
     protected virtual async ValueTask DisposeAsyncCore()
     {
+        _querySource = null;
         await _session.DisposeAsync();
     }
 
@@ -59,6 +80,7 @@ public class MartenDbQuerySession : IDbQuerySession
     {
         if (disposing)
         {
+            _querySource = null;
             _session.Dispose();
         }
     }
