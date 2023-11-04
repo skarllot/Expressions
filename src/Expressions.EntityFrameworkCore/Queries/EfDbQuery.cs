@@ -113,6 +113,15 @@ public class EfDbQuery<TResult> : IDbQuery<TResult>
     }
 
     /// <inheritdoc />
+    public Task<PagedResult<TResult>> ToPagedListAsync(
+        int pageNumber,
+        int pageSize,
+        CancellationToken cancellationToken = default)
+    {
+        return ToPagedListAsync(pageNumber, pageSize, DefaultPagedResultFactory<TResult>.Create, cancellationToken);
+    }
+
+    /// <inheritdoc />
     public async Task<TPage> ToPagedListAsync<TPage>(
         int pageNumber,
         int pageSize,

@@ -14,7 +14,7 @@ public static class QuerySourceExtensions
         IEntityQueryStrategy<TSource, TResult> queryStrategy)
         where TSource : class
     {
-        return queryStrategy.Execute(querySource);
+        return queryStrategy.Execute(querySource.GetSet<TSource>());
     }
 
     /// <summary>Gets the data source applying the specified criteria.</summary>

@@ -5,7 +5,7 @@ using Helpdesk.Relational.Incidents.Acknowledge.v1;
 using Helpdesk.Relational.Tests.Common;
 using NSubstitute;
 using NSubstitute.Extensions;
-using Raiqub.Expressions.Queries;
+using Raiqub.Expressions;
 using Raiqub.Expressions.Sessions;
 
 namespace Helpdesk.Relational.Tests.Incidents.Acknowledge.v1;
@@ -27,14 +27,14 @@ public class AcknowledgeIncidentResolutionUseCaseTest
         // Arrange
         var incident = IncidentFixture.Resolved();
 
-        _dbSession.Configure().Query(Arg.Any<IQueryStrategy<Incident>>()).FirstAsync().Returns(incident);
+        _dbSession.Configure().Query(Arg.Any<Specification<Incident>>()).FirstAsync().Returns(incident);
 
         // Act
         await _useCase.Execute(incident.Id, incident.CustomerId, CancellationToken.None);
 
         // Assert
         await _dbSession
-            .Received(1).Query(Arg.Any<IQueryStrategy<Incident>>())
+            .Received(1).Query(Arg.Any<Specification<Incident>>())
             .Received(1).FirstAsync();
 
         _dbSession.Received(1).Update(incident);
@@ -49,7 +49,7 @@ public class AcknowledgeIncidentResolutionUseCaseTest
     public async Task ShouldFailAcknowledgeForUnresolvedIncident(Incident incident)
     {
         // Arrange
-        _dbSession.Configure().Query(Arg.Any<IQueryStrategy<Incident>>()).FirstAsync().Returns(incident);
+        _dbSession.Configure().Query(Arg.Any<Specification<Incident>>()).FirstAsync().Returns(incident);
 
         // Act
         Func<Task> useCaseExecute = () => _useCase.Execute(incident.Id, incident.CustomerId, CancellationToken.None);

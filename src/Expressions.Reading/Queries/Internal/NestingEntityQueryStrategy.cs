@@ -22,6 +22,4 @@ internal sealed class NestingEntityQueryStrategy<TEntity, TNested, TResult>
 
     public IEnumerable<TResult> Execute(IEnumerable<TEntity> source) =>
         _nestedQueryStrategy.Execute(source.SelectMany(_selector.Compile()));
-
-    public IQueryable<TResult> Execute(IQuerySource source) => Execute(source.GetSet<TEntity>());
 }

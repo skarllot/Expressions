@@ -53,12 +53,6 @@ public abstract class EntityQueryStrategy<TSource, TResult>
         return Execute(source.AsQueryable());
     }
 
-    /// <inheritdoc />
-    public IQueryable<TResult> Execute(IQuerySource source)
-    {
-        return Execute(source.GetSet<TSource>());
-    }
-
     /// <summary>Gets the mandatory preconditions to execute the query.</summary>
     /// <returns>An <see cref="IEnumerable{T}"/> that represents the preconditions for the query strategy.</returns>
     protected virtual IEnumerable<Specification<TSource>> GetPreconditions() =>

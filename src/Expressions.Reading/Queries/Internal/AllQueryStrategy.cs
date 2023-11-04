@@ -8,6 +8,4 @@ internal sealed class AllQueryStrategy<T> : IEntityQueryStrategy<T>
     public IQueryable<T> Execute(IQueryable<T> source) => source;
 
     public IEnumerable<T> Execute(IEnumerable<T> source) => source;
-
-    public IQueryable<T> Execute(IQuerySource source) => source.GetSet<T>();
 }
