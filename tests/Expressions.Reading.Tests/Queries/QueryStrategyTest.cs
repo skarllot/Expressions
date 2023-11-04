@@ -41,4 +41,71 @@ public class QueryStrategyTest
         result1.Should().Equal("john");
         result2.Should().Equal("john");
     }
+
+    [Fact]
+    public void CreateNestedShouldReturnAll()
+    {
+        string[] source = { "john", "jane", "", "hugo", "jack" };
+        char[] expected = { 'j', 'o', 'h', 'n', 'j', 'a', 'n', 'e', 'h', 'u', 'g', 'o', 'j', 'a', 'c', 'k' };
+        var queryStrategy = QueryStrategy.CreateNested((string s) => s.Select(l => Tuple.Create(l)));
+
+        char[] result1 = source
+            .Apply(queryStrategy)
+            .Select(t => t.Item1)
+            .ToArray();
+        char[] result2 = source
+            .AsQueryable()
+            .Apply(queryStrategy)
+            .Select(t => t.Item1)
+            .ToArray();
+
+        result1.Should().Equal(expected);
+        result2.Should().Equal(expected);
+    }
+
+    [Fact]
+    public void CreateNestedWithSpecificationShouldReturnExpected()
+    {
+        string[] source = { "john", "jane", "", "hugo", "jack" };
+        char[] expected = { 'j', 'o', 'n', 'j', 'n', 'u', 'o', 'j', 'k' };
+        var queryStrategy = QueryStrategy.CreateNested(
+            (string s) => s.Select(l => Tuple.Create(l)),
+            Specification.Create<Tuple<char>>(t => t.Item1 > 'h'));
+
+        char[] result1 = source
+            .Apply(queryStrategy)
+            .Select(t => t.Item1)
+            .ToArray();
+        char[] result2 = source
+            .AsQueryable()
+            .Apply(queryStrategy)
+            .Select(t => t.Item1)
+            .ToArray();
+
+        result1.Should().Equal(expected);
+        result2.Should().Equal(expected);
+    }
+
+    [Fact]
+    public void CreateNestedWithEntityQueryStrategyShouldReturnExpected()
+    {
+        string[] source = { "john", "jane", "", "hugo", "jack" };
+        char[] expected = { 'j', 'o', 'n', 'j', 'n', 'u', 'o', 'j', 'k' };
+        var queryStrategy = QueryStrategy.CreateNested(
+            (string s) => s.Select(l => Tuple.Create(l)),
+            QueryStrategy.CreateForEntity((IQueryable<Tuple<char>> s) => s.Where(t => t.Item1 > 'h')));
+
+        char[] result1 = source
+            .Apply(queryStrategy)
+            .Select(t => t.Item1)
+            .ToArray();
+        char[] result2 = source
+            .AsQueryable()
+            .Apply(queryStrategy)
+            .Select(t => t.Item1)
+            .ToArray();
+
+        result1.Should().Equal(expected);
+        result2.Should().Equal(expected);
+    }
 }

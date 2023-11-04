@@ -12,6 +12,4 @@ public class BlogPostContentSearchQueryStrategy : EntityQueryStrategy<BlogPost>
     {
         yield return new BlogPostContentSearchSpecification(Search);
     }
-
-    protected override IQueryable<BlogPost> ExecuteCore(IQueryable<BlogPost> source) => source;
 }
