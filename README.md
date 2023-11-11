@@ -1,4 +1,6 @@
-![Abstractions for specifications and query strategies](logos/logo-horizontal-red-black-button-slogan.png "Raiqub Expressions")
+# Raiqub Expressions
+
+_Raiqub.Expressions is a library that provides abstractions for creating specifications and query strategies using LINQ expressions. It also supports querying and writing to databases using various providers._
 
 [![Build status](https://github.com/skarllot/Expressions/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/skarllot/Expressions/actions)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/skarllot/Expressions/badge)](https://securityscorecards.dev/viewer/?uri=github.com/skarllot/Expressions)
@@ -6,11 +8,11 @@
 [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fskarllot%2FExpressions%2Fmain)](https://dashboard.stryker-mutator.io/reports/github.com/skarllot/Expressions/main)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://raw.githubusercontent.com/skarllot/Expressions/master/LICENSE)
 
-_Raiqub.Expressions is a library that provides abstractions for creating specifications and query strategies using LINQ expressions. It also supports querying and writing to databases using various providers._
-
 [🏃 Quickstart](#quickstart) &nbsp; | &nbsp; [📗 Guide](#guide) &nbsp; | &nbsp; [🔄 Migration](#migration-guide)
 
 <hr />
+
+![Abstractions for specifications and query strategies](https://raw.github.com/skarllot/Expressions/main/logos/logo-horizontal-red-black-button-slogan.png "Raiqub Expressions")
 
 ## Features
 * Easily define and compose specifications to encapsulate business rules
@@ -362,8 +364,8 @@ If you need to use another ORM library, you will need to implement your own data
 
 ## Migration Guide
 
-### Key Changes in 2.0.0
-In the Version 2.0.0 release of our library, the `IQueryModel`-related interfaces and classes was renamed to `IQueryStrategy`. These changes are summarized in the table below:
+### Key Changes in 2.0
+In the version 2.0, the `IQueryModel`-related interfaces and classes was renamed to `IQueryStrategy`. These changes are summarized in the table below:
 
 | V1                                       | V2                                          |
 |------------------------------------------|---------------------------------------------|
@@ -375,6 +377,9 @@ In the Version 2.0.0 release of our library, the `IQueryModel`-related interface
 We chose to rename these interfaces and classes to use the "Strategy" suffix (`IQueryStrategy`, `IEntityQueryStrategy`, etc.) to better reflect their purpose. This new naming convention aligns with design patterns like the Strategy Pattern, which emphasizes encapsulating algorithms and making them interchangeable.
 
 It's important to note that the `IEntityQueryStrategy` interface now extends the `IQueryStrategy` interface. This hierarchy reflects the relationship between entity-specific query strategies and general query strategies. You can use this inheritance structure to create custom query strategies that build upon the foundation provided by `IQueryStrategy`.
+
+### Key Changes in 2.2
+In the version 2.2, extension methods for `IDbSession` and `IDbQuery` were added to respective interface contract. And `IEntityQueryStrategy` interface no longer extends the `IQueryStrategy` interface.
 
 ## Contributing
 
