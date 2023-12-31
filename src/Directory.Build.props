@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <None Include="$(SolutionDir)logos\logo-red-white-128.png" Pack="true" PackagePath="\" />
-    <None Include="$(SolutionDir)README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>

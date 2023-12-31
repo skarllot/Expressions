@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Please check for an existing issue and our documentation at [README file](https://github.com/skarllot/Expressions#guide) before asking a question.
+        Please check for an existing issue and our [documentation](https://skarllot.github.io/Expressions/) before asking a question.
         Also consider asking your question on [Github Discussions](https://github.com/skarllot/Expressions/discussions) instead.
   - type: textarea
     attributes:

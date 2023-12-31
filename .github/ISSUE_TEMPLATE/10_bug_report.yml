@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Please check for an existing issue and our documentation at [README file](https://github.com/skarllot/Expressions#guide) before submitting a bug report.
+        Please check for an existing issue and our [documentation](https://skarllot.github.io/Expressions/) before submitting a bug report.
   - type: textarea
     attributes:
       label: Describe the bug

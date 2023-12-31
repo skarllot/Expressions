@@ -1,7 +1,7 @@
 blank_issues_enabled: true
 contact_links:
-  - name: 📚 Documentation
-    url: https://github.com/skarllot/Expressions#guide
+  - name: 📖 Documentation
+    url: https://skarllot.github.io/Expressions/
     about: Read our documentation.
   - name: ⭐ Sponsor Raiqub Expressions
     url: https://www.buymeacoffee.com/skarllot
