@@ -4,7 +4,7 @@
 
   <PropertyGroup>
     <EnablePackageValidation>true</EnablePackageValidation>
-    <PackageIcon>logo-red-white-128.png</PackageIcon>
+    <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageReleaseNotes>See https://github.com/skarllot/Expressions/releases for release notes.</PackageReleaseNotes>
@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="$(SolutionDir)logos\logo-red-white-128.png" Pack="true" PackagePath="\" />
+    <None Include="$(SolutionDir)logos\logo-red-white-symbol-128.png" Pack="true" PackagePath="icon.png" />
   </ItemGroup>
 
 </Project>

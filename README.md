@@ -12,8 +12,6 @@ _Raiqub.Expressions is a library that provides abstractions for creating specifi
 
 <hr />
 
-![Abstractions for specifications and query strategies](https://raw.github.com/skarllot/Expressions/main/logos/logo-horizontal-red-black-button-slogan.png "Raiqub Expressions")
-
 ## Features
 * Easily define and compose specifications to encapsulate business rules
 * Create custom query strategies for flexible and efficient data retrieval

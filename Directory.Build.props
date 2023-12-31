@@ -15,12 +15,12 @@
 
   <PropertyGroup>
     <Authors>Fabricio Godoy</Authors>
-    <Copyright>Copyright © Fabricio Godoy</Copyright>
+    <Copyright>Copyright © Fabricio Godoy and contributors</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <NeutralLanguage>en</NeutralLanguage>
     <RepositoryUrl>https://github.com/skarllot/Expressions</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageProjectUrl>https://github.com/skarllot/Expressions</PackageProjectUrl>
+    <PackageProjectUrl>https://fgodoy.me/Expressions/</PackageProjectUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">

@@ -1,19 +1,36 @@
-import { defineConfig } from 'vitepress'
+import {defineConfig} from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "Raiqub Expressions",
   lang: "en-US",
   description: "A library that provides abstractions for creating specifications and query strategies using LINQ expressions",
+  head: [
+    ['link', { rel: "apple-touch-icon", sizes: "180x180", href: "/Expressions/apple-touch-icon.png" }],
+    ['link', { rel: "icon", type: "image/png", sizes: "32x32", href: "/Expressions/favicon-32x32.png" }],
+    ['link', { rel: "icon", type: "image/png", sizes: "16x16", href: "/Expressions/favicon-16x16.png" }],
+    ['link', { rel: "manifest", href: "/Expressions/manifest.json" }],
+    ['meta', { property: 'og:title', content: 'Raiqub Expressions' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', {
+      property: 'og:description',
+      content: 'A library that provides abstractions for creating specifications and query strategies using LINQ expressions'
+    }],
+    ['meta', { property: 'og:url', content: 'https://fgodoy.me/Expressions/' }]
+  ],
+
+  lastUpdated: true,
+
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Intro', link: '/introduction' },
-      { text: 'Migration', link: '/migration-guide' }
+      { text: 'Migration', link: '/migration-guide' },
+      { text: 'Discussions', link: 'https://github.com/skarllot/Expressions/discussions' }
     ],
 
-    logo: '/logo-red-white-favicon-128.png',
+    logo: '/favicon-128x128.png',
 
     sidebar: {
       '/': [
@@ -72,13 +89,6 @@ export default defineConfig({
       text: 'Edit this page on GitHub'
     }
   },
-  head: [
-    ['link', { rel: "icon", type: "image/png", sizes: "32x32", href: "/logo-red-white-favicon-32.png" }],
-    ['link', { rel: "icon", type: "image/png", sizes: "16x16", href: "/logo-red-white-favicon-16.png" }],
-    ['meta', { property: 'og:title', content: 'Raiqub Expressions' }],
-    ['meta', { property: 'og:type', content: 'website' }],
-    ['meta', { property: 'og:description', content: 'A library that provides abstractions for creating specifications and query strategies using LINQ expressions' }]
-  ],
   base: '/Expressions/',
   sitemap: {
     hostname: "https://fgodoy.me/Expressions/"
