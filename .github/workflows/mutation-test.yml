@@ -6,8 +6,10 @@ name: Mutation Test
 on:
   push:
     branches: [ "main" ]
+    paths: [ "*.props", "src/**/*.cs", "src/**/*.csproj", "src/**/*.props", "tests/**/*.cs", "tests/**/*.csproj", "tests/**/*.props" ]
   pull_request:
     branches: [ "main" ]
+    paths: [ "*.props", "src/**/*.cs", "src/**/*.csproj", "src/**/*.props", "tests/**/*.cs", "tests/**/*.csproj", "tests/**/*.props" ]
 
 env:
   DOTNET_GENERATE_ASPNET_CERTIFICATE: false
