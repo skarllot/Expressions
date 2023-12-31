@@ -79,6 +79,7 @@ export default defineConfig({
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:description', content: 'A library that provides abstractions for creating specifications and query strategies using LINQ expressions' }]
   ],
+  base: '/Expressions/',
   sitemap: {
     hostname: "https://fgodoy.me/Expressions/"
   }
