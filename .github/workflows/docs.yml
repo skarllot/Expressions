@@ -2,8 +2,8 @@
 
 on:
   push:
-    branches: [main]
-    paths: ['docs/**']
+    branches: [ main ]
+    paths: [ 'docs/**', '.github/workflows/docs.yml' ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -42,6 +42,7 @@ jobs:
         with:
           node-version: 18
           cache: npm
+          cache-dependency-path: docs/package-lock.json
       - name: 🌐 Setup Pages
         uses: actions/configure-pages@1f0c5cde4bc74cd7e1254d0cb4de8d49e9068c7d # v4.0.0
       - name: 📥 Install dependencies
@@ -53,7 +54,7 @@ jobs:
       - name: 📤 Upload artifact
         uses: actions/upload-pages-artifact@0252fc4ba7626f0298f0cf00902a25c6afc77fa8 # v3.0.0
         with:
-          path: .vitepress/dist
+          path: docs/.vitepress/dist
 
   # Deployment job
   deploy:
