@@ -3,6 +3,7 @@
 on:
   push:
     branches: [main]
+    paths: ['docs/**']
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -23,6 +24,10 @@ jobs:
   # Build job
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: docs
+
     steps:
       - name: 🛡️ Harden Runner
         uses: step-security/harden-runner@eb238b55efaa70779f274895e782ed17c84f2895 # v2.6.1
@@ -44,11 +49,11 @@ jobs:
       - name: 🏗️ Build with VitePress
         run: |
           npm run docs:build
-          touch docs/.vitepress/dist/.nojekyll
+          touch .vitepress/dist/.nojekyll
       - name: 📤 Upload artifact
         uses: actions/upload-pages-artifact@0252fc4ba7626f0298f0cf00902a25c6afc77fa8 # v3.0.0
         with:
-          path: docs/.vitepress/dist
+          path: .vitepress/dist
 
   # Deployment job
   deploy:
@@ -59,6 +64,10 @@ jobs:
     runs-on: ubuntu-latest
     name: Deploy
     steps:
+      - name: 🛡️ Harden Runner
+        uses: step-security/harden-runner@eb238b55efaa70779f274895e782ed17c84f2895 # v2.6.1
+        with:
+          egress-policy: audit
       - name: 🚀 Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@7a9bd943aa5e5175aeb8502edcc6c1c02d398e10 # v4.0.2
