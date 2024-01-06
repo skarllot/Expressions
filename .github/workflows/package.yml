@@ -38,11 +38,17 @@ jobs:
         uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3.3.2
         with:
           path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props') }}
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
           restore-keys: ${{ runner.os }}-nuget-
 
+      - name: 📥 Restore dependencies
+        run: dotnet restore --locked-mode
+
+      - name: 🏗️ Build
+        run: dotnet build --no-restore -c Release
+
       - name: 📦 Pack
-        run: dotnet pack /p:CI=true /p:PublicRelease=true -c Release
+        run: dotnet pack /p:CI=true /p:PublicRelease=true --no-build -c Release
 
       - name: 🚀 Publish
         run: dotnet nuget push "artifacts/*.nupkg" -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_APIKEY }} --skip-duplicate

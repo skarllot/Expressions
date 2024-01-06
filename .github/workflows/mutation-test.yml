@@ -6,10 +6,10 @@ name: Mutation Test
 on:
   push:
     branches: [ "main" ]
-    paths: [ "*.props", "src/**/*.cs", "src/**/*.csproj", "src/**/*.props", "tests/**/*.cs", "tests/**/*.csproj", "tests/**/*.props" ]
+    paths: [ "src/**/packages.lock.json", "src/**/*.cs", "tests/**/packages.lock.json", "tests/**/*.cs" ]
   pull_request:
     branches: [ "main" ]
-    paths: [ "*.props", "src/**/*.cs", "src/**/*.csproj", "src/**/*.props", "tests/**/*.cs", "tests/**/*.csproj", "tests/**/*.props" ]
+    paths: [ "src/**/packages.lock.json", "src/**/*.cs", "tests/**/packages.lock.json", "tests/**/*.cs" ]
 
 env:
   DOTNET_GENERATE_ASPNET_CERTIFICATE: false
@@ -25,44 +25,45 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Harden Runner
+      - name: 🛡️ Harden Runner
         uses: step-security/harden-runner@eb238b55efaa70779f274895e782ed17c84f2895 # v2.6.1
         with:
           egress-policy: audit
 
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - name: 🛒 Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
           fetch-depth: 0
 
-      - name: Setup .NET
+      - name: 🧰 Setup .NET
         uses: actions/setup-dotnet@4d6c8fcf3c8f7a60068d26b594648e99df24cee3 # v4.0.0
         with:
           dotnet-version: 6.0.x
 
-      - name: Setup NuGet cache
+      - name: 🗃️ Setup NuGet cache
         uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3.3.2
         with:
           path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props') }}
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
           restore-keys: ${{ runner.os }}-nuget-
 
-      - name: Stryker
+      - name: 🧬 Stryker
         run: |
           dotnet tool restore
           dotnet stryker -f .config/stryker-config.json -O StrykerOutput --dashboard-api-key ${{ secrets.STRYKER_DASHBOARD_API_KEY }} -v main
         if: github.event_name != 'pull_request'
 
-      - name: Stryker (Diff)
+      - name: 🧬 Stryker (Diff)
         run: |
           dotnet tool restore
           dotnet stryker -f .config/stryker-config.json -O StrykerOutput -r html -r markdown --since:main
         if: github.event_name == 'pull_request'
 
-      - name: Upload Mutation Report
+      - name: 📤 Upload Mutation Report
         uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392 # v4.0.0
         with:
           name: mutation-report
           path: StrykerOutput/reports
 
-      - name: Mutation Test Summary
+      - name: 📓 Mutation Test Summary
         run: cat StrykerOutput/reports/mutation-report.md >> $GITHUB_STEP_SUMMARY

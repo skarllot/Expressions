@@ -14,11 +14,11 @@ name: "CodeQL"
 on:
   push:
     branches: [ "main" ]
-    paths: [ "*.props", "src/**/*.cs", "src/**/*.csproj", "src/**/*.props", "tests/**/*.cs", "tests/**/*.csproj", "tests/**/*.props" ]
+    paths: [ "src/**/packages.lock.json", "src/**/*.cs", "tests/**/packages.lock.json", "tests/**/*.cs" ]
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ "main" ]
-    paths: [ "*.props", "src/**/*.cs", "src/**/*.csproj", "src/**/*.props", "tests/**/*.cs", "tests/**/*.csproj", "tests/**/*.props" ]
+    paths: [ "src/**/packages.lock.json", "src/**/*.cs", "tests/**/packages.lock.json", "tests/**/*.cs" ]
   schedule:
     - cron: '28 20 * * 1'
 
@@ -61,7 +61,7 @@ jobs:
       uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3.3.2
       with:
         path: ~/.nuget/packages
-        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props') }}
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
         restore-keys: ${{ runner.os }}-nuget-
 
     # Initializes the CodeQL tools for scanning.
@@ -76,8 +76,11 @@ jobs:
         # For more details on CodeQL's query packs, refer to: https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
         # queries: security-extended,security-and-quality
 
+    - name: Restore dependencies
+      run: dotnet restore --locked-mode
+
     - name: Build
-      run: dotnet build -c Release
+      run: dotnet build --no-restore -c Release
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@012739e5082ff0c22ca6d6ab32e07c36df03c4a4 # v3.22.12
