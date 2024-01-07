@@ -41,6 +41,25 @@ public class QueryStrategyClassTest
     }
 
     [Fact]
+    public void ShouldFilterJohnWithDee()
+    {
+        string[] result1 = GetAll()
+            .Apply(new JohnQueryStrategy(new StringEndsWithDeeSpecification()))
+            .ToArray();
+        string[] result2 = GetAll()
+            .AsQueryable()
+            .Apply(new JohnQueryStrategy(new StringEndsWithDeeSpecification()))
+            .ToArray();
+        string[] result3 = GetAll()
+            .Apply(new JohnQueryStrategy(new Specification<string>[] { new StringEndsWithDeeSpecification() }.ToList()))
+            .ToArray();
+
+        result1.Should().Equal("John Dee", "John Beacon Dee", "john moor dee");
+        result2.Should().Equal("John Dee", "John Beacon Dee", "john moor dee");
+        result3.Should().Equal("John Dee", "John Beacon Dee", "john moor dee");
+    }
+
+    [Fact]
     public void ShouldFilterWhenUsingCastDownSpecification()
     {
         var list = new[] { new NewsPost(1, "First", "The first post", "general", "John") };
@@ -63,6 +82,27 @@ public class QueryStrategyClassTest
         NewsPost[] result2 = list
             .AsQueryable()
             .Apply(new BlogPostContentSearchQueryStrategy("first").DownCast().To<NewsPost>())
+            .ToArray();
+
+        result1.Should().HaveCount(1);
+        result2.Should().HaveCount(1);
+    }
+
+    [Fact]
+    public void ShouldFilterAndCastToBaseClassUsingCastQueryStrategy()
+    {
+        var list = new[]
+        {
+            new NewsPost(1, "First", "The first news", "general", "John"),
+            new NewsPost(2, "Second", "The second news", "general", "Jane")
+        };
+
+        NewsPost[] result1 = list
+            .Apply(new NewsPostThatContainsFirstQueryStrategy().DownCast().Create())
+            .ToArray();
+        NewsPost[] result2 = list
+            .AsQueryable()
+            .Apply(new NewsPostThatContainsFirstQueryStrategy().DownCast().Create())
             .ToArray();
 
         result1.Should().HaveCount(1);

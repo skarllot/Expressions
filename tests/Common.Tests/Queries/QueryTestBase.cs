@@ -102,6 +102,8 @@ public abstract class QueryTestBase : DatabaseTestBase
 
         pagedResult1.TotalCount.Should().Be(3);
         pagedResult1.Should().HaveCount(3);
+        pagedResult1.PageNumber.Should().Be(1);
+        pagedResult1.PageSize.Should().Be(10);
         pagedResult1.IsFirstPage.Should().BeTrue();
         pagedResult1.IsLastPage.Should().BeTrue();
         pagedResult1.HasNextPage.Should().BeFalse();
@@ -109,9 +111,15 @@ public abstract class QueryTestBase : DatabaseTestBase
         pagedResult1.PageCount.Should().Be(1);
         pagedResult1.FirstItemOnPage.Should().Be(1);
         pagedResult1.LastItemOnPage.Should().Be(3);
+        pagedResult1.Count.Should().Be(3);
+        pagedResult1[0].Name.Should().Be("First");
+        pagedResult1[1].Name.Should().Be("Second");
+        pagedResult1[2].Name.Should().Be("Third");
 
         pagedResult2.TotalCount.Should().Be(3);
         pagedResult2.Should().HaveCount(1);
+        pagedResult2.PageNumber.Should().Be(2);
+        pagedResult2.PageSize.Should().Be(2);
         pagedResult2.IsFirstPage.Should().BeFalse();
         pagedResult2.IsLastPage.Should().BeTrue();
         pagedResult2.HasNextPage.Should().BeFalse();
@@ -119,9 +127,13 @@ public abstract class QueryTestBase : DatabaseTestBase
         pagedResult2.PageCount.Should().Be(2);
         pagedResult2.FirstItemOnPage.Should().Be(3);
         pagedResult2.LastItemOnPage.Should().Be(3);
+        pagedResult2.Count.Should().Be(1);
+        pagedResult2[0].Name.Should().Be("Third");
 
         pagedResult3.TotalCount.Should().Be(0);
         pagedResult3.Should().BeEmpty();
+        pagedResult3.PageNumber.Should().Be(3);
+        pagedResult3.PageSize.Should().Be(2);
         pagedResult3.IsFirstPage.Should().BeFalse();
         pagedResult3.IsLastPage.Should().BeFalse();
         pagedResult3.HasNextPage.Should().BeFalse();
@@ -129,6 +141,7 @@ public abstract class QueryTestBase : DatabaseTestBase
         pagedResult3.PageCount.Should().Be(0);
         pagedResult3.FirstItemOnPage.Should().Be(0);
         pagedResult3.LastItemOnPage.Should().Be(0);
+        pagedResult3.Count.Should().Be(0);
     }
 
     [Fact]
@@ -203,15 +216,15 @@ public abstract class QueryTestBase : DatabaseTestBase
     {
         DateTimeOffset now = DateTimeOffset.UtcNow;
 
-        var first = new Blog(Guid.Empty, "First");
+        var first = new Blog(new Guid("018a7015-fd5b-48a2-9ffa-07ef1ce7486d"), "First");
         first.AddPost(new Post("Nice", "Keep writing", now.AddMilliseconds(1)));
         first.AddPost(new Post("The worst", "You should quit writing", now.AddMilliseconds(2)));
         yield return first;
 
-        var second = new Blog(Guid.Empty, "Second");
+        var second = new Blog(new Guid("018a7016-05a4-48c3-8545-63549cd3aeed"), "Second");
         second.AddPost(new Post("Thank you", "You helped a lot", now.AddMilliseconds(1)));
         yield return second;
 
-        yield return new Blog(Guid.Empty, "Third");
+        yield return new Blog(new Guid("018a7018-8fee-4acf-968b-5c89f5599f23"), "Third");
     }
 }
