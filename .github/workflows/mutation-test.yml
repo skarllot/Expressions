@@ -6,10 +6,10 @@ name: Mutation Test
 on:
   push:
     branches: [ "main" ]
-    paths: [ "src/**/packages.lock.json", "src/**/*.cs", "tests/**/packages.lock.json", "tests/**/*.cs" ]
+    paths: [ "src/**/packages.lock.json", "src/**/*.cs", "tests/**/packages.lock.json", "tests/**/*.cs", ".config/*.json" ]
   pull_request:
     branches: [ "main" ]
-    paths: [ "src/**/packages.lock.json", "src/**/*.cs", "tests/**/packages.lock.json", "tests/**/*.cs" ]
+    paths: [ "src/**/packages.lock.json", "src/**/*.cs", "tests/**/packages.lock.json", "tests/**/*.cs", ".config/*.json" ]
 
 env:
   DOTNET_GENERATE_ASPNET_CERTIFICATE: false
