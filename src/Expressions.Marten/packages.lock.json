@@ -693,7 +693,7 @@
       "Raiqub.Expressions.Database": {
         "type": "Project",
         "dependencies": {
-          "Microsoft.Extensions.Logging.Abstractions": "[6.0.0, )"
+          "Microsoft.Extensions.Logging.Abstractions": "[6.0.4, )"
         }
       },
       "Raiqub.Expressions.Reading": {
