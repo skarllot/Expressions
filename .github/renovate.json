@@ -1,81 +1,8 @@
 {
-    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "extends": [
-        "config:recommended"
-    ],
-    "reviewers": ["skarllot"],
-    "prHourlyLimit": 0,
-    "semanticCommits": "enabled",
-    "semanticCommitType": "build",
-    "labels": ["dependencies"],
-    "packageRules": [
-        {
-            "matchDatasources": ["nuget", "dotnet-version"],
-            "addLabels": [".NET"],
-            "semanticCommitType": "build"
-        },
-        {
-            "matchDatasources": ["npm"],
-            "addLabels": ["javascript"],
-            "semanticCommitType": "build"
-        },
-        {
-            "matchDatasources": ["docker"],
-            "addLabels": ["docker"],
-            "semanticCommitType": "build"
-        },
-        {
-            "matchDatasources": ["github-tags", "github-runners"],
-            "addLabels": ["github_actions"],
-            "semanticCommitType": "ci"
-        },
-        {
-            "matchDepTypes":["devDependencies"],
-            "semanticCommitScope": "deps-dev"
-        },
-        {
-            "matchDatasources":["dotnet-version"],
-            "matchUpdateTypes":["major"],
-            "enabled": false
-        },
-        {
-            "description": "Packages which need major versions to be in sync with the .NET version",
-            "matchDatasources": ["nuget", "docker"],
-            "matchPackagePrefixes": [
-                "Microsoft.Bcl.AsyncInterfaces",
-                "Microsoft.EntityFrameworkCore",
-                "Microsoft.Extensions.",
-                "mcr.microsoft.com/dotnet"
-            ],
-            "matchUpdateTypes": ["major"],
-            "enabled": false
-        },
-        {
-            "description": "Postgres packages",
-            "matchDatasources": ["nuget"],
-            "matchPackagePrefixes": [
-                "Npgsql"
-            ],
-            "matchUpdateTypes": ["major"],
-            "enabled": false
-        },
-        {
-            "groupName": "Npgsql",
-            "matchPackagePrefixes": [
-                "Npgsql"
-            ]
-        },
-        {
-            "groupName": "xUnit.net",
-            "matchPackagePrefixes": [
-                "xunit"
-            ]
-        },
-        {
-            "groupName": "coverlet",
-            "matchPackagePrefixes": [
-                "coverlet"
-            ]
-        }
-    ]
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "local>skarllot/renovate-config"
+  ],
+  "reviewers": ["skarllot"],
+  "assignees": ["skarllot"]
 }
