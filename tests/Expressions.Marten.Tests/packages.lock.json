@@ -985,8 +985,8 @@
       },
       "Testcontainers": {
         "type": "Transitive",
-        "resolved": "3.6.0",
-        "contentHash": "yksmMPiOiEpal6vW/TnUQXcQlEphdZTlIMk+yIE+IkUmQQx/H6j07hFAux1uV5nuhbms6KzEknQ/RnRIRj718g==",
+        "resolved": "3.7.0",
+        "contentHash": "Nn9/mVOiYEC1mdE0Kr2xQfVAV9mssLedalC6OnC59kHOudx2IhVgenHc983LIdMIhsYF9ywVnyW7HrJE7qVuJg==",
         "dependencies": {
           "BouncyCastle.Cryptography": "2.2.1",
           "Docker.DotNet": "3.125.15",
@@ -995,15 +995,15 @@
           "Microsoft.Extensions.Logging.Abstractions": "6.0.4",
           "SSH.NET": "2023.0.0",
           "SharpZipLib": "1.4.2",
-          "System.Text.Json": "6.0.8"
+          "System.Text.Json": "6.0.9"
         }
       },
       "Testcontainers.PostgreSql": {
         "type": "Transitive",
-        "resolved": "3.6.0",
-        "contentHash": "G3BZCOAu+lGf8YF7ZoeGxyXJPVtY2vSLZiTDQIYX3OkXRmU9Sci4gTbUK1WqdM/z2O5cMBEpsq7Mn0PDL0xjNA==",
+        "resolved": "3.7.0",
+        "contentHash": "cNQsV+igxcC9W3tSH9t7FRIHGzfrSk0i1JSAoNIEECIK/fbh2TeBewAfSlOt+JY3sJUgL6G+LQkAOkJRGTIKAA==",
         "dependencies": {
-          "Testcontainers": "3.6.0"
+          "Testcontainers": "3.7.0"
         }
       },
       "Weasel.Core": {
@@ -1072,7 +1072,7 @@
           "Raiqub.Expressions": "[1.0.0, )",
           "Raiqub.Expressions.Writing": "[1.0.0, )",
           "Respawn": "[6.1.0, )",
-          "Testcontainers.PostgreSql": "[3.6.0, )",
+          "Testcontainers.PostgreSql": "[3.7.0, )",
           "xunit.core": "[2.6.6, )"
         }
       },
