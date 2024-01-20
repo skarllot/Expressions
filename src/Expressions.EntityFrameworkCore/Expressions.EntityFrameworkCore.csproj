@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;netstandard2.1</TargetFrameworks>
+    <TargetFrameworks>net8.0;net6.0;netstandard2.1</TargetFrameworks>
     <Description>Provides implementation of sessions and factories using Entity Framework Core.</Description>
     <PackageTags>
       spec;specification;ddd;domain;ef;efcore;core;query;querymodel;command;expressions;lambda;db;database;relational;paging;pagination;page
@@ -13,12 +13,20 @@
     <ProjectReference Include="..\Expressions.Writing\Expressions.Writing.csproj" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <None Include="$(OutputPath)\Raiqub.Expressions.Database.dll" Pack="true" PackagePath="lib/net8.0" Visible="true" />
+  </ItemGroup>
+
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
     <None Include="$(OutputPath)\Raiqub.Expressions.Database.dll" Pack="true" PackagePath="lib/net6.0" Visible="true" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
     <None Include="$(OutputPath)\Raiqub.Expressions.Database.dll" Pack="true" PackagePath="lib/netstandard2.1" Visible="true" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.1" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">

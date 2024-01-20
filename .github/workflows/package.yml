@@ -29,12 +29,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: ✨ Setup .NET
+      - name: 🧰 Setup .NET
         uses: actions/setup-dotnet@4d6c8fcf3c8f7a60068d26b594648e99df24cee3 # v4.0.0
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: 8.0.x
 
-      - name: 🛠️ Setup NuGet cache
+      - name: 🗃️ Setup NuGet cache
         uses: actions/cache@13aacd865c20de90d75de3b17ebe84f7a17d57d2 # v4.0.0
         with:
           path: ~/.nuget/packages

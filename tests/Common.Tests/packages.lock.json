@@ -1,7 +1,7 @@
 {
   "version": 1,
   "dependencies": {
-    "net6.0": {
+    "net8.0": {
       "coverlet.msbuild": {
         "type": "Direct",
         "requested": "[6.0.0, )",
@@ -29,11 +29,11 @@
       },
       "Npgsql": {
         "type": "Direct",
-        "requested": "[6.0.10, )",
-        "resolved": "6.0.10",
-        "contentHash": "vitwybpiG32EUOScHSjr1kTej8PwoYEWjHwTel5lwsq0OY4p0LJd80ZeGQHLa6zq12hsq9vyAfT9K80iWrpxPA==",
+        "requested": "[7.0.6, )",
+        "resolved": "7.0.6",
+        "contentHash": "TAqvwRnm3NJ0QvN7cvu6geJkbI0XPzGVRElVY5hF4gsgA+BnE12x6GM1TLhdeq+7ZKvvo3BD8jXKnXmr3tvdEw==",
         "dependencies": {
-          "System.Runtime.CompilerServices.Unsafe": "6.0.0"
+          "Microsoft.Extensions.Logging.Abstractions": "6.0.0"
         }
       },
       "Respawn": {
