@@ -20,9 +20,10 @@
             "!**/Common.Tests/**/*.*"
         ],
         "thresholds": {
-            "break": 50
+            "break": 55
         },
         "since": {
+            "enabled": false,
             "ignore-changes-in": [
                 "*.md",
                 ".config/**/*.*",
