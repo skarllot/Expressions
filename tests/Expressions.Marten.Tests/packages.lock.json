@@ -275,11 +275,11 @@
       },
       "Microsoft.Data.SqlClient": {
         "type": "Transitive",
-        "resolved": "4.0.0",
-        "contentHash": "YGYfWg3Xth2EXAy8TBN4Fgj0FY6BnGgCtT6ypKuqKojiGAtLsRtRbP8KOXNy8+SMK6AVzAguvl8K5zX9uqg8yA==",
+        "resolved": "4.0.5",
+        "contentHash": "ivuv7JpPPQyjbCuwztuSupm/Cdf3xch/38PAvFGm3WfK6NS1LZ5BmnX8Zi0u1fdQJEpW5dNZWtkQCq0wArytxA==",
         "dependencies": {
           "Azure.Identity": "1.3.0",
-          "Microsoft.Data.SqlClient.SNI.runtime": "4.0.0",
+          "Microsoft.Data.SqlClient.SNI.runtime": "4.0.1",
           "Microsoft.Identity.Client": "4.22.0",
           "Microsoft.IdentityModel.JsonWebTokens": "6.8.0",
           "Microsoft.IdentityModel.Protocols.OpenIdConnect": "6.8.0",
@@ -298,8 +298,8 @@
       },
       "Microsoft.Data.SqlClient.SNI.runtime": {
         "type": "Transitive",
-        "resolved": "4.0.0",
-        "contentHash": "wtLlRwQX7YoBUYm25xBjJ3UsuLgycme1xXqDn8t3S5kPCWiZrx8uOkyZHLKzH4kkCiQ9m2/J5JeCKNRbZNn3Qg=="
+        "resolved": "4.0.1",
+        "contentHash": "oH/lFYa8LY9L7AYXpPz2Via8cgzmp/rLhcsZn4t4GeEL5hPHPbXjSTBMl5qcW84o0pBkAqP/dt5mCzS64f6AZg=="
       },
       "Microsoft.Extensions.Configuration.Abstractions": {
         "type": "Transitive",
@@ -502,10 +502,10 @@
       },
       "Respawn": {
         "type": "Transitive",
-        "resolved": "6.1.0",
-        "contentHash": "1KvBZUckUnwEcT9rcJtgxed4xsx1OkHgNSpzl9rOeIJP4PUbhRkvdrlFYUIqOUyrPg0F9eo1sOfvVBqnO8CTJQ==",
+        "resolved": "6.2.1",
+        "contentHash": "b8v9a1+08FKiDtqi6KllaJEeJiB1cmkD3kmOXDNIR+U85gEaZitwl6Gxq6RU5NL34OLmdQ5dB+QE0rhVCX+lEA==",
         "dependencies": {
-          "Microsoft.Data.SqlClient": "4.0.0"
+          "Microsoft.Data.SqlClient": "4.0.5"
         }
       },
       "SharpZipLib": {
@@ -1071,7 +1071,7 @@
           "Npgsql": "[6.0.10, )",
           "Raiqub.Expressions": "[1.0.0, )",
           "Raiqub.Expressions.Writing": "[1.0.0, )",
-          "Respawn": "[6.1.0, )",
+          "Respawn": "[6.2.1, )",
           "Testcontainers.PostgreSql": "[3.7.0, )",
           "xunit.core": "[2.6.6, )"
         }
