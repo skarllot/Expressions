@@ -39,18 +39,18 @@ public sealed class EfDbQueryTest : QueryTestBase, IAsyncLifetime
 
         await efQuery
             .Invoking(q => q.AnyAsync())
-            .Should().ThrowExactlyAsync<ArgumentNullException>();
+            .Should().ThrowExactlyAsync<NullReferenceException>();
         await efQuery
             .Invoking(q => q.CountAsync())
-            .Should().ThrowExactlyAsync<ArgumentNullException>();
+            .Should().ThrowExactlyAsync<NullReferenceException>();
         await efQuery
             .Invoking(q => q.FirstOrDefaultAsync())
-            .Should().ThrowExactlyAsync<ArgumentNullException>();
+            .Should().ThrowExactlyAsync<NullReferenceException>();
         await efQuery
             .Invoking(q => q.ToListAsync())
-            .Should().ThrowExactlyAsync<ArgumentNullException>();
+            .Should().ThrowExactlyAsync<InvalidOperationException>();
         await efQuery
             .Invoking(q => q.SingleOrDefaultAsync())
-            .Should().ThrowExactlyAsync<ArgumentNullException>();
+            .Should().ThrowExactlyAsync<NullReferenceException>();
     }
 }

@@ -35,7 +35,8 @@ public class EfDbQuery<TResult> : IDbQuery<TResult>
                 .AnyAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
-        catch (Exception exception) when (exception is not ArgumentNullException
+        catch (Exception exception) when (exception is not NullReferenceException
+                                              and not ArgumentNullException
                                               and not OperationCanceledException)
         {
             QueryLog.AnyError(_logger, exception);
@@ -52,7 +53,8 @@ public class EfDbQuery<TResult> : IDbQuery<TResult>
                 .CountAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
-        catch (Exception exception) when (exception is not ArgumentNullException
+        catch (Exception exception) when (exception is not NullReferenceException
+                                              and not ArgumentNullException
                                               and not OperationCanceledException)
         {
             QueryLog.CountError(_logger, exception);
@@ -69,7 +71,8 @@ public class EfDbQuery<TResult> : IDbQuery<TResult>
                 .FirstAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
-        catch (Exception exception) when (exception is not ArgumentNullException
+        catch (Exception exception) when (exception is not NullReferenceException
+                                              and not ArgumentNullException
                                               and not InvalidOperationException
                                               and not OperationCanceledException)
         {
@@ -87,7 +90,8 @@ public class EfDbQuery<TResult> : IDbQuery<TResult>
                 .FirstOrDefaultAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
-        catch (Exception exception) when (exception is not ArgumentNullException
+        catch (Exception exception) when (exception is not NullReferenceException
+                                              and not ArgumentNullException
                                               and not OperationCanceledException)
         {
             QueryLog.FirstError(_logger, exception);
@@ -104,7 +108,8 @@ public class EfDbQuery<TResult> : IDbQuery<TResult>
                 .LongCountAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
-        catch (Exception exception) when (exception is not ArgumentNullException
+        catch (Exception exception) when (exception is not NullReferenceException
+                                              and not ArgumentNullException
                                               and not OperationCanceledException)
         {
             QueryLog.CountError(_logger, exception);
@@ -149,7 +154,9 @@ public class EfDbQuery<TResult> : IDbQuery<TResult>
                 totalCount = 0L;
             }
         }
-        catch (Exception exception) when (exception is not ArgumentNullException
+        catch (Exception exception) when (exception is not NullReferenceException
+                                              and not ArgumentNullException
+                                              and not InvalidOperationException
                                               and not OperationCanceledException)
         {
             QueryLog.PagedListError(_logger, exception);
@@ -170,7 +177,9 @@ public class EfDbQuery<TResult> : IDbQuery<TResult>
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
-        catch (Exception exception) when (exception is not ArgumentNullException
+        catch (Exception exception) when (exception is not NullReferenceException
+                                              and not ArgumentNullException
+                                              and not InvalidOperationException
                                               and not OperationCanceledException)
         {
             QueryLog.ListError(_logger, exception);
@@ -190,7 +199,8 @@ public class EfDbQuery<TResult> : IDbQuery<TResult>
                 .SingleAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
-        catch (Exception exception) when (exception is not ArgumentNullException
+        catch (Exception exception) when (exception is not NullReferenceException
+                                              and not ArgumentNullException
                                               and not InvalidOperationException
                                               and not OperationCanceledException)
         {
@@ -208,7 +218,8 @@ public class EfDbQuery<TResult> : IDbQuery<TResult>
                 .SingleOrDefaultAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
-        catch (Exception exception) when (exception is not ArgumentNullException
+        catch (Exception exception) when (exception is not NullReferenceException
+                                              and not ArgumentNullException
                                               and not InvalidOperationException
                                               and not OperationCanceledException)
         {
@@ -226,7 +237,8 @@ public class EfDbQuery<TResult> : IDbQuery<TResult>
         {
             enumerable = _dataSource.AsAsyncEnumerable();
         }
-        catch (Exception exception) when (exception is not ArgumentNullException
+        catch (Exception exception) when (exception is not NullReferenceException
+                                              and not ArgumentNullException
                                               and not InvalidOperationException)
         {
             QueryLog.AsyncEnumerableError(_logger, exception);
