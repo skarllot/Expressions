@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFrameworks>net8.0;net6.0</TargetFrameworks>
     <Description>Provides implementation of sessions and factories using Marten library.</Description>
     <PackageTags>
       spec;specification;ddd;domain;marten;postgres;postgresql;core;query;querymodel;command;expressions;lambda;db;database;json;document;paging;pagination;page
@@ -13,7 +13,11 @@
     <ProjectReference Include="..\Expressions.Writing\Expressions.Writing.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <None Include="$(OutputPath)\Raiqub.Expressions.Database.dll" Pack="true" PackagePath="lib/net8.0" Visible="true" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
     <None Include="$(OutputPath)\Raiqub.Expressions.Database.dll" Pack="true" PackagePath="lib/net6.0" Visible="true" />
   </ItemGroup>
 
