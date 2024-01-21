@@ -14,12 +14,12 @@ services:
       - helpdesk-relational-pgadmin
 
   helpdesk-relational-db:
-    image: clkao/postgres-plv8
+    image: clkao/postgres-plv8@sha256:24fb4815fe23ed83768609d97dad349023ac93bc0cdd8c888b1465cd57cacadf
     environment:
       POSTGRES_PASSWORD: Password12!
 
   helpdesk-relational-pgadmin:
-    image: dpage/pgadmin4
+    image: dpage/pgadmin4@sha256:3b480788bfd84c9c46f09ce4984867f36fa8b8d8736b2044b376506cb0702ae2
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
