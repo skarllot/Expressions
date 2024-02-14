@@ -79,11 +79,11 @@
       },
       "Microsoft.EntityFrameworkCore": {
         "type": "Transitive",
-        "resolved": "6.0.26",
-        "contentHash": "eROc12jvc1jfFmWwu5km4IPNHSEQxEnwGoEpKhGs4dJtjXFrWd7W2opaupK8fynBZlUN6PndKrzZHIhI8e7Baw==",
+        "resolved": "6.0.27",
+        "contentHash": "HY4o8koPh+PXpOq5L9S8QLw5Svq/AZJhLoppCio244N8LAgAWBMQ9edfVh8r/1IQbEj5Xj6M7ZyzcrSOsRwAzA==",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.26",
-          "Microsoft.EntityFrameworkCore.Analyzers": "6.0.26",
+          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.27",
+          "Microsoft.EntityFrameworkCore.Analyzers": "6.0.27",
           "Microsoft.Extensions.Caching.Memory": "6.0.1",
           "Microsoft.Extensions.DependencyInjection": "6.0.1",
           "Microsoft.Extensions.Logging": "6.0.0",
@@ -93,20 +93,20 @@
       },
       "Microsoft.EntityFrameworkCore.Abstractions": {
         "type": "Transitive",
-        "resolved": "6.0.26",
-        "contentHash": "VGTCtP8OYEBwUY9xlunIlj1OPrV7TB218mOFvlgdutB8xfHk3Yc7njkE+Kez5L249nZ0eGW4a8UzPCF57uz3QQ=="
+        "resolved": "6.0.27",
+        "contentHash": "AzJrXp9CVtZK65uTkinEFgR/iMmtATeLFlh//L2a5Y8Nrngcrbo7FCCJaUv0UdfZNwcZQmIGnSyoBX+lHuMeNw=="
       },
       "Microsoft.EntityFrameworkCore.Analyzers": {
         "type": "Transitive",
-        "resolved": "6.0.26",
-        "contentHash": "yW34XFVptV6xMZVCvfnXr/iIc8GJF9NMaM36KeoqOblZZ+l3n9FsdULB5HFQwzqsnz4+X2ttZz1bQoffBVEFfw=="
+        "resolved": "6.0.27",
+        "contentHash": "T3c1wpLrkRKTJzeHWFLK09y3CPW9siGyNEqmiqcr7B6CTgaqIajKtXr3XRbIGU04BiO+KqVvcCYv+Zqh661gJA=="
       },
       "Microsoft.EntityFrameworkCore.Relational": {
         "type": "Transitive",
-        "resolved": "6.0.26",
-        "contentHash": "qlfNBIhDXw+05xPUUFrdAhslCIN9gxJEgNFk+SkbgJAkrEM4EMIv7fUdIHULiuptPtzdsrYttyQ/DLqXXYyJFg==",
+        "resolved": "6.0.27",
+        "contentHash": "OaxySZ/RhQUVNKdfhInhHO8ht7e+VniIsCSqfnqPqjPzNodLlfxn2mM3nGn4fbHHQaGVQHlQWUGa/Xac3egEKg==",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "6.0.26",
+          "Microsoft.EntityFrameworkCore": "6.0.27",
           "Microsoft.Extensions.Configuration.Abstractions": "6.0.0"
         }
       },
@@ -396,7 +396,7 @@
       "Raiqub.Expressions.EntityFrameworkCore": {
         "type": "Project",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Relational": "[6.0.26, )",
+          "Microsoft.EntityFrameworkCore.Relational": "[6.0.27, )",
           "Raiqub.Expressions.Writing": "[1.0.0, )"
         }
       },
