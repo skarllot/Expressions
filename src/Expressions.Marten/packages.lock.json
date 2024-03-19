@@ -16,9 +16,9 @@
       },
       "Marten": {
         "type": "Direct",
-        "requested": "[7.1.0, )",
-        "resolved": "7.1.0",
-        "contentHash": "72w9EWy60mNp+8Tws4yyt/goFSH8TMQWxzzy3Y8MUacSESFJxfleX3RjpAvGzLP0XSj3/CVn3NfUVCqF3L6MTg==",
+        "requested": "[7.3.0, )",
+        "resolved": "7.3.0",
+        "contentHash": "ce2iQLkbZbzfeeBKwv+GeCdhlZ9iMs/cW+04DPKVxATO7ALvmcNJUxj0aUot0biwG5zujV+/F388RCxHLSDnOQ==",
         "dependencies": {
           "JasperFx.CodeGeneration": "3.5.0",
           "JasperFx.Core": "1.5.1",
@@ -31,7 +31,7 @@
           "Polly": "8.2.1",
           "System.Text.Json": "8.0.0",
           "System.Threading.Tasks.Dataflow": "8.0.0",
-          "Weasel.Postgresql": "7.1.3"
+          "Weasel.Postgresql": "7.2.0"
         }
       },
       "Nerdbank.GitVersioning": {
@@ -441,19 +441,19 @@
       },
       "Weasel.Core": {
         "type": "Transitive",
-        "resolved": "7.1.3",
-        "contentHash": "loHnbFZ6MjV3c8QLZ9DUGqNTDGXcHwHpkC10TkVmbnGFRVwwfIkQeFK0Ld8EkhJds88ubzjr57AOLoYHK9o2MA==",
+        "resolved": "7.2.0",
+        "contentHash": "NXDsHvPSYHIemHuDfv+LUd/FobTnsPtHyfQe9FIUFnbOxrSLP4W4P+stvuMyaUBP9E7J4+aueZYwOCc3+vZTSw==",
         "dependencies": {
           "JasperFx.Core": "1.5.1"
         }
       },
       "Weasel.Postgresql": {
         "type": "Transitive",
-        "resolved": "7.1.3",
-        "contentHash": "GXdECREmrHjUt8YTZ3Gh2M+EkGf3pUoMbKo4kYMnLt/qHAeQr1QyXWsU9uMhya1JecO4MlrApJOfGU1rPduLng==",
+        "resolved": "7.2.0",
+        "contentHash": "t4ehLZjEtZygRJJahYoeZYyMYr+C3Su5Tbz4hqqQVHRcOMx3us00cHKmgxD3Xugb+bTmLFxmvE7rECui0ku0hA==",
         "dependencies": {
           "Npgsql": "8.0.2",
-          "Weasel.Core": "7.1.3"
+          "Weasel.Core": "7.2.0"
         }
       },
       "Raiqub.Expressions": {
@@ -493,9 +493,9 @@
       },
       "Marten": {
         "type": "Direct",
-        "requested": "[7.1.0, )",
-        "resolved": "7.1.0",
-        "contentHash": "72w9EWy60mNp+8Tws4yyt/goFSH8TMQWxzzy3Y8MUacSESFJxfleX3RjpAvGzLP0XSj3/CVn3NfUVCqF3L6MTg==",
+        "requested": "[7.3.0, )",
+        "resolved": "7.3.0",
+        "contentHash": "ce2iQLkbZbzfeeBKwv+GeCdhlZ9iMs/cW+04DPKVxATO7ALvmcNJUxj0aUot0biwG5zujV+/F388RCxHLSDnOQ==",
         "dependencies": {
           "JasperFx.CodeGeneration": "3.5.0",
           "JasperFx.Core": "1.5.1",
@@ -508,7 +508,7 @@
           "Polly": "8.2.1",
           "System.Text.Json": "8.0.0",
           "System.Threading.Tasks.Dataflow": "8.0.0",
-          "Weasel.Postgresql": "7.1.3"
+          "Weasel.Postgresql": "7.2.0"
         }
       },
       "Nerdbank.GitVersioning": {
@@ -912,19 +912,19 @@
       },
       "Weasel.Core": {
         "type": "Transitive",
-        "resolved": "7.1.3",
-        "contentHash": "loHnbFZ6MjV3c8QLZ9DUGqNTDGXcHwHpkC10TkVmbnGFRVwwfIkQeFK0Ld8EkhJds88ubzjr57AOLoYHK9o2MA==",
+        "resolved": "7.2.0",
+        "contentHash": "NXDsHvPSYHIemHuDfv+LUd/FobTnsPtHyfQe9FIUFnbOxrSLP4W4P+stvuMyaUBP9E7J4+aueZYwOCc3+vZTSw==",
         "dependencies": {
           "JasperFx.Core": "1.5.1"
         }
       },
       "Weasel.Postgresql": {
         "type": "Transitive",
-        "resolved": "7.1.3",
-        "contentHash": "GXdECREmrHjUt8YTZ3Gh2M+EkGf3pUoMbKo4kYMnLt/qHAeQr1QyXWsU9uMhya1JecO4MlrApJOfGU1rPduLng==",
+        "resolved": "7.2.0",
+        "contentHash": "t4ehLZjEtZygRJJahYoeZYyMYr+C3Su5Tbz4hqqQVHRcOMx3us00cHKmgxD3Xugb+bTmLFxmvE7rECui0ku0hA==",
         "dependencies": {
           "Npgsql": "8.0.2",
-          "Weasel.Core": "7.1.3"
+          "Weasel.Core": "7.2.0"
         }
       },
       "Raiqub.Expressions": {
