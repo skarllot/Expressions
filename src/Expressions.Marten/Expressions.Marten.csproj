@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Expressions.Database\Expressions.Database.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\Expressions.Database\Expressions.Database.csproj" />
     <ProjectReference Include="..\Expressions.Writing\Expressions.Writing.csproj" />
   </ItemGroup>
 
@@ -20,16 +20,5 @@
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="." />
   </ItemGroup>
-
-  <PropertyGroup>
-    <TargetsForTfmSpecificBuildOutput>
-      $(TargetsForTfmSpecificBuildOutput);PackReferencedProjectOutputs
-    </TargetsForTfmSpecificBuildOutput>
-  </PropertyGroup>
-  <Target Name="PackReferencedProjectOutputs" DependsOnTargets="BuildOnlySettings;ResolveReferences">
-    <ItemGroup>
-      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference')->WithMetadataValue('PrivateAssets', 'All'))" />
-    </ItemGroup>
-  </Target>
 
 </Project>

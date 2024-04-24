@@ -954,10 +954,17 @@
       "Raiqub.Expressions": {
         "type": "Project"
       },
+      "Raiqub.Expressions.Database": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "[6.0.4, )"
+        }
+      },
       "Raiqub.Expressions.Marten": {
         "type": "Project",
         "dependencies": {
           "Marten": "[7.8.0, )",
+          "Raiqub.Expressions.Database": "[1.0.0, )",
           "Raiqub.Expressions.Writing": "[1.0.0, )"
         }
       },
