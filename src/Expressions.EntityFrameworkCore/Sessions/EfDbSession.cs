@@ -5,6 +5,8 @@ using Raiqub.Expressions.EntityFrameworkCore.Queries;
 using Raiqub.Expressions.Queries;
 using Raiqub.Expressions.Sessions;
 
+#pragma warning disable CS0618 // Type or member is obsolete
+
 namespace Raiqub.Expressions.EntityFrameworkCore.Sessions;
 
 /// <summary>Entity Framework-based implementation of a database session for querying and saving instances.</summary>

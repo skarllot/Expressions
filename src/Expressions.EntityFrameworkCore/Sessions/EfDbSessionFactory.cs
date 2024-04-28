@@ -5,6 +5,8 @@ using Raiqub.Expressions.EntityFrameworkCore.Queries;
 using Raiqub.Expressions.Sessions;
 using Raiqub.Expressions.Sessions.BoundedContext;
 
+#pragma warning disable CS0618 // Type or member is obsolete
+
 namespace Raiqub.Expressions.EntityFrameworkCore.Sessions;
 
 /// <summary>Entity Framework-based implementation of a factory for creating database sessions for data access.</summary>

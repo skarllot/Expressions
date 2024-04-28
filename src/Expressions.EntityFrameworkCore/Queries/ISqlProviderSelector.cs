@@ -3,6 +3,7 @@
 /// <summary>
 /// Defines a contract for a selector that retrieves SQL queries based on a specified entity type.
 /// </summary>
+[Obsolete("Use the method GetSetFromSql from IQuerySource instead")]
 public interface ISqlProviderSelector
 {
     /// <summary>

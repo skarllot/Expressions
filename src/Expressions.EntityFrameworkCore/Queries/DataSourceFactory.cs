@@ -8,7 +8,8 @@ internal static class DataSourceFactory
     public static IQueryable<TEntity> GetDbSet<TEntity>(
         DbContext dbContext,
         SqlString? querySql,
-        ChangeTracking tracking = ChangeTracking.Default)
+        ChangeTracking tracking,
+        bool? useSplitQuery)
         where TEntity : class
     {
         DbSet<TEntity> dbSet = dbContext.Set<TEntity>();
@@ -35,6 +36,11 @@ internal static class DataSourceFactory
                 $"The specified change tracking mode is not supported: {tracking}",
                 nameof(tracking))
         };
+
+        if (useSplitQuery == true)
+        {
+            queryable = queryable.AsSplitQuery();
+        }
 
         return queryable;
     }

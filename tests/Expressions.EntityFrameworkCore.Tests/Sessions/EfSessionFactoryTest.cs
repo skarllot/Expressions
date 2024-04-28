@@ -6,7 +6,6 @@ using Raiqub.Common.Tests;
 using Raiqub.Common.Tests.Examples;
 using Raiqub.Common.Tests.Sessions;
 using Raiqub.Expressions.EntityFrameworkCore.Tests.Examples;
-using Raiqub.Expressions.Sessions;
 using Xunit.Abstractions;
 
 namespace Raiqub.Expressions.EntityFrameworkCore.Tests.Sessions;

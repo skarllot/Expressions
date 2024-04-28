@@ -7,6 +7,8 @@ using Raiqub.Expressions.EntityFrameworkCore.Sessions;
 using Raiqub.Expressions.Sessions;
 using Raiqub.Expressions.Sessions.BoundedContext;
 
+#pragma warning disable CS0618 // Type or member is obsolete
+
 namespace Raiqub.Expressions.EntityFrameworkCore;
 
 /// <summary>Used to configure registration of session and session factories.</summary>

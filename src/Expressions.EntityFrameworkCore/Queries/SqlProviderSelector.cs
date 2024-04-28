@@ -1,4 +1,6 @@
-﻿namespace Raiqub.Expressions.EntityFrameworkCore.Queries;
+﻿#pragma warning disable CS0618 // Type or member is obsolete
+
+namespace Raiqub.Expressions.EntityFrameworkCore.Queries;
 
 internal sealed class SqlProviderSelector : ISqlProviderSelector
 {
