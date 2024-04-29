@@ -134,8 +134,8 @@
       },
       "Marten": {
         "type": "Transitive",
-        "resolved": "7.8.0",
-        "contentHash": "mZe+UOCP/+aAYBS0zU5ctgW+LaNAl85sFI7lfuu3dDIAnRbK2FdHgP+GA2FJJzRn9IbVyGmS2w6aOD74yON+0Q==",
+        "resolved": "7.9.0",
+        "contentHash": "AGEZGg602wLNlywzI5O+ivQlw7LpogeLgHsxO0Pf7JV1+yP2xe8i2hd6zTXQKpkGm1IZX0qGu+Bn4mzfL2vQ5A==",
         "dependencies": {
           "JasperFx.CodeGeneration": "3.5.0",
           "JasperFx.Core": "1.5.1",
@@ -148,7 +148,7 @@
           "Polly.Core": "8.3.1",
           "System.Text.Json": "8.0.0",
           "System.Threading.Tasks.Dataflow": "8.0.0",
-          "Weasel.Postgresql": "7.3.1"
+          "Weasel.Postgresql": "7.4.0"
         }
       },
       "Microsoft.Bcl.AsyncInterfaces": {
@@ -882,8 +882,8 @@
       },
       "Weasel.Core": {
         "type": "Transitive",
-        "resolved": "7.3.1",
-        "contentHash": "0Qx3q3PRtgPA2ujUY55oZyPijIGia1TTQLsTzFzIfjBOkPcLeimSKglW5BgD1oA5NjuHgwww7Z57EjqvkHf1Yw==",
+        "resolved": "7.4.0",
+        "contentHash": "QQDItml9Xa2Ld32VfRZ2aZdhc7+rmzP4veEMCPyYzX0+MK8vfU0BFoD/axrlHrOIQ9BYpQYJCKFT8kDWmdlznw==",
         "dependencies": {
           "JasperFx.Core": "1.5.1",
           "System.Data.Common": "4.3.0"
@@ -891,11 +891,11 @@
       },
       "Weasel.Postgresql": {
         "type": "Transitive",
-        "resolved": "7.3.1",
-        "contentHash": "iglxR+ugJ63kORh3lzz3HhLWEsI73duBvkPLZpKkwYmBmZuTx4Gp7jxXOiozxRqskhhlgkM+gXnf9H68MYHYew==",
+        "resolved": "7.4.0",
+        "contentHash": "+0DrcfbtPMnIxg9h5kiuObTB4mngb+CfCfpnj8pbjodAbqeLDV4AXq0CRMAvzNKLmydLaaNQTr91mppF/C0ESw==",
         "dependencies": {
           "Npgsql": "8.0.2",
-          "Weasel.Core": "7.3.1"
+          "Weasel.Core": "7.4.0"
         }
       },
       "xunit.abstractions": {
@@ -963,7 +963,7 @@
       "Raiqub.Expressions.Marten": {
         "type": "Project",
         "dependencies": {
-          "Marten": "[7.8.0, )",
+          "Marten": "[7.9.0, )",
           "Raiqub.Expressions.Database": "[1.0.0, )",
           "Raiqub.Expressions.Writing": "[1.0.0, )"
         }
