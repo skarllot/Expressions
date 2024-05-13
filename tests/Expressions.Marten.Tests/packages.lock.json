@@ -108,8 +108,8 @@
       },
       "JasperFx.CodeGeneration": {
         "type": "Transitive",
-        "resolved": "3.5.0",
-        "contentHash": "8ZtwXqBcudGWiRMRIGQmAJCaN0RJf3k+0JynaiCzKchIIION29lxIeji4vyadxxt/kiOwltFtocJqVHiDrui+w==",
+        "resolved": "3.5.3",
+        "contentHash": "3aXrcvHSCaToqWnNY2Hg7juNxUuAmD/7ZgGm2oK4jBKsFxSuy3/Aah02VEgKXVW+WqHO9C4rG/Kj1YI0CENZ9Q==",
         "dependencies": {
           "FastExpressionCompiler": "4.1.0",
           "JasperFx.Core": "1.5.0"
@@ -122,10 +122,10 @@
       },
       "JasperFx.RuntimeCompiler": {
         "type": "Transitive",
-        "resolved": "3.5.0",
-        "contentHash": "59XfrR1y+cOM//HPidaFrkYpzL9oEWY9odl2OMK7JlV+6ONhRJcHmAxVURRwfQsxHt+V/abR2KqxXMrhvxzTqQ==",
+        "resolved": "3.5.3",
+        "contentHash": "CuazJDJYBcidYNMLGU89hIgV7SsA71qzwb8zED7h1/+fncsD8zmN/hDHw47mTGgtJFSQowDSC6vxMtiEXaONjw==",
         "dependencies": {
-          "JasperFx.CodeGeneration": "3.5.0",
+          "JasperFx.CodeGeneration": "3.5.3",
           "Microsoft.CodeAnalysis": "4.8.0",
           "Microsoft.CodeAnalysis.CSharp": "4.8.0",
           "Microsoft.CodeAnalysis.Scripting": "4.8.0",
@@ -134,12 +134,12 @@
       },
       "Marten": {
         "type": "Transitive",
-        "resolved": "7.10.1",
-        "contentHash": "Fup9hUwKlzTtM4KmBp19FZmcrmFPQy8B2YaXtm8k6/jUYTDm8gfr2j+xyuPZCvDEiE7Iyd8GZnTBR6P9XE9CbQ==",
+        "resolved": "7.11.0",
+        "contentHash": "JvWzfyh/UuVSDlZelhjmFwluyIdowqqTUdmUgKNwCrGnANbLi/fcRmXsApk6xw5A897Ap0egOyZHVZpRC60GJw==",
         "dependencies": {
-          "JasperFx.CodeGeneration": "3.5.0",
+          "JasperFx.CodeGeneration": "3.5.3",
           "JasperFx.Core": "1.5.1",
-          "JasperFx.RuntimeCompiler": "3.5.0",
+          "JasperFx.RuntimeCompiler": "3.5.3",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0",
           "Microsoft.Extensions.Hosting.Abstractions": "8.0.0",
           "Microsoft.Extensions.Logging.Abstractions": "8.0.0",
@@ -972,7 +972,7 @@
       "Raiqub.Expressions.Marten": {
         "type": "Project",
         "dependencies": {
-          "Marten": "[7.10.1, )",
+          "Marten": "[7.11.0, )",
           "Raiqub.Expressions.Database": "[1.0.0, )",
           "Raiqub.Expressions.Writing": "[1.0.0, )"
         }
