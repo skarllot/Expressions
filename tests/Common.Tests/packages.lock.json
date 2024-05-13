@@ -29,9 +29,9 @@
       },
       "Npgsql": {
         "type": "Direct",
-        "requested": "[7.0.6, )",
-        "resolved": "7.0.6",
-        "contentHash": "TAqvwRnm3NJ0QvN7cvu6geJkbI0XPzGVRElVY5hF4gsgA+BnE12x6GM1TLhdeq+7ZKvvo3BD8jXKnXmr3tvdEw==",
+        "requested": "[7.0.7, )",
+        "resolved": "7.0.7",
+        "contentHash": "A3BjyNebHjw/MahM6n3VnKbxrj/hQnMROEkUNUTjhUVv7yvcGnfBgw/FszahT9uCR23AVD2N/0Tvw1aHgxr9Gg==",
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "6.0.0"
         }
