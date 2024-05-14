@@ -4,14 +4,14 @@
     "net6.0": {
       "Npgsql.EntityFrameworkCore.PostgreSQL": {
         "type": "Direct",
-        "requested": "[6.0.22, )",
-        "resolved": "6.0.22",
-        "contentHash": "iD0X/yef9KBsCBMDT1ZytW3pPYeYHeceUuiznaeGfkltvluG7O25aG2fwv2sO6icESL0CLNwNAF1Mu4cFrKmaA==",
+        "requested": "[6.0.29, )",
+        "resolved": "6.0.29",
+        "contentHash": "GCUgp/4ZltsysSRJUpvpQoFCRJ6OciL5/xZePOpZ8bekthAbLGW3emYaKf2V+1mNXUm9LhCZI7T0ib3I8yNV3A==",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "6.0.22",
-          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.22",
-          "Microsoft.EntityFrameworkCore.Relational": "6.0.22",
-          "Npgsql": "6.0.10"
+          "Microsoft.EntityFrameworkCore": "6.0.29",
+          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.29",
+          "Microsoft.EntityFrameworkCore.Relational": "6.0.29",
+          "Npgsql": "6.0.11"
         }
       },
       "RT.Comb": {
@@ -170,8 +170,8 @@
       },
       "Npgsql": {
         "type": "Transitive",
-        "resolved": "6.0.10",
-        "contentHash": "vitwybpiG32EUOScHSjr1kTej8PwoYEWjHwTel5lwsq0OY4p0LJd80ZeGQHLa6zq12hsq9vyAfT9K80iWrpxPA==",
+        "resolved": "6.0.11",
+        "contentHash": "ZPpjFpW0m71pqAMIpUdVZUY74TCTqCXrytbFsMvm8IuAadpfV9K1lwphuyDBKCsc3w1i7TH+aevHQ6TZ+b0ZMw==",
         "dependencies": {
           "System.Runtime.CompilerServices.Unsafe": "6.0.0"
         }
