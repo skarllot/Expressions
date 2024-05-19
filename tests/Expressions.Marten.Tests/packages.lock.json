@@ -134,8 +134,8 @@
       },
       "Marten": {
         "type": "Transitive",
-        "resolved": "7.11.0",
-        "contentHash": "JvWzfyh/UuVSDlZelhjmFwluyIdowqqTUdmUgKNwCrGnANbLi/fcRmXsApk6xw5A897Ap0egOyZHVZpRC60GJw==",
+        "resolved": "7.12.0",
+        "contentHash": "2NQfTdhrwHQ0GbhqG0iW8Rk2vYH0z4sfL+o4Zgvo2T4ZXds740iJorfKNd3RA7G3UHGP8R5+FHOlbL8AsD918g==",
         "dependencies": {
           "JasperFx.CodeGeneration": "3.5.3",
           "JasperFx.Core": "1.5.1",
@@ -972,7 +972,7 @@
       "Raiqub.Expressions.Marten": {
         "type": "Project",
         "dependencies": {
-          "Marten": "[7.11.0, )",
+          "Marten": "[7.12.0, )",
           "Raiqub.Expressions.Database": "[1.0.0, )",
           "Raiqub.Expressions.Writing": "[1.0.0, )"
         }
