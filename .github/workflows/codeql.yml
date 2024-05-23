@@ -21,6 +21,12 @@ on:
   schedule:
     - cron: '28 20 * * 1'
 
+env:
+  DOTNET_GENERATE_ASPNET_CERTIFICATE: false
+  DOTNET_NOLOGO: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
 permissions:
   contents: read
 
@@ -44,7 +50,17 @@ jobs:
     - name: 🛡️ Harden Runner
       uses: step-security/harden-runner@a4aa98b93cab29d9b1101a6143fb8bce00e2eac4 # v2.7.1
       with:
-        egress-policy: audit
+        disable-sudo: true
+        egress-policy: block
+        allowed-endpoints: >
+          aka.ms:443
+          api.github.com:443
+          api.nuget.org:443
+          dotnetcli.azureedge.net:443
+          github.com:443
+          objects.githubusercontent.com:443
+          registry.npmjs.org:443
+          uploads.github.com:443
 
     - name: 🛒 Checkout repository
       uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
