@@ -4,12 +4,12 @@
 name: Mutation Test
 
 on:
-  push:
-    branches: [ "main" ]
-    paths: [ "src/**/packages.lock.json", "src/**/*.cs", "tests/**/packages.lock.json", "tests/**/*.cs", ".config/*.json" ]
   pull_request:
     branches: [ "main" ]
-    paths: [ "src/**/packages.lock.json", "src/**/*.cs", "tests/**/packages.lock.json", "tests/**/*.cs", ".config/*.json" ]
+    paths: [ ".github/workflows/mutation-test.yml", ".config/*.json" ]
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * 0"
 
 env:
   DOTNET_GENERATE_ASPNET_CERTIFICATE: false
@@ -62,13 +62,6 @@ jobs:
         run: |
           dotnet tool restore
           dotnet stryker -f .config/stryker-config.json -O StrykerOutput --dashboard-api-key ${{ secrets.STRYKER_DASHBOARD_API_KEY }} -v main
-        if: github.event_name != 'pull_request'
-
-      - name: 🧬 Stryker (Diff)
-        run: |
-          dotnet tool restore
-          dotnet stryker -f .config/stryker-config.json -O StrykerOutput -r html -r markdown --since:main
-        if: github.event_name == 'pull_request'
 
       - name: 📤 Upload Mutation Report
         uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
