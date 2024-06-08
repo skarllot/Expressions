@@ -4,6 +4,9 @@
 name: Mutation Test
 
 on:
+  pull_request:
+    branches: [ "main" ]
+    paths: [ ".github/workflows/mutation-test.yml", ".config/*.json" ]
   workflow_dispatch:
   schedule:
     - cron: "0 3 * * 0"
