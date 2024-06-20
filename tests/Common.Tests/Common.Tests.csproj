@@ -24,7 +24,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
     <PackageReference Include="Npgsql" Version="7.0.7" />
     <PackageReference Include="Respawn" Version="6.2.1" />
-    <PackageReference Include="Testcontainers.PostgreSql" Version="3.8.0" />
+    <PackageReference Include="Testcontainers.PostgreSql" Version="3.9.0" />
     <PackageReference Include="xunit.core" Version="2.8.1" />
   </ItemGroup>
 

@@ -828,8 +828,8 @@
       },
       "Testcontainers": {
         "type": "Transitive",
-        "resolved": "3.8.0",
-        "contentHash": "R0+4VTGtFm+Q50+dP7Rm+ZB6thjKdBF3mGYbh5dEf/qt+r35MdFx8tMsE0VIbtaqgJMsOSD06CUZB2wPqBe2cw==",
+        "resolved": "3.9.0",
+        "contentHash": "jrWWOQYpBpPhAtVUgXiI0KLmgKK6/rwNYrCz1hC9MKbERTwVKukOTAagtOcma16xgSCsV0dvyo9pB25pOSx4zQ==",
         "dependencies": {
           "Docker.DotNet": "3.125.15",
           "Docker.DotNet.X509": "3.125.15",
@@ -840,10 +840,10 @@
       },
       "Testcontainers.PostgreSql": {
         "type": "Transitive",
-        "resolved": "3.8.0",
-        "contentHash": "5sKpj6z4+Z92BFBILvjHqDry4OH9xyngqkeSM3ZrW5wTOJfu8GL0z5p/ZwYBQySPHQBbDa5et5r51Ga1i02ahQ==",
+        "resolved": "3.9.0",
+        "contentHash": "Dj53LrCZk1PZSmb4tngxSuvC+sa2ft99uD516JlSZJdCRawBmK5Fr2AHzEjw9O/pivEHBv3DGJ5nkt9obiMEKQ==",
         "dependencies": {
-          "Testcontainers": "3.8.0"
+          "Testcontainers": "3.9.0"
         }
       },
       "Weasel.Core": {
@@ -912,7 +912,7 @@
           "Raiqub.Expressions": "[1.0.0, )",
           "Raiqub.Expressions.Writing": "[1.0.0, )",
           "Respawn": "[6.2.1, )",
-          "Testcontainers.PostgreSql": "[3.8.0, )",
+          "Testcontainers.PostgreSql": "[3.9.0, )",
           "xunit.core": "[2.8.1, )"
         }
       },
