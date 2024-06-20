@@ -3,7 +3,7 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0@sha256:bd8fe63596cc5a309d9651c33e27bf6453492a2d95ea52bddbac26e34a490541 AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0@sha256:70dcd7f13bd2ddc6108a8ab5d1d0f6f67adba89ef989ec98e18bda9968961856 AS build
 WORKDIR /src
 COPY . .
 WORKDIR "/src/samples/Helpdesk.Relational"
