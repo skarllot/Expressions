@@ -16,12 +16,12 @@
       },
       "Marten": {
         "type": "Direct",
-        "requested": "[7.19.1, )",
-        "resolved": "7.19.1",
-        "contentHash": "Sopuv2zkAalbtL/ag43vk2XlVWfCE4pY/xIil4wIYlPOAxahfhj7nEkPpWn+eDOg8IhXOnkBXb91LdjJVzD77w==",
+        "requested": "[7.20.0, )",
+        "resolved": "7.20.0",
+        "contentHash": "NE3uPnTFdiPM33q230hdY+cmWnoVVHR4Mm2SERxl6QIn4TYJKmw3e74A9BbcDZphZFmlgUaR7AULEg5vBb87rg==",
         "dependencies": {
           "JasperFx.CodeGeneration": "3.5.3",
-          "JasperFx.Core": "1.5.1",
+          "JasperFx.Core": "1.7.2",
           "JasperFx.RuntimeCompiler": "3.5.3",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0",
           "Microsoft.Extensions.Hosting.Abstractions": "6.0.0",
@@ -62,8 +62,11 @@
       },
       "JasperFx.Core": {
         "type": "Transitive",
-        "resolved": "1.5.1",
-        "contentHash": "k6pwtvEQmbhiluXsc1KVqhXs4JG1CbW5EEsHl4BV2AmhXG4kZfvpyTAS34r7nqwvGLxiQDrDoMijtp3L7nlUsA=="
+        "resolved": "1.7.2",
+        "contentHash": "KI4ydcKqN33e8ars0A3VDidBX3oWFwog3VAOA40q0U62ZfNA8xN/YCqbRPf4qFwdOhUEZxT5l+KjUBvvyhbgnQ==",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0"
+        }
       },
       "JasperFx.RuntimeCompiler": {
         "type": "Transitive",
@@ -494,12 +497,12 @@
       },
       "Marten": {
         "type": "Direct",
-        "requested": "[7.19.1, )",
-        "resolved": "7.19.1",
-        "contentHash": "Sopuv2zkAalbtL/ag43vk2XlVWfCE4pY/xIil4wIYlPOAxahfhj7nEkPpWn+eDOg8IhXOnkBXb91LdjJVzD77w==",
+        "requested": "[7.20.0, )",
+        "resolved": "7.20.0",
+        "contentHash": "NE3uPnTFdiPM33q230hdY+cmWnoVVHR4Mm2SERxl6QIn4TYJKmw3e74A9BbcDZphZFmlgUaR7AULEg5vBb87rg==",
         "dependencies": {
           "JasperFx.CodeGeneration": "3.5.3",
-          "JasperFx.Core": "1.5.1",
+          "JasperFx.Core": "1.7.2",
           "JasperFx.RuntimeCompiler": "3.5.3",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0",
           "Microsoft.Extensions.Hosting.Abstractions": "8.0.0",
@@ -540,8 +543,11 @@
       },
       "JasperFx.Core": {
         "type": "Transitive",
-        "resolved": "1.5.1",
-        "contentHash": "k6pwtvEQmbhiluXsc1KVqhXs4JG1CbW5EEsHl4BV2AmhXG4kZfvpyTAS34r7nqwvGLxiQDrDoMijtp3L7nlUsA=="
+        "resolved": "1.7.2",
+        "contentHash": "KI4ydcKqN33e8ars0A3VDidBX3oWFwog3VAOA40q0U62ZfNA8xN/YCqbRPf4qFwdOhUEZxT5l+KjUBvvyhbgnQ==",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0"
+        }
       },
       "JasperFx.RuntimeCompiler": {
         "type": "Transitive",
