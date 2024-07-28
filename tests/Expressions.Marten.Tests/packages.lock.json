@@ -137,8 +137,8 @@
       },
       "Marten": {
         "type": "Transitive",
-        "resolved": "7.23.1",
-        "contentHash": "JRW/cSkxrX1GayTXz7tbygQEIG6hdF4uB6riI2qfkIKYr0sGO+eE8meuar9616e1KFamaW26OIiz70dhLMdXuQ==",
+        "resolved": "7.25.1",
+        "contentHash": "cVhHSQrAwri49b+POWDH1PmXmX9CAkXfSe8iPjw6OGbpy0OVWsZodi5WB5xBJUa4wlP1PG9jvlynYF8LhA80kA==",
         "dependencies": {
           "JasperFx.CodeGeneration": "3.5.3",
           "JasperFx.Core": "1.7.2",
@@ -150,9 +150,9 @@
           "Npgsql.Json.NET": "8.0.0",
           "OpenTelemetry.API": "1.8.0",
           "Polly.Core": "8.3.1",
-          "System.Text.Json": "8.0.0",
+          "System.Text.Json": "8.0.4",
           "System.Threading.Tasks.Dataflow": "8.0.0",
-          "Weasel.Postgresql": "7.4.1"
+          "Weasel.Postgresql": "7.5.0"
         }
       },
       "Microsoft.Bcl.AsyncInterfaces": {
@@ -790,8 +790,8 @@
       },
       "System.Text.Json": {
         "type": "Transitive",
-        "resolved": "8.0.0",
-        "contentHash": "OdrZO2WjkiEG6ajEFRABTRCi/wuXQPxeV6g8xvUJqdxMvvuCCEk86zPla8UiIQJz3durtUEbNyY/3lIhS0yZvQ==",
+        "resolved": "8.0.4",
+        "contentHash": "bAkhgDJ88XTsqczoxEMliSrpijKZHhbJQldhAmObj/RbrN3sU5dcokuXmWJWsdQAhiMJ9bTayWsL1C9fbbCRhw==",
         "dependencies": {
           "System.Text.Encodings.Web": "8.0.0"
         }
@@ -851,19 +851,19 @@
       },
       "Weasel.Core": {
         "type": "Transitive",
-        "resolved": "7.4.1",
-        "contentHash": "QLMVlv+j4BE6MNeplj+Jo+UCXLkwx8pytqYeM+MNozPuClOF87ouOe8HTapEaIEis7f0eWit/J/RpYS9U/iWrw==",
+        "resolved": "7.5.0",
+        "contentHash": "tzjQBEMKcn8fOdktyPoFCzoMMoeXgY+OFdOJzQOKV4VAqAszIg7JBXEBW7aNAZ6qTnMy0fdWOVEAvJwVKbBVYA==",
         "dependencies": {
           "JasperFx.Core": "1.5.1"
         }
       },
       "Weasel.Postgresql": {
         "type": "Transitive",
-        "resolved": "7.4.1",
-        "contentHash": "Csxzf3vuPRPcsxgJC+8uZsee4vyBqUG2P+Ht20lGo64+ruARmIAKxHt2e99GU66btSL8pId7qM/vqoFO4NORCQ==",
+        "resolved": "7.5.0",
+        "contentHash": "NAVe2YyvRUGlgPSdOF/ayF3qrMUCOIwFYTkF/WsRoMzr7StajJrDw2M1ml9kExo6U6xHmu4c0KCVvKGH8JETdw==",
         "dependencies": {
           "Npgsql": "8.0.3",
-          "Weasel.Core": "7.4.1"
+          "Weasel.Core": "7.5.0"
         }
       },
       "xunit.abstractions": {
@@ -931,7 +931,7 @@
       "Raiqub.Expressions.Marten": {
         "type": "Project",
         "dependencies": {
-          "Marten": "[7.23.1, )",
+          "Marten": "[7.25.1, )",
           "Raiqub.Expressions.Database": "[1.0.0, )",
           "Raiqub.Expressions.Writing": "[1.0.0, )"
         }
