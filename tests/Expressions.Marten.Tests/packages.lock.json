@@ -137,8 +137,8 @@
       },
       "Marten": {
         "type": "Transitive",
-        "resolved": "7.25.2",
-        "contentHash": "0r10FUf8cm0C3DZegG4vzvtXrf7/rAxBFGuy/cNBYyRskT1I6Xzt3XyQtfi3JlhbTpkAws+lmlfCytn4E+RjEw==",
+        "resolved": "7.26.1",
+        "contentHash": "4OUjY9Q7f4borKkz/Ac4Fccwpdup3smSoWwSQiAkgj1HwdkqxKrWitdmkweiRn0bsGTwV8XS4+CLToUD7nGvyQ==",
         "dependencies": {
           "JasperFx.CodeGeneration": "3.5.3",
           "JasperFx.Core": "1.7.2",
@@ -152,7 +152,7 @@
           "Polly.Core": "8.3.1",
           "System.Text.Json": "8.0.4",
           "System.Threading.Tasks.Dataflow": "8.0.0",
-          "Weasel.Postgresql": "7.5.0"
+          "Weasel.Postgresql": "7.6.0"
         }
       },
       "Microsoft.Bcl.AsyncInterfaces": {
@@ -851,19 +851,19 @@
       },
       "Weasel.Core": {
         "type": "Transitive",
-        "resolved": "7.5.0",
-        "contentHash": "tzjQBEMKcn8fOdktyPoFCzoMMoeXgY+OFdOJzQOKV4VAqAszIg7JBXEBW7aNAZ6qTnMy0fdWOVEAvJwVKbBVYA==",
+        "resolved": "7.6.0",
+        "contentHash": "uAcUo+Ludl3xfwiyM9h+uHlQoX7hzsWhl8Ekm9RdbaidNURHbiI1zY5gqpk4zMH+4889QXIj/x+XTErRDGr6pg==",
         "dependencies": {
           "JasperFx.Core": "1.5.1"
         }
       },
       "Weasel.Postgresql": {
         "type": "Transitive",
-        "resolved": "7.5.0",
-        "contentHash": "NAVe2YyvRUGlgPSdOF/ayF3qrMUCOIwFYTkF/WsRoMzr7StajJrDw2M1ml9kExo6U6xHmu4c0KCVvKGH8JETdw==",
+        "resolved": "7.6.0",
+        "contentHash": "jkuPR2iXdCrL/KIFql1y/ttIzPGnuT2cW4roNBQNkDgNZYyl10A/BrhVpAyfcG5tjlJv8y9SInIZXyt6peVp3g==",
         "dependencies": {
           "Npgsql": "8.0.3",
-          "Weasel.Core": "7.5.0"
+          "Weasel.Core": "7.6.0"
         }
       },
       "xunit.abstractions": {
@@ -931,7 +931,7 @@
       "Raiqub.Expressions.Marten": {
         "type": "Project",
         "dependencies": {
-          "Marten": "[7.25.2, )",
+          "Marten": "[7.26.1, )",
           "Raiqub.Expressions.Database": "[1.0.0, )",
           "Raiqub.Expressions.Writing": "[1.0.0, )"
         }
