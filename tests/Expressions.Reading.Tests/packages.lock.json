@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "dependencies": {
     "net8.0": {
       "coverlet.collector": {
@@ -132,15 +132,6 @@
         "resolved": "2.9.0",
         "contentHash": "Z/1pyia//860wEYTKn6Q5dmgikJdRjgE4t5AoxJkK8oTmidzPLEPG574kmm7LFkMLbH6Frwmgb750kcyR+hwoA=="
       },
-      "xunit.core": {
-        "type": "Transitive",
-        "resolved": "2.9.0",
-        "contentHash": "uRaop9tZsZMCaUS4AfbSPGYHtvywWnm8XXFNUqII7ShWyDBgdchY6gyDNgO4AK1Lv/1NNW61Zq63CsDV6oH6Jg==",
-        "dependencies": {
-          "xunit.extensibility.core": "[2.9.0]",
-          "xunit.extensibility.execution": "[2.9.0]"
-        }
-      },
       "xunit.extensibility.core": {
         "type": "Transitive",
         "resolved": "2.9.0",
@@ -164,6 +155,16 @@
         "type": "Project",
         "dependencies": {
           "Raiqub.Expressions": "[1.0.0, )"
+        }
+      },
+      "xunit.core": {
+        "type": "CentralTransitive",
+        "requested": "[2.9.0, )",
+        "resolved": "2.9.0",
+        "contentHash": "uRaop9tZsZMCaUS4AfbSPGYHtvywWnm8XXFNUqII7ShWyDBgdchY6gyDNgO4AK1Lv/1NNW61Zq63CsDV6oH6Jg==",
+        "dependencies": {
+          "xunit.extensibility.core": "[2.9.0]",
+          "xunit.extensibility.execution": "[2.9.0]"
         }
       }
     }
