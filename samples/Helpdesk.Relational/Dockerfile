@@ -1,9 +1,9 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:6.0@sha256:7155a73c14fa51599ea17597c1ef8834d12acacb68b6c867a4eee091b6e47d72 AS base
+﻿FROM mcr.microsoft.com/dotnet/aspnet:6.0@sha256:77d7cfafdb6f026cb5dfead0a05ca43f22d6f28c1a94772c8114f2400106c923 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0@sha256:a596e30591ac26f5d5299ceffe41ca5c654768ddb8349f6dc05c51f7e985472f AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0@sha256:ba7877fb3a171ad4326caf97d8b56304fe73e6e05da0992775804805f6f75451 AS build
 WORKDIR /src
 COPY . .
 WORKDIR "/src/samples/Helpdesk.Relational"
