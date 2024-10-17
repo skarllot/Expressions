@@ -41,10 +41,10 @@ jobs:
         global-json-file: global.json
 
     - name: 🛠️ Setup Nerdbank.GitVersioning
-      run: dotnet tool install --tool-path . nbgv
+      run: dotnet tool restore
 
     - name: 🏷️ Tag release
-      run: ./nbgv tag
+      run: dotnet nbgv tag
 
     - name: 🚀 Push Git tags
       run: git push --tags
