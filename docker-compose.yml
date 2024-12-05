@@ -19,7 +19,7 @@ services:
       POSTGRES_PASSWORD: Password12!
 
   helpdesk-relational-pgadmin:
-    image: dpage/pgadmin4@sha256:585350593e8b0483941fa9a2d5ebb04b88a66e83a7b5603c169f9446b271312f
+    image: dpage/pgadmin4@sha256:561c1f8f99f2fe24bc63814db9e30292cf4360331de9182da21e3554ce61bdaa
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
