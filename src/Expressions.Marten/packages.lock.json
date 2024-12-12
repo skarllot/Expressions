@@ -10,9 +10,9 @@
       },
       "Marten": {
         "type": "Direct",
-        "requested": "[7.33.2, )",
-        "resolved": "7.33.2",
-        "contentHash": "DInR1eVtDR0tl1AISL9iiGpXVnWkbyr5isaBbJ8ZFAgk7gC9LI/FvJ/rFk5B4AsTx8Y//EbtnMhO8rpk02y8KQ==",
+        "requested": "[7.33.3, )",
+        "resolved": "7.33.3",
+        "contentHash": "85mkwpR5hKfy7hgnY0gitG/yEgbBerxNvAunU2ZIa+cEPERcTEAeBuiPQMvTJlyloF1+moLTnykN2aiWBFiM+w==",
         "dependencies": {
           "JasperFx.CodeGeneration": "3.7.1",
           "JasperFx.Core": "1.9.0",
@@ -617,9 +617,9 @@
       },
       "Marten": {
         "type": "Direct",
-        "requested": "[7.33.2, )",
-        "resolved": "7.33.2",
-        "contentHash": "DInR1eVtDR0tl1AISL9iiGpXVnWkbyr5isaBbJ8ZFAgk7gC9LI/FvJ/rFk5B4AsTx8Y//EbtnMhO8rpk02y8KQ==",
+        "requested": "[7.33.3, )",
+        "resolved": "7.33.3",
+        "contentHash": "85mkwpR5hKfy7hgnY0gitG/yEgbBerxNvAunU2ZIa+cEPERcTEAeBuiPQMvTJlyloF1+moLTnykN2aiWBFiM+w==",
         "dependencies": {
           "JasperFx.CodeGeneration": "3.7.1",
           "JasperFx.Core": "1.9.0",
