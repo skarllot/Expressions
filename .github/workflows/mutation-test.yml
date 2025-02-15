@@ -32,12 +32,15 @@ jobs:
           disable-sudo: true
           egress-policy: block
           allowed-endpoints: >
+            *.azureedge.net:443
             aka.ms:443
             api.nuget.org:443
-            auth.docker.io:443
+            builds.dotnet.microsoft.com:443
+            ci.dot.net:443
             dashboard.stryker-mutator.io:443
-            dotnetcli.azureedge.net:443
+            dc.services.visualstudio.com:443
             github.com:443
+            auth.docker.io:443
             production.cloudflare.docker.com:443
             registry-1.docker.io:443
 
