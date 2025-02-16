@@ -64,6 +64,7 @@ jobs:
           ci.dot.net:443
           dc.services.visualstudio.com:443
           objects.githubusercontent.com:443
+          registry.npmjs.org:443
           s.symcb.com:80
           s.symcd.com:80
           www.microsoft.com:80
