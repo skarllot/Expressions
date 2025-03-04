@@ -140,8 +140,8 @@
       },
       "Marten": {
         "type": "Transitive",
-        "resolved": "7.37.3",
-        "contentHash": "4BUh5XxGFy9CituhZyzrjHB7FKJNR1ibtt1pC7+hbk4nARJJmJThmvaJouSgMvb6hvF5UQn4RTkG5mA35Ge8Dw==",
+        "resolved": "7.38.1",
+        "contentHash": "ctbDxHYhaMgv0P1BqI+2jPfY7LufMbE+sZlW5sDv8Y09JDnWK8E9aXNBBIvJodRbATgegoSd4JqxQZtK+C2P/Q==",
         "dependencies": {
           "FSharp.Core": "9.0.100",
           "JasperFx.CodeGeneration": "3.7.2",
@@ -156,7 +156,7 @@
           "Polly.Core": "8.5.0",
           "System.Text.Json": "8.0.5",
           "System.Threading.Tasks.Dataflow": "8.0.0",
-          "Weasel.Postgresql": "7.13.5"
+          "Weasel.Postgresql": "7.14.0"
         }
       },
       "Microsoft.Bcl.AsyncInterfaces": {
@@ -877,20 +877,20 @@
       },
       "Weasel.Core": {
         "type": "Transitive",
-        "resolved": "7.13.5",
-        "contentHash": "YRd0DImAeUUikcnsiscTIvSWerNhSUjW6J++0pevOWVivZ+cHhgDKsg7R+6qngj4ofixvpyC1I/KOudU0+mcww==",
+        "resolved": "7.14.0",
+        "contentHash": "5EpJZoJ0XTGRP9NWLrE9G2yB5dDJYZV4ILJkR94zTENV9zukYh1fERBH/D+VOoF9ck60muGud6mUMp2I3vsAhg==",
         "dependencies": {
           "JasperFx.Core": "1.9.0"
         }
       },
       "Weasel.Postgresql": {
         "type": "Transitive",
-        "resolved": "7.13.5",
-        "contentHash": "uhuhiJzw65l8pE/mSw7O40an/Xcz2wou+sdSFo6KJImHd1TXaJwAUy/wPBgAajaefAPCnkMeVB74ehDwBMG83Q==",
+        "resolved": "7.14.0",
+        "contentHash": "wKctScS0GvtYtJ1EIoejhP2/dupbE84WmVaRvzG/sqQnCc8tWUmlDpNGQKMuXOO0giXCYBvEbeFLWH+wkUYyMw==",
         "dependencies": {
           "Npgsql": "8.0.6",
           "Npgsql.NetTopologySuite": "8.0.6",
-          "Weasel.Core": "7.13.5"
+          "Weasel.Core": "7.14.0"
         }
       },
       "xunit.abstractions": {
@@ -949,7 +949,7 @@
       "Raiqub.Expressions.Marten": {
         "type": "Project",
         "dependencies": {
-          "Marten": "[7.37.3, )",
+          "Marten": "[7.38.1, )",
           "Raiqub.Expressions.Database": "[1.0.0, )",
           "Raiqub.Expressions.Writing": "[1.0.0, )"
         }
