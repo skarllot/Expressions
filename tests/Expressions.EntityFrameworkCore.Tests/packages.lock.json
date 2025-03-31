@@ -625,7 +625,7 @@
         "dependencies": {
           "FluentAssertions": "[7.0.0, )",
           "Microsoft.Extensions.DependencyInjection": "[6.0.2, )",
-          "Npgsql": "[7.0.9, )",
+          "Npgsql": "[7.0.10, )",
           "Raiqub.Expressions": "[1.0.0, )",
           "Raiqub.Expressions.Writing": "[1.0.0, )",
           "Respawn": "[6.2.1, )",
@@ -682,7 +682,7 @@
       },
       "Npgsql": {
         "type": "CentralTransitive",
-        "requested": "[7.0.9, )",
+        "requested": "[7.0.10, )",
         "resolved": "8.0.6",
         "contentHash": "KaS6CY5kY2Sd0P00MSeFcOI3t2DiQ4UWG8AuRpVOUeDWITOKfoEEG91DP3cmT6aerixPkjwKgXxnpDxIkDpO6g==",
         "dependencies": {
