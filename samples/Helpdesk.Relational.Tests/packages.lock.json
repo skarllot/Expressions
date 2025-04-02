@@ -366,7 +366,7 @@
         "type": "Project",
         "dependencies": {
           "Npgsql.EntityFrameworkCore.PostgreSQL": "[6.0.29, )",
-          "RT.Comb": "[4.0.2, )",
+          "RT.Comb": "[4.0.3, )",
           "Raiqub.Expressions.EntityFrameworkCore": "[1.0.0, )",
           "Swashbuckle.AspNetCore": "[7.3.2, )",
           "System.Linq.Async": "[6.0.1, )"
@@ -415,9 +415,9 @@
       },
       "RT.Comb": {
         "type": "CentralTransitive",
-        "requested": "[4.0.2, )",
-        "resolved": "4.0.2",
-        "contentHash": "+PKilDcTRqV4iDOrNsfyGqLHxhjO/r39F5Irtul0xaNc1Lul6JkW+xBHQ7B0tOsZ7iXpvyHdLj69sPUTkHlbDw==",
+        "requested": "[4.0.3, )",
+        "resolved": "4.0.3",
+        "contentHash": "q+orPpRD4V0lfVGi4ctVtAiIVwcPhHbUhLOb7EASS5oBw6EE2iyvbYXW2p8x99MiCkKxYNrvxf2f0oiEWSBYqw==",
         "dependencies": {
           "System.Memory": "4.6.0"
         }
