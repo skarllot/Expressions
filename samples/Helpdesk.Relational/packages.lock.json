@@ -16,9 +16,9 @@
       },
       "RT.Comb": {
         "type": "Direct",
-        "requested": "[4.0.2, )",
-        "resolved": "4.0.2",
-        "contentHash": "+PKilDcTRqV4iDOrNsfyGqLHxhjO/r39F5Irtul0xaNc1Lul6JkW+xBHQ7B0tOsZ7iXpvyHdLj69sPUTkHlbDw==",
+        "requested": "[4.0.3, )",
+        "resolved": "4.0.3",
+        "contentHash": "q+orPpRD4V0lfVGi4ctVtAiIVwcPhHbUhLOb7EASS5oBw6EE2iyvbYXW2p8x99MiCkKxYNrvxf2f0oiEWSBYqw==",
         "dependencies": {
           "System.Memory": "4.6.0"
         }
