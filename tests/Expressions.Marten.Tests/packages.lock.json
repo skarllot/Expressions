@@ -145,8 +145,8 @@
       },
       "Marten": {
         "type": "Transitive",
-        "resolved": "7.39.5",
-        "contentHash": "HPKwdqQ2OgJaYW55XFIFBOLlyIo6IOhMbRZCURlDsSuw9ZwUwyj8YHBcJQKlRgF2t/I3PUMyEVCvijjvPu+GuQ==",
+        "resolved": "7.39.6",
+        "contentHash": "gYcSsbA2Avk30s+vBha33sBLS0fz6aF/fT6PZBsJEEfQceCP/7OQxI5mAUIcQvzc3Yq7xijQx0NlNnoGptRcaA==",
         "dependencies": {
           "FSharp.Core": "9.0.100",
           "JasperFx.CodeGeneration": "3.7.2",
@@ -957,7 +957,7 @@
       "Raiqub.Expressions.Marten": {
         "type": "Project",
         "dependencies": {
-          "Marten": "[7.39.5, )",
+          "Marten": "[7.39.6, )",
           "Raiqub.Expressions.Database": "[1.0.0, )",
           "Raiqub.Expressions.Writing": "[1.0.0, )"
         }
