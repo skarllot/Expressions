@@ -101,7 +101,7 @@ jobs:
 
     # Initializes the CodeQL tools for scanning.
     - name: 🛠️ Initialize CodeQL
-      uses: github/codeql-action/init@1b549b9259bda1cb5ddde3b41741a82a2d15a841 # v3.28.13
+      uses: github/codeql-action/init@ce28f5bb42b7a9f2c824e633a3f6ee835bab6858 # v3.29.0
       with:
         languages: ${{ matrix.language }}
         # If you wish to specify custom queries, you can do so here or in a config file.
@@ -130,6 +130,6 @@ jobs:
       if: matrix.language == 'javascript-typescript'
 
     - name: 🔍 Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@1b549b9259bda1cb5ddde3b41741a82a2d15a841 # v3.28.13
+      uses: github/codeql-action/analyze@ce28f5bb42b7a9f2c824e633a3f6ee835bab6858 # v3.29.0
       with:
         category: "/language:${{matrix.language}}"
