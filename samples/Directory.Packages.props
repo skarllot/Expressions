@@ -5,9 +5,9 @@
     <CentralPackageVersionOverrideEnabled>false</CentralPackageVersionOverrideEnabled>
   </PropertyGroup>
   <ItemGroup>
+    <PackageVersion Include="AwesomeAssertions" Version="7.0.0" />
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
     <PackageVersion Include="coverlet.msbuild" Version="6.0.4" />
-    <PackageVersion Include="AwesomeAssertions" Version="7.0.0" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.29" />
     <PackageVersion Include="NSubstitute" Version="5.3.0" />
     <PackageVersion Include="RT.Comb" Version="4.0.3" />

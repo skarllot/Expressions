@@ -632,7 +632,7 @@
       "Raiqub.Common.Tests": {
         "type": "Project",
         "dependencies": {
-          "FluentAssertions": "[7.0.0, )",
+          "AwesomeAssertions": "[7.0.0, )",
           "Microsoft.Extensions.DependencyInjection": "[6.0.2, )",
           "Npgsql": "[7.0.10, )",
           "Raiqub.Expressions": "[1.0.0, )",
@@ -671,11 +671,11 @@
           "Raiqub.Expressions.Reading": "[1.0.0, )"
         }
       },
-      "FluentAssertions": {
+      "AwesomeAssertions": {
         "type": "CentralTransitive",
         "requested": "[7.0.0, )",
         "resolved": "7.0.0",
-        "contentHash": "mTLbcU991EQ1SEmNbVBaGGGJy0YFzvGd1sYJGNZ07nlPKuyHSn1I22aeKzqQXgEiaKyRO6MSCto9eN9VxMwBdA==",
+        "contentHash": "/jKSCFl+hHMfczZ/u4UZP3G3HHZ8slCtkNneB+/WheYrbWMfT8QzO/HiWYg0PVU87VqS0/gK41eW05hofjQ3PA==",
         "dependencies": {
           "System.Configuration.ConfigurationManager": "6.0.0"
         }
