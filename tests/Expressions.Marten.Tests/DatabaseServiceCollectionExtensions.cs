@@ -1,6 +1,6 @@
-﻿using Marten;
+﻿using JasperFx;
+using Marten;
 using Microsoft.Extensions.DependencyInjection;
-using Weasel.Core;
 
 namespace Raiqub.Expressions.Marten.Tests;
 

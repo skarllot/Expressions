@@ -11,6 +11,7 @@ namespace Raiqub.Expressions.EntityFrameworkCore.Queries;
 /// </summary>
 /// <typeparam name="TResult">The type of the result returned.</typeparam>
 public class EfDbQuery<TResult> : IDbQuery<TResult>
+    where TResult : notnull
 {
     private readonly ILogger _logger;
     private readonly IQueryable<TResult> _dataSource;

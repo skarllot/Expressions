@@ -12,6 +12,7 @@ namespace Raiqub.Expressions.Marten.Queries;
 /// </summary>
 /// <typeparam name="TResult">The type of the result returned.</typeparam>
 public class MartenDbQuery<TResult> : IDbQuery<TResult>
+    where TResult : notnull
 {
     private readonly ILogger _logger;
     private readonly IQueryable<TResult> _dataSource;

@@ -4,5 +4,14 @@
     "local>skarllot/renovate-config"
   ],
   "reviewers": ["skarllot"],
-  "assignees": ["skarllot"]
+  "assignees": ["skarllot"],
+  "packageRules": [
+    {
+      "description": "Pin Marten for NET 6.0 compatibility",
+      "matchDatasources": ["nuget"],
+      "matchFileNames": ["**/Directory.Packages.Net6.props"],
+      "matchPackageNames": ["Marten"],
+      "allowedVersions": "< 8.0.0"
+    }
+  ]
 }

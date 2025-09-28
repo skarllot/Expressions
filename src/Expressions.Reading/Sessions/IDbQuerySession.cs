@@ -24,12 +24,14 @@ public interface IDbQuerySession : IAsyncDisposable, IDisposable
     /// <returns>A new query object.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="queryStrategy"/> is null.</exception>
     IDbQuery<TResult> Query<TEntity, TResult>(IEntityQueryStrategy<TEntity, TResult> queryStrategy)
-        where TEntity : class;
+        where TEntity : class
+        where TResult : notnull;
 
     /// <summary>Creates a new query using the specified query strategy.</summary>
     /// <typeparam name="TResult">The type of result to return.</typeparam>
     /// <param name="queryStrategy">The query strategy to use.</param>
     /// <returns>A new query object.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="queryStrategy"/> is null.</exception>
-    IDbQuery<TResult> Query<TResult>(IQueryStrategy<TResult> queryStrategy);
+    IDbQuery<TResult> Query<TResult>(IQueryStrategy<TResult> queryStrategy)
+        where TResult : notnull;
 }

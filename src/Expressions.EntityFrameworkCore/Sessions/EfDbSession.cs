@@ -88,12 +88,14 @@ public class EfDbSession : IDbSession
     /// <inheritdoc />
     public IDbQuery<TResult> Query<TEntity, TResult>(IEntityQueryStrategy<TEntity, TResult> queryStrategy)
         where TEntity : class
+        where TResult : notnull
     {
         return new EfDbQuery<TResult>(_logger, queryStrategy.Execute(_querySource.GetSet<TEntity>()));
     }
 
     /// <inheritdoc />
     public IDbQuery<TResult> Query<TResult>(IQueryStrategy<TResult> queryStrategy)
+        where TResult : notnull
     {
         return new EfDbQuery<TResult>(_logger, queryStrategy.Execute(_querySource));
     }

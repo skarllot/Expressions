@@ -89,6 +89,27 @@ public abstract class QueryTestBase : DatabaseTestBase
         post?.Title.Should().Be(expected);
     }
 
+    [Theory]
+    [InlineData("First", false)]
+    [InlineData("Second", false)]
+    [InlineData("Third", true)]
+    [InlineData("Fourth", true)]
+    public async Task FirstOrDefaultWithStructShouldReturnExpected(string name, bool isNull)
+    {
+        await AddBlogs(GetBlogs());
+        await using var session = CreateSession();
+        var query = session.Query(
+            QueryStrategy.CreateForEntity((IQueryable<Blog> q) =>
+                q.Where(b => b.Name == name).SelectMany(b => b.Posts).Select(b => b.Timestamp).OrderBy(t => t)));
+
+        DateTimeOffset? result = await query.FirstOrDefaultAsync();
+
+        if (isNull)
+            result.Should().BeNull();
+        else
+            result.Should().NotBeNull();
+    }
+
     [Fact]
     public async Task ToPagedListShouldReturnPage()
     {
@@ -149,7 +170,8 @@ public abstract class QueryTestBase : DatabaseTestBase
     {
         await AddBlogs(GetBlogs());
         await using var session = CreateSession();
-        var query = session.Query(QueryStrategy.CreateForEntity((IQueryable<Blog> source) => source.SelectMany(b => b.Posts)));
+        var query = session.Query(
+            QueryStrategy.CreateForEntity((IQueryable<Blog> source) => source.SelectMany(b => b.Posts)));
 
         var posts = await query.ToListAsync();
 
@@ -163,10 +185,9 @@ public abstract class QueryTestBase : DatabaseTestBase
         await AddBlogs(GetBlogs());
         await using var session = CreateSession();
         var query = session.Query(
-            QueryStrategy.CreateForEntity(
-                (IQueryable<Blog> source) => source
-                    .SelectMany(b => b.Posts)
-                    .Where(p => p.Content.StartsWith("You"))));
+            QueryStrategy.CreateForEntity((IQueryable<Blog> source) => source
+                .SelectMany(b => b.Posts)
+                .Where(p => p.Content.StartsWith("You"))));
 
         var posts = await query.ToListAsync();
 

@@ -7,6 +7,7 @@ namespace Raiqub.Expressions.Queries;
 /// </summary>
 /// <typeparam name="TResult">The type of the result returned.</typeparam>
 public interface IDbQuery<TResult>
+    where TResult : notnull
 {
     /// <summary>Determines whether the query returns any elements.</summary>
     /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
