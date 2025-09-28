@@ -98,7 +98,7 @@ public abstract class QueryTestBase : DatabaseTestBase
     {
         await AddBlogs(GetBlogs());
         await using var session = CreateSession();
-        var query = session.Query(
+        var query = session.QueryValue(
             QueryStrategy.CreateForEntity((IQueryable<Blog> q) =>
                 q.Where(b => b.Name == name).SelectMany(b => b.Posts).Select(b => b.Timestamp).OrderBy(t => t)));
 
@@ -211,12 +211,47 @@ public abstract class QueryTestBase : DatabaseTestBase
     }
 
     [Theory]
+    [InlineData("Second", false)]
+    [InlineData("Third", true)]
+    [InlineData("Fourth", true)]
+    public async Task SingleOrDefaultWithStructShouldReturnExpected(string name, bool isNull)
+    {
+        await AddBlogs(GetBlogs());
+        await using var session = CreateSession();
+        var query = session.QueryValue(
+            QueryStrategy.CreateForEntity((IQueryable<Blog> q) =>
+                q.Where(b => b.Name == name).SelectMany(b => b.Posts).Select(b => b.Timestamp).OrderBy(t => t)));
+
+        DateTimeOffset? result = await query.SingleOrDefaultAsync();
+
+        if (isNull)
+            result.Should().BeNull();
+        else
+            result.Should().NotBeNull();
+    }
+
+    [Theory]
     [InlineData("First")]
     public async Task SingleOrDefaultShouldFail(string name)
     {
         await AddBlogs(GetBlogs());
         await using var session = CreateSession();
         var query = session.Query(new GetBlogPostsQueryStrategy(name));
+
+        await query
+            .Invoking(q => q.SingleOrDefaultAsync())
+            .Should().ThrowExactlyAsync<InvalidOperationException>();
+    }
+
+    [Theory]
+    [InlineData("First")]
+    public async Task SingleOrDefaultWithStructShouldFail(string name)
+    {
+        await AddBlogs(GetBlogs());
+        await using var session = CreateSession();
+        var query = session.QueryValue(
+            QueryStrategy.CreateForEntity((IQueryable<Blog> q) =>
+                q.Where(b => b.Name == name).SelectMany(b => b.Posts).Select(b => b.Timestamp).OrderBy(t => t)));
 
         await query
             .Invoking(q => q.SingleOrDefaultAsync())

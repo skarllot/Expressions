@@ -34,4 +34,22 @@ public interface IDbQuerySession : IAsyncDisposable, IDisposable
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="queryStrategy"/> is null.</exception>
     IDbQuery<TResult> Query<TResult>(IQueryStrategy<TResult> queryStrategy)
         where TResult : notnull;
+
+    /// <summary>Creates a new query using the specified entity query strategy for value types.</summary>
+    /// <typeparam name="TEntity">The type of entity to query.</typeparam>
+    /// <typeparam name="TResult">The value type of result to return.</typeparam>
+    /// <param name="queryStrategy">The entity query strategy to use.</param>
+    /// <returns>A new query object for value types.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="queryStrategy"/> is null.</exception>
+    IDbQueryValue<TResult> QueryValue<TEntity, TResult>(IEntityQueryStrategy<TEntity, TResult> queryStrategy)
+        where TEntity : class
+        where TResult : struct;
+
+    /// <summary>Creates a new query using the specified query strategy for value types.</summary>
+    /// <typeparam name="TResult">The value type of result to return.</typeparam>
+    /// <param name="queryStrategy">The query strategy to use.</param>
+    /// <returns>A new query object for value types.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="queryStrategy"/> is null.</exception>
+    IDbQueryValue<TResult> QueryValue<TResult>(IQueryStrategy<TResult> queryStrategy)
+        where TResult : struct;
 }

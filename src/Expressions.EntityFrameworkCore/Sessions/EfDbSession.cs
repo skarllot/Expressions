@@ -101,6 +101,21 @@ public class EfDbSession : IDbSession
     }
 
     /// <inheritdoc />
+    public IDbQueryValue<TResult> QueryValue<TEntity, TResult>(IEntityQueryStrategy<TEntity, TResult> queryStrategy)
+        where TEntity : class
+        where TResult : struct
+    {
+        return new EfDbQueryValue<TResult>(_logger, queryStrategy.Execute(_querySource.GetSet<TEntity>()));
+    }
+
+    /// <inheritdoc />
+    public IDbQueryValue<TResult> QueryValue<TResult>(IQueryStrategy<TResult> queryStrategy)
+        where TResult : struct
+    {
+        return new EfDbQueryValue<TResult>(_logger, queryStrategy.Execute(_querySource));
+    }
+
+    /// <inheritdoc />
     public void Remove<TEntity>(TEntity entity) where TEntity : class => DbContext.Remove(entity);
 
     /// <inheritdoc />

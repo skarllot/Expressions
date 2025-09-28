@@ -55,6 +55,21 @@ public class MartenDbQuerySession : IDbQuerySession
     }
 
     /// <inheritdoc />
+    public IDbQueryValue<TResult> QueryValue<TEntity, TResult>(IEntityQueryStrategy<TEntity, TResult> queryStrategy)
+        where TEntity : class
+        where TResult : struct
+    {
+        return new MartenDbQueryValue<TResult>(_logger, queryStrategy.Execute(_session.Query<TEntity>()));
+    }
+
+    /// <inheritdoc />
+    public IDbQueryValue<TResult> QueryValue<TResult>(IQueryStrategy<TResult> queryStrategy)
+        where TResult : struct
+    {
+        return new MartenDbQueryValue<TResult>(_logger, queryStrategy.Execute(QuerySource));
+    }
+
+    /// <inheritdoc />
     public async ValueTask DisposeAsync()
     {
         await DisposeAsyncCore().ConfigureAwait(false);

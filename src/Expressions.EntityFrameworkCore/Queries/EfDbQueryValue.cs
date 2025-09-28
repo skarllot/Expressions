@@ -1,20 +1,21 @@
-﻿using Marten;
+﻿using System.Runtime.CompilerServices;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Raiqub.Expressions.Queries;
 
-namespace Raiqub.Expressions.Marten.Queries;
+namespace Raiqub.Expressions.EntityFrameworkCore.Queries;
 
 /// <summary>
-/// Marten-based implementation of a query that can be executed to retrieve instances of type <typeparamref name="TResult"/>.
+/// Entity Framework-based implementation of a query that can be executed to retrieve value type instances of type <typeparamref name="TResult"/>.
 /// </summary>
 /// <typeparam name="TResult">The type of the result returned.</typeparam>
-public class MartenDbQuery<TResult> : MartenDbQueryBase<TResult>, IDbQuery<TResult>
-    where TResult : notnull
+public class EfDbQueryValue<TResult> : EfDbQueryBase<TResult>, IDbQueryValue<TResult>
+    where TResult : struct
 {
-    /// <summary>Initializes a new instance of the <see cref="MartenDbQuery{TResult}"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="EfDbQueryValue{TResult}"/> class.</summary>
     /// <param name="logger">The <see cref="ILogger"/> to log to.</param>
     /// <param name="dataSource">The data source to query from.</param>
-    public MartenDbQuery(ILogger logger, IQueryable<TResult> dataSource) : base(logger, dataSource)
+    public EfDbQueryValue(ILogger logger, IQueryable<TResult> dataSource) : base(logger, dataSource)
     {
     }
 
@@ -23,11 +24,14 @@ public class MartenDbQuery<TResult> : MartenDbQueryBase<TResult>, IDbQuery<TResu
     {
         try
         {
-            return await DataSource
+            var wrappedResult = await DataSource
+                .Select(x => new StrongBox<TResult>(x))
                 .FirstOrDefaultAsync(cancellationToken)
                 .ConfigureAwait(false);
+            return wrappedResult?.Value;
         }
-        catch (Exception exception) when (exception is not ArgumentNullException
+        catch (Exception exception) when (exception is not NullReferenceException
+                                              and not ArgumentNullException
                                               and not OperationCanceledException)
         {
             QueryLog.FirstError(Logger, exception);
@@ -40,11 +44,14 @@ public class MartenDbQuery<TResult> : MartenDbQueryBase<TResult>, IDbQuery<TResu
     {
         try
         {
-            return await DataSource
+            var wrappedResult = await DataSource
+                .Select(x => new StrongBox<TResult>(x))
                 .SingleOrDefaultAsync(cancellationToken)
                 .ConfigureAwait(false);
+            return wrappedResult?.Value;
         }
-        catch (Exception exception) when (exception is not ArgumentNullException
+        catch (Exception exception) when (exception is not NullReferenceException
+                                              and not ArgumentNullException
                                               and not InvalidOperationException
                                               and not OperationCanceledException)
         {

@@ -1,11 +1,12 @@
 ﻿namespace Raiqub.Expressions.Queries;
 
 /// <summary>
-/// Represents a query that can be executed to retrieve instances of type <typeparamref name="TResult"/>.
+/// Represents a query that can be executed to retrieve value type instances of type <typeparamref name="TResult"/>.
+/// This interface is specifically designed for value types (structs) and provides nullable return values for optional operations.
 /// </summary>
-/// <typeparam name="TResult">The type of the result returned.</typeparam>
-public interface IDbQuery<TResult> : IDbQueryBase<TResult>
-    where TResult : notnull
+/// <typeparam name="TResult">The value type of the result returned by the query.</typeparam>
+public interface IDbQueryValue<TResult> : IDbQueryBase<TResult>
+    where TResult : struct
 {
     /// <summary>
     /// Returns the first element of the query result, or a default value if the query result contains no elements.
