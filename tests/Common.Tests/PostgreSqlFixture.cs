@@ -12,7 +12,7 @@ public sealed class PostgreSqlFixture : IAsyncLifetime, IDisposable
         .WithDatabase("db")
         .WithUsername("postgres")
         .WithPassword("postgres")
-        .WithWaitStrategy(Wait.ForUnixContainer())
+        .WithWaitStrategy(Wait.ForUnixContainer().AddCustomWaitStrategy(new PgIsReady()))
         .WithAutoRemove(true)
         .WithCleanUp(true)
         .Build();
@@ -25,15 +25,21 @@ public sealed class PostgreSqlFixture : IAsyncLifetime, IDisposable
     public async Task InitializeAsync()
     {
         await _postgreSqlContainer.StartAsync();
-        await PgIsReady.WaitAsync(ConnectionString);
     }
 
     public async Task DisposeAsync()
     {
-        if (_connection is not null)
-            await _connection.DisposeAsync();
-        await _postgreSqlContainer.StopAsync();
-        await _postgreSqlContainer.DisposeAsync();
+        try
+        {
+            if (_connection is not null)
+                await _connection.DisposeAsync();
+            await _postgreSqlContainer.StopAsync();
+            await _postgreSqlContainer.DisposeAsync();
+        }
+        catch
+        {
+            // Ignore cleanup errors
+        }
     }
 
     public async Task SnapshotDatabaseAsync()

@@ -2,19 +2,8 @@
 
 public class Blog
 {
-    private readonly List<Post> _posts;
+    public required Guid Id { get; set; }
+    public required string Name { get; set; }
 
-    public Blog(Guid id, string name)
-    {
-        Id = id;
-        Name = name;
-        _posts = new List<Post>();
-    }
-
-    public Guid Id { get; protected set; }
-    public string Name { get; protected set; }
-
-    public IReadOnlyList<Post> Posts => _posts;
-
-    public void AddPost(Post post) => _posts.Add(post);
+    public List<Post> Posts { get; set; } = [];
 }

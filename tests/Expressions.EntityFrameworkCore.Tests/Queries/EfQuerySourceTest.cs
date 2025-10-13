@@ -82,9 +82,9 @@ public class EfQuerySourceTest : DatabaseTestBase, IAsyncLifetime
             ChangeTracking.Default);
 
         DbContext.AddRange(
-            new Blog(new Guid("018a7015-fd5b-48a2-9ffa-07ef1ce7486d"), "John"),
-            new Blog(new Guid("018a7016-05a4-48c3-8545-63549cd3aeed"), "Jane"),
-            new Blog(new Guid("018a7018-8fee-4acf-968b-5c89f5599f23"), "Alice"));
+            new Blog { Id = new Guid("018a7015-fd5b-48a2-9ffa-07ef1ce7486d"), Name = "John" },
+            new Blog { Id = new Guid("018a7016-05a4-48c3-8545-63549cd3aeed"), Name = "Jane" },
+            new Blog { Id = new Guid("018a7018-8fee-4acf-968b-5c89f5599f23"), Name = "Alice" });
 
         DbContext.SaveChanges();
         DbContext.ChangeTracker.Clear();
@@ -105,9 +105,9 @@ public class EfQuerySourceTest : DatabaseTestBase, IAsyncLifetime
             ChangeTracking.Default);
 
         DbContext.AddRange(
-            new Blog(new Guid("018a7015-fd5b-48a2-9ffa-07ef1ce7486d"), "John"),
-            new Blog(new Guid("018a7016-05a4-48c3-8545-63549cd3aeed"), "Jane"),
-            new Blog(new Guid("018a7018-8fee-4acf-968b-5c89f5599f23"), "Alice"));
+            new Blog { Id = new Guid("018a7015-fd5b-48a2-9ffa-07ef1ce7486d"), Name = "John" },
+            new Blog { Id = new Guid("018a7016-05a4-48c3-8545-63549cd3aeed"), Name = "Jane" },
+            new Blog { Id = new Guid("018a7018-8fee-4acf-968b-5c89f5599f23"), Name = "Alice" });
 
         DbContext.SaveChanges();
         DbContext.ChangeTracker.Clear();

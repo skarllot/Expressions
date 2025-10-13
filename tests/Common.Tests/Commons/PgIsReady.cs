@@ -1,53 +1,31 @@
-﻿using Npgsql;
+﻿using System.Data;
+using DotNet.Testcontainers.Configurations;
+using DotNet.Testcontainers.Containers;
+using Npgsql;
+using Testcontainers.PostgreSql;
 
 namespace Raiqub.Common.Tests.Commons;
 
-public static class PgIsReady
+public sealed class PgIsReady : IWaitUntil
 {
-    public static void Wait(string connectionString)
+    public Task<bool> UntilAsync(IContainer container)
     {
-        using var timeoutEvent = new ManualResetEventSlim(false);
-
-        using var timer = new Timer(
-            static m => ((ManualResetEventSlim)m!).Set(),
-            timeoutEvent,
-            3000,
-            Timeout.Infinite);
-
-        while (true)
-        {
-            try
-            {
-                using var connection = new NpgsqlConnection(connectionString);
-                connection.Open();
-                break;
-            }
-            catch (NpgsqlException)
-            {
-                if (timeoutEvent.Wait(250))
-                {
-                    throw;
-                }
-            }
-        }
+        return UntilAsync((PostgreSqlContainer)container);
     }
 
-    public static async Task WaitAsync(string connectionString)
+    private static async Task<bool> UntilAsync(PostgreSqlContainer container)
     {
         using var cts = new CancellationTokenSource(3000);
 
-        while (cts.IsCancellationRequested is false)
+        try
         {
-            try
-            {
-                await using var connection = new NpgsqlConnection(connectionString);
-                await connection.OpenAsync(cts.Token);
-                break;
-            }
-            catch (NpgsqlException)
-            {
-                await Task.Delay(250, cts.Token);
-            }
+            await using var connection = new NpgsqlConnection(container.GetConnectionString());
+            await connection.OpenAsync(cts.Token);
+            return connection.State == ConnectionState.Open;
+        }
+        catch (NpgsqlException)
+        {
+            return false;
         }
     }
 }
