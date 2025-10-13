@@ -86,7 +86,7 @@ public abstract class SessionFactoryTestBase : DatabaseTestBase
         await using (var session = sessionFactory.Create())
         {
             Blog blog = await session.Query(new GetBlogByNameQueryStrategy("Second")).FirstAsync();
-            blog.AddPost(new Post("Test", "This is a test", DateTimeOffset.UtcNow));
+            blog.Posts.Add(new Post { Title = "Test", Content = "This is a test", Timestamp = DateTimeOffset.UtcNow });
 
             session.Update(blog);
             await session.SaveChangesAsync();
@@ -117,7 +117,7 @@ public abstract class SessionFactoryTestBase : DatabaseTestBase
             var blogs = await session.Query<Blog>().ToListAsync();
             foreach (Blog blog in blogs)
             {
-                blog.AddPost(new Post("Test", "This is a test", DateTimeOffset.UtcNow));
+                blog.Posts.Add(new Post { Title = "Test", Content = "This is a test", Timestamp = DateTimeOffset.UtcNow });
             }
 
             session.UpdateRange(blogs);
@@ -217,15 +217,15 @@ public abstract class SessionFactoryTestBase : DatabaseTestBase
     {
         DateTimeOffset now = DateTimeOffset.UtcNow;
 
-        var first = new Blog(new Guid("018a7015-fd5b-48a2-9ffa-07ef1ce7486d"), "First");
-        first.AddPost(new Post("Nice", "Keep writing", now.AddMilliseconds(1)));
-        first.AddPost(new Post("The worst", "You should quit writing", now.AddMilliseconds(2)));
+        var first = new Blog { Id = new Guid("018a7015-fd5b-48a2-9ffa-07ef1ce7486d"), Name = "First" };
+        first.Posts.Add(new Post { Title = "Nice", Content = "Keep writing", Timestamp = now.AddMilliseconds(1) });
+        first.Posts.Add(new Post { Title = "The worst", Content = "You should quit writing", Timestamp = now.AddMilliseconds(2) });
         yield return first;
 
-        var second = new Blog(new Guid("018a7016-05a4-48c3-8545-63549cd3aeed"), "Second");
-        second.AddPost(new Post("Thank you", "You helped a lot", now.AddMilliseconds(1)));
+        var second = new Blog { Id = new Guid("018a7016-05a4-48c3-8545-63549cd3aeed"), Name = "Second" };
+        second.Posts.Add(new Post { Title = "Thank you", Content = "You helped a lot", Timestamp = now.AddMilliseconds(1) });
         yield return second;
 
-        yield return new Blog(new Guid("018a7018-8fee-4acf-968b-5c89f5599f23"), "Third");
+        yield return new Blog { Id = new Guid("018a7018-8fee-4acf-968b-5c89f5599f23"), Name = "Third" };
     }
 }

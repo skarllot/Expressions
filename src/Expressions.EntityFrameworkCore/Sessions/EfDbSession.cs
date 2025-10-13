@@ -88,14 +88,31 @@ public class EfDbSession : IDbSession
     /// <inheritdoc />
     public IDbQuery<TResult> Query<TEntity, TResult>(IEntityQueryStrategy<TEntity, TResult> queryStrategy)
         where TEntity : class
+        where TResult : notnull
     {
         return new EfDbQuery<TResult>(_logger, queryStrategy.Execute(_querySource.GetSet<TEntity>()));
     }
 
     /// <inheritdoc />
     public IDbQuery<TResult> Query<TResult>(IQueryStrategy<TResult> queryStrategy)
+        where TResult : notnull
     {
         return new EfDbQuery<TResult>(_logger, queryStrategy.Execute(_querySource));
+    }
+
+    /// <inheritdoc />
+    public IDbQueryValue<TResult> QueryValue<TEntity, TResult>(IEntityQueryStrategy<TEntity, TResult> queryStrategy)
+        where TEntity : class
+        where TResult : struct
+    {
+        return new EfDbQueryValue<TResult>(_logger, queryStrategy.Execute(_querySource.GetSet<TEntity>()));
+    }
+
+    /// <inheritdoc />
+    public IDbQueryValue<TResult> QueryValue<TResult>(IQueryStrategy<TResult> queryStrategy)
+        where TResult : struct
+    {
+        return new EfDbQueryValue<TResult>(_logger, queryStrategy.Execute(_querySource));
     }
 
     /// <inheritdoc />

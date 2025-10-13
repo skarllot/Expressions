@@ -1,0 +1,5 @@
+<Project>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <PackageVersion Include="Marten" Version="8.11.0" />
+  </ItemGroup>
+</Project>

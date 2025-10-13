@@ -89,6 +89,27 @@ public abstract class QueryTestBase : DatabaseTestBase
         post?.Title.Should().Be(expected);
     }
 
+    [Theory]
+    [InlineData("First", false)]
+    [InlineData("Second", false)]
+    [InlineData("Third", true)]
+    [InlineData("Fourth", true)]
+    public async Task FirstOrDefaultWithStructShouldReturnExpected(string name, bool isNull)
+    {
+        await AddBlogs(GetBlogs());
+        await using var session = CreateSession();
+        var query = session.QueryValue(
+            QueryStrategy.CreateForEntity((IQueryable<Blog> q) =>
+                q.Where(b => b.Name == name).SelectMany(b => b.Posts).Select(b => b.Timestamp).OrderBy(t => t)));
+
+        DateTimeOffset? result = await query.FirstOrDefaultAsync();
+
+        if (isNull)
+            result.Should().BeNull();
+        else
+            result.Should().NotBeNull();
+    }
+
     [Fact]
     public async Task ToPagedListShouldReturnPage()
     {
@@ -149,7 +170,8 @@ public abstract class QueryTestBase : DatabaseTestBase
     {
         await AddBlogs(GetBlogs());
         await using var session = CreateSession();
-        var query = session.Query(QueryStrategy.CreateForEntity((IQueryable<Blog> source) => source.SelectMany(b => b.Posts)));
+        var query = session.Query(
+            QueryStrategy.CreateForEntity((IQueryable<Blog> source) => source.SelectMany(b => b.Posts)));
 
         var posts = await query.ToListAsync();
 
@@ -163,10 +185,9 @@ public abstract class QueryTestBase : DatabaseTestBase
         await AddBlogs(GetBlogs());
         await using var session = CreateSession();
         var query = session.Query(
-            QueryStrategy.CreateForEntity(
-                (IQueryable<Blog> source) => source
-                    .SelectMany(b => b.Posts)
-                    .Where(p => p.Content.StartsWith("You"))));
+            QueryStrategy.CreateForEntity((IQueryable<Blog> source) => source
+                .SelectMany(b => b.Posts)
+                .Where(p => p.Content.StartsWith("You"))));
 
         var posts = await query.ToListAsync();
 
@@ -190,12 +211,47 @@ public abstract class QueryTestBase : DatabaseTestBase
     }
 
     [Theory]
+    [InlineData("Second", false)]
+    [InlineData("Third", true)]
+    [InlineData("Fourth", true)]
+    public async Task SingleOrDefaultWithStructShouldReturnExpected(string name, bool isNull)
+    {
+        await AddBlogs(GetBlogs());
+        await using var session = CreateSession();
+        var query = session.QueryValue(
+            QueryStrategy.CreateForEntity((IQueryable<Blog> q) =>
+                q.Where(b => b.Name == name).SelectMany(b => b.Posts).Select(b => b.Timestamp).OrderBy(t => t)));
+
+        DateTimeOffset? result = await query.SingleOrDefaultAsync();
+
+        if (isNull)
+            result.Should().BeNull();
+        else
+            result.Should().NotBeNull();
+    }
+
+    [Theory]
     [InlineData("First")]
     public async Task SingleOrDefaultShouldFail(string name)
     {
         await AddBlogs(GetBlogs());
         await using var session = CreateSession();
         var query = session.Query(new GetBlogPostsQueryStrategy(name));
+
+        await query
+            .Invoking(q => q.SingleOrDefaultAsync())
+            .Should().ThrowExactlyAsync<InvalidOperationException>();
+    }
+
+    [Theory]
+    [InlineData("First")]
+    public async Task SingleOrDefaultWithStructShouldFail(string name)
+    {
+        await AddBlogs(GetBlogs());
+        await using var session = CreateSession();
+        var query = session.QueryValue(
+            QueryStrategy.CreateForEntity((IQueryable<Blog> q) =>
+                q.Where(b => b.Name == name).SelectMany(b => b.Posts).Select(b => b.Timestamp).OrderBy(t => t)));
 
         await query
             .Invoking(q => q.SingleOrDefaultAsync())
@@ -216,15 +272,15 @@ public abstract class QueryTestBase : DatabaseTestBase
     {
         DateTimeOffset now = DateTimeOffset.UtcNow;
 
-        var first = new Blog(new Guid("018a7015-fd5b-48a2-9ffa-07ef1ce7486d"), "First");
-        first.AddPost(new Post("Nice", "Keep writing", now.AddMilliseconds(1)));
-        first.AddPost(new Post("The worst", "You should quit writing", now.AddMilliseconds(2)));
+        var first = new Blog { Id = new Guid("018a7015-fd5b-48a2-9ffa-07ef1ce7486d"), Name = "First" };
+        first.Posts.Add(new Post { Title = "Nice", Content = "Keep writing", Timestamp = now.AddMilliseconds(1) });
+        first.Posts.Add(new Post { Title = "The worst", Content = "You should quit writing", Timestamp = now.AddMilliseconds(2) });
         yield return first;
 
-        var second = new Blog(new Guid("018a7016-05a4-48c3-8545-63549cd3aeed"), "Second");
-        second.AddPost(new Post("Thank you", "You helped a lot", now.AddMilliseconds(1)));
+        var second = new Blog { Id = new Guid("018a7016-05a4-48c3-8545-63549cd3aeed"), Name = "Second" };
+        second.Posts.Add(new Post { Title = "Thank you", Content = "You helped a lot", Timestamp = now.AddMilliseconds(1) });
         yield return second;
 
-        yield return new Blog(new Guid("018a7018-8fee-4acf-968b-5c89f5599f23"), "Third");
+        yield return new Blog { Id = new Guid("018a7018-8fee-4acf-968b-5c89f5599f23"), Name = "Third" };
     }
 }
