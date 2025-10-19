@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using AwesomeAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Raiqub.Common.Tests;
 using Raiqub.Common.Tests.Examples;
