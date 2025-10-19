@@ -56,13 +56,15 @@ export default defineConfig({
         {
           text: 'Database Session',
           items: [
-            { text: 'Managing Database Sessions', link: '/database-session/' }
+            { text: 'Managing Database Sessions', link: '/database-session/' },
+            { text: 'Bounded Contexts', link: '/database-session/bounded-contexts' }
           ]
         },
         {
           text: 'Entity Framework',
           items: [
             { text: 'Using EF Core', link: '/ef-core/' },
+            { text: 'Bounded Contexts', link: '/ef-core/bounded-contexts' },
             { text: 'Custom SQL Query', link: '/ef-core/custom-sql' },
             { text: 'Split Query', link: '/ef-core/split-query' }
           ]
@@ -70,7 +72,15 @@ export default defineConfig({
         {
           text: 'Marten',
           items: [
-            { text: 'Using Marten', link: '/marten/' }
+            { text: 'Using Marten', link: '/marten/' },
+            { text: 'Bounded Contexts', link: '/marten/bounded-contexts' }
+          ]
+        },
+        {
+          text: 'Best Practices',
+          items: [
+            { text: 'Testing Strategies', link: 'best-practices/testing' },
+            { text: 'Performance Optimization', link: 'best-practices/performance' }
           ]
         }
       ]
