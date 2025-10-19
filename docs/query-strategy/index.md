@@ -145,3 +145,68 @@ public static class ProductQueryStrategy
                 select new ProductName { Id = e.Id, Name = e.Name });
 }
 ```
+
+## Query Strategies Returning Value Types
+
+When your query strategy returns value types (structs) such as `int`, `decimal`, `DateTime`, or other structs, you should use them with the `QueryValue()` method instead of `Query()`. Both `IEntityQueryStrategy<TSource, TResult>` and `IQueryStrategy<TResult>` support value type results when `TResult` is constrained to `struct`.
+
+::: code-group
+
+```csharp [Entity Query - Class]
+public class GetActiveProductCountQueryStrategy : EntityQueryStrategy<Product, int>
+{
+    protected override IQueryable<int> ExecuteCore(IQueryable<Product> source)
+    {
+        return source
+            .Where(ProductSpecification.IsInStock)
+            .Select(p => p.AvailableQuantity);
+    }
+}
+```
+
+```csharp [Entity Query - Factory]
+public static class ProductQueryStrategy
+{
+    public static IEntityQueryStrategy<Product, decimal> GetAveragePrice() =>
+        QueryStrategy.CreateForEntity(
+            (IQueryable<Product> source) => source
+                .Where(ProductSpecification.IsInStock)
+                .Select(p => p.Price));
+}
+```
+
+```csharp [Multi-Entity Query]
+public static class OrderQueryStrategy
+{
+    public static IQueryStrategy<decimal> GetTotalRevenue() =>
+        QueryStrategy.Create(
+            source => from order in source.GetSet<Order>()
+                where order.Status == OrderStatus.Completed
+                select order.TotalAmount);
+}
+```
+
+:::
+
+These query strategies should be used with the `QueryValue()` method on `IDbQuerySession`:
+
+```csharp
+await using (var session = querySessionFactory.Create())
+{
+    // Using entity query strategy
+    IDbQueryValue<int> quantityQuery = session.QueryValue(new GetActiveProductCountQueryStrategy());
+    int? totalQuantity = await quantityQuery.FirstOrDefaultAsync();
+
+    // Using factory method
+    IDbQueryValue<decimal> priceQuery = session.QueryValue(ProductQueryStrategy.GetAveragePrice());
+    decimal? avgPrice = await priceQuery.FirstOrDefaultAsync();
+
+    // Using multi-entity query strategy
+    IDbQueryValue<decimal> revenueQuery = session.QueryValue(OrderQueryStrategy.GetTotalRevenue());
+    decimal? revenue = await revenueQuery.SingleOrDefaultAsync();
+}
+```
+
+**Why use QueryValue for value types?**
+
+The `QueryValue()` method returns `IDbQueryValue<T>` which provides proper nullable semantics for value types. Methods like `FirstOrDefaultAsync()` and `SingleOrDefaultAsync()` return `T?` (nullable value type), allowing you to distinguish between "no result found" (null) and a result with a zero value.
