@@ -4,9 +4,9 @@
     "net8.0": {
       "AwesomeAssertions": {
         "type": "Direct",
-        "requested": "[7.0.0, )",
-        "resolved": "7.0.0",
-        "contentHash": "/jKSCFl+hHMfczZ/u4UZP3G3HHZ8slCtkNneB+/WheYrbWMfT8QzO/HiWYg0PVU87VqS0/gK41eW05hofjQ3PA==",
+        "requested": "[7.2.1, )",
+        "resolved": "7.2.1",
+        "contentHash": "0H4VcwixfaQ3IFVONK/PYUcLc/l6PidgdIcgMlg4jiurHBiQ/3yzUwunmngMkkb3Hi1A5lkNReued9az88+yzA==",
         "dependencies": {
           "System.Configuration.ConfigurationManager": "6.0.0"
         }
@@ -1170,7 +1170,7 @@
       "Raiqub.Common.Tests": {
         "type": "Project",
         "dependencies": {
-          "AwesomeAssertions": "[7.0.0, )",
+          "AwesomeAssertions": "[7.2.1, )",
           "Microsoft.Extensions.DependencyInjection": "[6.0.2, )",
           "Npgsql": "[7.0.10, )",
           "Raiqub.Expressions": "[1.0.0, )",
