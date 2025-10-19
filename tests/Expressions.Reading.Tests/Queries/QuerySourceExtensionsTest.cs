@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using AwesomeAssertions;
 using NSubstitute;
 using Raiqub.Expressions.Queries;
 using Raiqub.Expressions.Reading.Tests.Examples;

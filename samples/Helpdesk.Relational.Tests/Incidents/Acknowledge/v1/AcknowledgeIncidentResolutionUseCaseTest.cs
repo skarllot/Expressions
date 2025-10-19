@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using AwesomeAssertions;
 using Helpdesk.Relational.Incidents;
 using Helpdesk.Relational.Incidents.Acknowledge;
 using Helpdesk.Relational.Incidents.Acknowledge.v1;
