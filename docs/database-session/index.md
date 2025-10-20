@@ -84,6 +84,47 @@ await using (var session = querySessionFactory.Create())
 }
 ```
 
+### Querying Value Types
+
+When your query strategy returns value types (structs), you should use the `QueryValue()` method instead of `Query()`. This method returns an `IDbQueryValue<T>` interface which provides nullable return values for optional operations like `FirstOrDefaultAsync()` and `SingleOrDefaultAsync()`.
+
+The `QueryValue()` method has two overloads:
+
+- **`QueryValue<TEntity, TResult>(IEntityQueryStrategy<TEntity, TResult>)`** - For entity-based queries that return value types
+- **`QueryValue<TResult>(IQueryStrategy<TResult>)`** - For multi-entity queries that return value types
+
+::: code-group
+
+```csharp [Entity Query]
+await using (var session = querySessionFactory.Create())
+{
+    // Query strategy that returns a value type (e.g., int, decimal, DateTime)
+    IDbQueryValue<int> query = session.QueryValue(new GetActiveCustomerCount());
+
+    // Returns null if no result is found
+    int? count = await query.FirstOrDefaultAsync();
+}
+```
+
+```csharp [Multi-Entity Query]
+await using (var session = querySessionFactory.Create())
+{
+    // Query strategy that joins multiple entities and returns a value type
+    IDbQueryValue<decimal> query = session.QueryValue(new GetTotalOrderValue());
+
+    // Returns the single value or null, throws if more than one result
+    decimal? total = await query.SingleOrDefaultAsync();
+}
+```
+
+:::
+
+**Key differences between `IDbQuery<T>` and `IDbQueryValue<T>`:**
+
+- `IDbQuery<T>` is for reference types (classes) and returns non-nullable results for `FirstOrDefaultAsync()` and `SingleOrDefaultAsync()`
+- `IDbQueryValue<T>` is for value types (structs) and returns nullable results (`T?`) for `FirstOrDefaultAsync()` and `SingleOrDefaultAsync()`
+- Both interfaces support `ToListAsync()`, `CountAsync()`, and other query operations
+
 ## Creating Write Sessions and Writing Data
 
 To create a write session and write data to the database, follow these steps:
