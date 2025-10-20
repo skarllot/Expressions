@@ -706,5 +706,5 @@ var allProducts = await _session.Query<Product>().ToListAsync();
 - [Query Strategy](/query-strategy/) - Writing efficient query strategies
 - [Specification](/specification/) - Creating performant specifications
 - [Entity Framework Core](/ef-core/) - EF Core specific optimizations
-- [Testing](/testing/) - Testing query performance
+- [Testing](testing) - Testing query performance
 - [EF Core Performance](https://learn.microsoft.com/en-us/ef/core/performance/) - Official EF Core performance guide
