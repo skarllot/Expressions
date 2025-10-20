@@ -1,5 +1,5 @@
 ﻿using System.Linq.Expressions;
-using FluentAssertions;
+using AwesomeAssertions;
 using Raiqub.Expressions.Internal;
 
 namespace Raiqub.Expressions.Tests.Internal;

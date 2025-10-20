@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using AwesomeAssertions;
 using Raiqub.Expressions.Tests.Common;
 
 namespace Raiqub.Expressions.Tests;
