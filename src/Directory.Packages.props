@@ -6,24 +6,12 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="DotNet.ReproducibleBuilds" Version="1.2.39" />
-    <PackageVersion Include="Nerdbank.GitVersioning" Version="3.8.118" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <PackageVersion Include="Marten" Version="8.13.1" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.21" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.36" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.4" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.17" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
+    <PackageVersion Include="Nerdbank.GitVersioning" Version="3.8.118" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageVersion Include="Microsoft.Bcl.AsyncInterfaces" Version="6.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.32" />
   </ItemGroup>
-  <Import Project="Directory.Packages.Net6.props" />
-  <Import Project="Directory.Packages.Net8.props" />
 </Project>

@@ -1,24 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net6.0;netstandard2.0;netstandard2.1</TargetFrameworks>
+    <TargetFrameworks>net8.0;netstandard2.0;netstandard2.1</TargetFrameworks>
     <RootNamespace>Raiqub.Expressions</RootNamespace>
     <Description>Provides abstractions for creating query strategies, query sessions and querying from database (defines IDbQuerySessionFactory and IDbQuerySession interfaces).</Description>
     <PackageTags>
       query;querystrategy;strategy;session;ddd;domain;core;repository;expressions;lambda;db;database;paging;pagination;page
     </PackageTags>
   </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Expressions\Expressions.csproj" />
   </ItemGroup>
-
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" />
   </ItemGroup>
-
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="." />
   </ItemGroup>
-
 </Project>
