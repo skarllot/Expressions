@@ -1,5 +1,0 @@
-<Project>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
-  </ItemGroup>
-</Project>

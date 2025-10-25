@@ -18,7 +18,7 @@ _Raiqub.Expressions is a library that provides abstractions for creating specifi
 * Simplify database operations by using consistent abstractions
 * Seamlessly integrate with Entity Framework Core for database interactions
 * Utilize Marten providers for a NoSQL document database experience
-* Built with .NET Standard 2.0, 2.1, and .NET 6.0
+* Built with .NET Standard 2.0, 2.1, and .NET 8.0
 
 ## NuGet Packages
 * [![NuGet](https://img.shields.io/nuget/v/Raiqub.Expressions?label=&logo=nuget&style=flat-square)![NuGet](https://img.shields.io/nuget/dt/Raiqub.Expressions?label=&style=flat-square)](https://www.nuget.org/packages/Raiqub.Expressions/) **Raiqub.Expressions**: provides abstractions for creating specifications
@@ -33,7 +33,7 @@ This README aims to give a quick overview of some Raiqub Expressions features. F
 ## Prerequisites
 Before you begin, you'll need the following:
 
-* .NET Standard 2.0 or 2.1, or .NET Core 6.0 installed on your machine
+* .NET 8.0 installed on your machine
 * An IDE such as Visual Studio, Visual Studio Code, or JetBrains Rider
 * If you plan to use the reading package, have a database available for querying. If you intend to use the writing package, ensure you have a writable database to perform write operations
 
