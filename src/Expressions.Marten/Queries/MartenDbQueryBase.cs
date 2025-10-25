@@ -16,16 +16,19 @@ public abstract class MartenDbQueryBase<TResult> : IDbQueryBase<TResult>
     where TResult : notnull
 {
     private readonly ILogger _logger;
+    private readonly DbQueryScope _dbQueryScope;
     private readonly IQueryable<TResult> _dataSource;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MartenDbQueryBase{TResult}"/> class.
     /// </summary>
     /// <param name="logger">The logger instance to use for logging operations.</param>
+    /// <param name="dbQueryScope">The query scope information for logging context.</param>
     /// <param name="dataSource">The queryable data source to execute queries against.</param>
-    protected MartenDbQueryBase(ILogger logger, IQueryable<TResult> dataSource)
+    protected MartenDbQueryBase(ILogger logger, DbQueryScope dbQueryScope, IQueryable<TResult> dataSource)
     {
         _logger = logger;
+        _dbQueryScope = dbQueryScope;
         _dataSource = dataSource;
     }
 
@@ -50,69 +53,44 @@ public abstract class MartenDbQueryBase<TResult> : IDbQueryBase<TResult>
     /// <inheritdoc />
     public async Task<bool> AnyAsync(CancellationToken cancellationToken = default)
     {
-        try
+        using (BeginLogScope())
         {
             return await _dataSource
                 .AnyAsync(cancellationToken)
                 .ConfigureAwait(false);
-        }
-        catch (Exception exception) when (exception is not ArgumentNullException
-                                              and not OperationCanceledException)
-        {
-            QueryLog.AnyError(_logger, exception);
-            throw;
         }
     }
 
     /// <inheritdoc />
     public async Task<int> CountAsync(CancellationToken cancellationToken = default)
     {
-        try
+        using (BeginLogScope())
         {
             return await _dataSource
                 .CountAsync(cancellationToken)
                 .ConfigureAwait(false);
-        }
-        catch (Exception exception) when (exception is not ArgumentNullException
-                                              and not OperationCanceledException)
-        {
-            QueryLog.CountError(_logger, exception);
-            throw;
         }
     }
 
     /// <inheritdoc />
     public async Task<TResult> FirstAsync(CancellationToken cancellationToken = default)
     {
-        try
+        using (BeginLogScope())
         {
             return await _dataSource
                 .FirstAsync(cancellationToken)
                 .ConfigureAwait(false);
-        }
-        catch (Exception exception) when (exception is not ArgumentNullException
-                                              and not InvalidOperationException
-                                              and not OperationCanceledException)
-        {
-            QueryLog.FirstError(_logger, exception);
-            throw;
         }
     }
 
     /// <inheritdoc />
     public async Task<long> LongCountAsync(CancellationToken cancellationToken = default)
     {
-        try
+        using (BeginLogScope())
         {
             return await _dataSource
                 .LongCountAsync(cancellationToken)
                 .ConfigureAwait(false);
-        }
-        catch (Exception exception) when (exception is not ArgumentNullException
-                                              and not OperationCanceledException)
-        {
-            QueryLog.CountError(_logger, exception);
-            throw;
         }
     }
 
@@ -132,70 +110,62 @@ public abstract class MartenDbQueryBase<TResult> : IDbQueryBase<TResult>
         PagedResultFactory<TResult, TPage> pagedResultFactory,
         CancellationToken cancellationToken = default)
     {
-        var queryable = _dataSource.As<IMartenQueryable<TResult>>()
-            .Stats(out QueryStatistics stats)
-            .PrepareQueryForPaging(pageNumber, pageSize);
-
-        IReadOnlyList<TResult> items;
-        try
+        using (BeginLogScope())
         {
-            items = await queryable
+            var queryable = _dataSource.As<IMartenQueryable<TResult>>()
+                .Stats(out QueryStatistics stats)
+                .PrepareQueryForPaging(pageNumber, pageSize);
+
+            var items = await queryable
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(false);
-        }
-        catch (Exception exception) when (exception is not ArgumentNullException
-                                              and not OperationCanceledException)
-        {
-            QueryLog.PagedListError(_logger, exception);
-            throw;
-        }
 
-        QueryLog.PagedListCountInfo(_logger, items.Count, stats.TotalResults);
-        return pagedResultFactory(new PageInfo(pageNumber, pageSize, stats.TotalResults), items);
+            QueryLog.PagedListCountInfo(_logger, items.Count, stats.TotalResults);
+            return pagedResultFactory(new PageInfo(pageNumber, pageSize, stats.TotalResults), items);
+        }
     }
 
     /// <inheritdoc />
     public async Task<IReadOnlyList<TResult>> ToListAsync(CancellationToken cancellationToken = default)
     {
-        IReadOnlyList<TResult> items;
-        try
+        using (BeginLogScope())
         {
-            items = await _dataSource
+            var items = await _dataSource
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(false);
-        }
-        catch (Exception exception) when (exception is not ArgumentNullException
-                                              and not OperationCanceledException)
-        {
-            QueryLog.ListError(_logger, exception);
-            throw;
-        }
 
-        QueryLog.ListCountInfo(_logger, items.Count);
-        return items;
+            QueryLog.ListCountInfo(_logger, items.Count);
+            return items;
+        }
     }
 
     /// <inheritdoc />
     public async Task<TResult> SingleAsync(CancellationToken cancellationToken = default)
     {
-        try
+        using (BeginLogScope())
         {
             return await _dataSource
                 .SingleAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
-        catch (Exception exception) when (exception is not ArgumentNullException
-                                              and not InvalidOperationException
-                                              and not OperationCanceledException)
-        {
-            QueryLog.SingleError(_logger, exception);
-            throw;
-        }
     }
 
     /// <inheritdoc />
-    public IAsyncEnumerable<TResult> ToAsyncEnumerable(CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<TResult> ToAsyncEnumerable(
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        return _dataSource.ToAsyncEnumerable(cancellationToken);
+        using (BeginLogScope())
+        {
+            await foreach (TResult result in _dataSource
+                               .ToAsyncEnumerable(cancellationToken)
+                               .ConfigureAwait(false))
+            {
+                yield return result;
+            }
+        }
     }
+
+    /// <summary>Begins a logical operation scope with query scope information for logging purposes.</summary>
+    /// <returns>A disposable object that ends the logical operation scope on dispose, or <c>null</c> if the logger does not support scopes.</returns>
+    protected IDisposable? BeginLogScope() => _logger.BeginScope(_dbQueryScope);
 }

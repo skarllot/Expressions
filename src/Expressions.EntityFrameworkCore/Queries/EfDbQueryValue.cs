@@ -14,15 +14,17 @@ public class EfDbQueryValue<TResult> : EfDbQueryBase<TResult>, IDbQueryValue<TRe
 {
     /// <summary>Initializes a new instance of the <see cref="EfDbQueryValue{TResult}"/> class.</summary>
     /// <param name="logger">The <see cref="ILogger"/> to log to.</param>
+    /// <param name="dbQueryScope">The query scope information for logging context.</param>
     /// <param name="dataSource">The data source to query from.</param>
-    public EfDbQueryValue(ILogger logger, IQueryable<TResult> dataSource) : base(logger, dataSource)
+    public EfDbQueryValue(ILogger logger, DbQueryScope dbQueryScope, IQueryable<TResult> dataSource)
+        : base(logger, dbQueryScope, dataSource)
     {
     }
 
     /// <inheritdoc />
     public async Task<TResult?> FirstOrDefaultAsync(CancellationToken cancellationToken = default)
     {
-        try
+        using (BeginLogScope())
         {
             var wrappedResult = await DataSource
                 .Select(x => new StrongBox<TResult>(x))
@@ -30,33 +32,18 @@ public class EfDbQueryValue<TResult> : EfDbQueryBase<TResult>, IDbQueryValue<TRe
                 .ConfigureAwait(false);
             return wrappedResult?.Value;
         }
-        catch (Exception exception) when (exception is not NullReferenceException
-                                              and not ArgumentNullException
-                                              and not OperationCanceledException)
-        {
-            QueryLog.FirstError(Logger, exception);
-            throw;
-        }
     }
 
     /// <inheritdoc />
     public async Task<TResult?> SingleOrDefaultAsync(CancellationToken cancellationToken = default)
     {
-        try
+        using (BeginLogScope())
         {
             var wrappedResult = await DataSource
                 .Select(x => new StrongBox<TResult>(x))
                 .SingleOrDefaultAsync(cancellationToken)
                 .ConfigureAwait(false);
             return wrappedResult?.Value;
-        }
-        catch (Exception exception) when (exception is not NullReferenceException
-                                              and not ArgumentNullException
-                                              and not InvalidOperationException
-                                              and not OperationCanceledException)
-        {
-            QueryLog.SingleError(Logger, exception);
-            throw;
         }
     }
 }

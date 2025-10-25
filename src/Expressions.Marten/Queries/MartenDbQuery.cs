@@ -13,43 +13,32 @@ public class MartenDbQuery<TResult> : MartenDbQueryBase<TResult>, IDbQuery<TResu
 {
     /// <summary>Initializes a new instance of the <see cref="MartenDbQuery{TResult}"/> class.</summary>
     /// <param name="logger">The <see cref="ILogger"/> to log to.</param>
+    /// <param name="dbQueryScope">The query scope information for logging context.</param>
     /// <param name="dataSource">The data source to query from.</param>
-    public MartenDbQuery(ILogger logger, IQueryable<TResult> dataSource) : base(logger, dataSource)
+    public MartenDbQuery(ILogger logger, DbQueryScope dbQueryScope, IQueryable<TResult> dataSource)
+        : base(logger, dbQueryScope, dataSource)
     {
     }
 
     /// <inheritdoc />
     public async Task<TResult?> FirstOrDefaultAsync(CancellationToken cancellationToken = default)
     {
-        try
+        using (BeginLogScope())
         {
             return await DataSource
                 .FirstOrDefaultAsync(cancellationToken)
                 .ConfigureAwait(false);
-        }
-        catch (Exception exception) when (exception is not ArgumentNullException
-                                              and not OperationCanceledException)
-        {
-            QueryLog.FirstError(Logger, exception);
-            throw;
         }
     }
 
     /// <inheritdoc />
     public async Task<TResult?> SingleOrDefaultAsync(CancellationToken cancellationToken = default)
     {
-        try
+        using (BeginLogScope())
         {
             return await DataSource
                 .SingleOrDefaultAsync(cancellationToken)
                 .ConfigureAwait(false);
-        }
-        catch (Exception exception) when (exception is not ArgumentNullException
-                                              and not InvalidOperationException
-                                              and not OperationCanceledException)
-        {
-            QueryLog.SingleError(Logger, exception);
-            throw;
         }
     }
 }

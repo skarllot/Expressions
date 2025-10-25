@@ -13,15 +13,17 @@ public class MartenDbQueryValue<TResult> : MartenDbQueryBase<TResult>, IDbQueryV
 {
     /// <summary>Initializes a new instance of the <see cref="MartenDbQueryValue{TResult}"/> class.</summary>
     /// <param name="logger">The <see cref="ILogger"/> to log to.</param>
+    /// <param name="dbQueryScope">The query scope information for logging context.</param>
     /// <param name="dataSource">The data source to query from.</param>
-    public MartenDbQueryValue(ILogger logger, IQueryable<TResult> dataSource) : base(logger, dataSource)
+    public MartenDbQueryValue(ILogger logger, DbQueryScope dbQueryScope, IQueryable<TResult> dataSource)
+        : base(logger, dbQueryScope, dataSource)
     {
     }
 
     /// <inheritdoc />
     public async Task<TResult?> FirstOrDefaultAsync(CancellationToken cancellationToken = default)
     {
-        try
+        using (BeginLogScope())
         {
             var enumerable = DataSource.ToAsyncEnumerable(cancellationToken);
             var enumerator = enumerable.GetAsyncEnumerator(cancellationToken);
@@ -35,18 +37,12 @@ public class MartenDbQueryValue<TResult> : MartenDbQueryBase<TResult>, IDbQueryV
 
             return null;
         }
-        catch (Exception exception) when (exception is not ArgumentNullException
-                                              and not OperationCanceledException)
-        {
-            QueryLog.FirstError(Logger, exception);
-            throw;
-        }
     }
 
     /// <inheritdoc />
     public async Task<TResult?> SingleOrDefaultAsync(CancellationToken cancellationToken = default)
     {
-        try
+        using (BeginLogScope())
         {
             var enumerable = DataSource.ToAsyncEnumerable(cancellationToken);
             var enumerator = enumerable.GetAsyncEnumerator(cancellationToken);
@@ -63,16 +59,9 @@ public class MartenDbQueryValue<TResult> : MartenDbQueryBase<TResult>, IDbQueryV
                     return result;
                 }
             }
-        }
-        catch (Exception exception) when (exception is not ArgumentNullException
-                                              and not InvalidOperationException
-                                              and not OperationCanceledException)
-        {
-            QueryLog.SingleError(Logger, exception);
-            throw;
-        }
 
-        ThrowHelper.ThrowMoreThanOneElementException();
-        return null;
+            ThrowHelper.ThrowMoreThanOneElementException();
+            return null;
+        }
     }
 }
