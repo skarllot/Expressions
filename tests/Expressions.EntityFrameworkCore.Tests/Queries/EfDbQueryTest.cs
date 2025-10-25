@@ -7,6 +7,7 @@ using Raiqub.Common.Tests.Examples;
 using Raiqub.Common.Tests.Queries;
 using Raiqub.Expressions.EntityFrameworkCore.Queries;
 using Raiqub.Expressions.EntityFrameworkCore.Tests.Examples;
+using Raiqub.Expressions.Queries;
 using Xunit.Abstractions;
 
 namespace Raiqub.Expressions.EntityFrameworkCore.Tests.Queries;
@@ -19,7 +20,7 @@ public sealed class EfDbQueryTest : QueryTestBase, IAsyncLifetime
     public EfDbQueryTest(PostgreSqlFixture fixture, ITestOutputHelper testOutputHelper)
         : base(
             services => services
-                .AddSingleton<ILoggerFactory>(new NullLoggerFactory())
+                .AddSingleton<ILoggerFactory>(new LoggerFactory())
                 .AddPostgreSqlDbContext<BloggingContext>(testOutputHelper, fixture.ConnectionString)
                 .AddEntityFrameworkExpressions()
                 .AddSingleContext<BloggingContext>())
@@ -35,7 +36,7 @@ public sealed class EfDbQueryTest : QueryTestBase, IAsyncLifetime
     [Fact]
     public async Task ShouldFailWhenSourceIsNull()
     {
-        var efQuery = new EfDbQuery<Blog>(NullLogger.Instance, null!);
+        var efQuery = new EfDbQuery<Blog>(NullLogger.Instance, DbQueryScope.Create<Blog>(), null!);
 
         await efQuery
             .Invoking(q => q.AnyAsync())
@@ -65,7 +66,7 @@ public sealed class EfDbQueryTest : QueryTestBase, IAsyncLifetime
             .Invoking(q => q.SingleOrDefaultAsync())
             .Should().ThrowExactlyAsync<NullReferenceException>();
         await efQuery
-            .Invoking(async q => { await foreach (var unused in q.ToAsyncEnumerable()) { } })
+            .Invoking(async q => { await foreach (var unused in q.ToAsyncEnumerable()) { /* Testing */ } })
             .Should().ThrowExactlyAsync<InvalidOperationException>();
     }
 }

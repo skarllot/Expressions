@@ -14,26 +14,20 @@ public abstract class EfDbQueryBase<TResult> : IDbQueryBase<TResult>
     where TResult : notnull
 {
     private readonly ILogger _logger;
+    private readonly DbQueryScope _dbQueryScope;
     private readonly IQueryable<TResult> _dataSource;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="EfDbQueryBase{TResult}"/> class.
     /// </summary>
     /// <param name="logger">The logger instance to use for logging operations.</param>
+    /// <param name="dbQueryScope">The query scope information for logging context.</param>
     /// <param name="dataSource">The queryable data source to execute queries against.</param>
-    protected EfDbQueryBase(ILogger logger, IQueryable<TResult> dataSource)
+    protected EfDbQueryBase(ILogger logger, DbQueryScope dbQueryScope, IQueryable<TResult> dataSource)
     {
         _logger = logger;
+        _dbQueryScope = dbQueryScope;
         _dataSource = dataSource;
-    }
-
-    /// <summary>
-    /// Gets the logger instance used for logging operations.
-    /// </summary>
-    protected ILogger Logger
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => _logger;
     }
 
     /// <summary>
@@ -48,73 +42,44 @@ public abstract class EfDbQueryBase<TResult> : IDbQueryBase<TResult>
     /// <inheritdoc />
     public async Task<bool> AnyAsync(CancellationToken cancellationToken = default)
     {
-        try
+        using (BeginLogScope())
         {
             return await _dataSource
                 .AnyAsync(cancellationToken)
                 .ConfigureAwait(false);
-        }
-        catch (Exception exception) when (exception is not NullReferenceException
-                                              and not ArgumentNullException
-                                              and not OperationCanceledException)
-        {
-            QueryLog.AnyError(_logger, exception);
-            throw;
         }
     }
 
     /// <inheritdoc />
     public async Task<int> CountAsync(CancellationToken cancellationToken = default)
     {
-        try
+        using (BeginLogScope())
         {
             return await _dataSource
                 .CountAsync(cancellationToken)
                 .ConfigureAwait(false);
-        }
-        catch (Exception exception) when (exception is not NullReferenceException
-                                              and not ArgumentNullException
-                                              and not OperationCanceledException)
-        {
-            QueryLog.CountError(_logger, exception);
-            throw;
         }
     }
 
     /// <inheritdoc />
     public async Task<TResult> FirstAsync(CancellationToken cancellationToken = default)
     {
-        try
+        using (BeginLogScope())
         {
             return await _dataSource
                 .FirstAsync(cancellationToken)
                 .ConfigureAwait(false);
-        }
-        catch (Exception exception) when (exception is not NullReferenceException
-                                              and not ArgumentNullException
-                                              and not InvalidOperationException
-                                              and not OperationCanceledException)
-        {
-            QueryLog.FirstError(_logger, exception);
-            throw;
         }
     }
 
     /// <inheritdoc />
     public async Task<long> LongCountAsync(CancellationToken cancellationToken = default)
     {
-        try
+        using (BeginLogScope())
         {
             return await _dataSource
                 .LongCountAsync(cancellationToken)
                 .ConfigureAwait(false);
-        }
-        catch (Exception exception) when (exception is not NullReferenceException
-                                              and not ArgumentNullException
-                                              and not OperationCanceledException)
-        {
-            QueryLog.CountError(_logger, exception);
-            throw;
         }
     }
 
@@ -134,79 +99,51 @@ public abstract class EfDbQueryBase<TResult> : IDbQueryBase<TResult>
         PagedResultFactory<TResult, TPage> pagedResultFactory,
         CancellationToken cancellationToken = default)
     {
-        var pagedQuery = _dataSource.PrepareQueryForPaging(pageNumber, pageSize);
-
-        long totalCount;
-        IReadOnlyList<TResult> items = Array.Empty<TResult>();
-        try
+        using (BeginLogScope())
         {
-            totalCount = await _dataSource
+            var pagedQuery = _dataSource.PrepareQueryForPaging(pageNumber, pageSize);
+
+            long totalCount = await _dataSource
                 .LongCountAsync(cancellationToken)
                 .ConfigureAwait(false);
 
-            if (PageInfo.PageNumberExists(pageNumber, pageSize, totalCount))
+            if (!PageInfo.PageNumberExists(pageNumber, pageSize, totalCount))
             {
-                items = await pagedQuery
-                    .ToListAsync(cancellationToken)
-                    .ConfigureAwait(false);
+                QueryLog.PagedListInvalidPage(_logger, totalCount);
+                return pagedResultFactory(new PageInfo(pageNumber, pageSize, 0), []);
             }
-            else
-            {
-                totalCount = 0L;
-            }
-        }
-        catch (Exception exception) when (exception is not NullReferenceException
-                                              and not ArgumentNullException
-                                              and not InvalidOperationException
-                                              and not OperationCanceledException)
-        {
-            QueryLog.PagedListError(_logger, exception);
-            throw;
-        }
 
-        QueryLog.PagedListCountInfo(_logger, items.Count, totalCount);
-        return pagedResultFactory(new PageInfo(pageNumber, pageSize, totalCount), items);
+            var items = await pagedQuery
+                .ToListAsync(cancellationToken)
+                .ConfigureAwait(false);
+
+            QueryLog.PagedListCountInfo(_logger, items.Count, totalCount);
+            return pagedResultFactory(new PageInfo(pageNumber, pageSize, totalCount), items);
+        }
     }
 
     /// <inheritdoc />
     public async Task<IReadOnlyList<TResult>> ToListAsync(CancellationToken cancellationToken = default)
     {
-        List<TResult> items;
-        try
+        using (BeginLogScope())
         {
-            items = await _dataSource
+            var items = await _dataSource
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(false);
-        }
-        catch (Exception exception) when (exception is not NullReferenceException
-                                              and not ArgumentNullException
-                                              and not InvalidOperationException
-                                              and not OperationCanceledException)
-        {
-            QueryLog.ListError(_logger, exception);
-            throw;
-        }
 
-        QueryLog.ListCountInfo(_logger, items.Count);
-        return items;
+            QueryLog.ListCountInfo(_logger, items.Count);
+            return items;
+        }
     }
 
     /// <inheritdoc />
     public async Task<TResult> SingleAsync(CancellationToken cancellationToken = default)
     {
-        try
+        using (BeginLogScope())
         {
             return await _dataSource
                 .SingleAsync(cancellationToken)
                 .ConfigureAwait(false);
-        }
-        catch (Exception exception) when (exception is not NullReferenceException
-                                              and not ArgumentNullException
-                                              and not InvalidOperationException
-                                              and not OperationCanceledException)
-        {
-            QueryLog.SingleError(_logger, exception);
-            throw;
         }
     }
 
@@ -214,24 +151,20 @@ public abstract class EfDbQueryBase<TResult> : IDbQueryBase<TResult>
     public async IAsyncEnumerable<TResult> ToAsyncEnumerable(
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        IAsyncEnumerable<TResult> enumerable;
-        try
+        using (BeginLogScope())
         {
-            enumerable = _dataSource.AsAsyncEnumerable();
-        }
-        catch (Exception exception) when (exception is not NullReferenceException
-                                              and not ArgumentNullException
-                                              and not InvalidOperationException)
-        {
-            QueryLog.AsyncEnumerableError(_logger, exception);
-            throw;
-        }
+            var enumerable = _dataSource.AsAsyncEnumerable();
 
-        await foreach (TResult result in enumerable
-                           .WithCancellation(cancellationToken)
-                           .ConfigureAwait(false))
-        {
-            yield return result;
+            await foreach (TResult result in enumerable
+                               .WithCancellation(cancellationToken)
+                               .ConfigureAwait(false))
+            {
+                yield return result;
+            }
         }
     }
+
+    /// <summary>Begins a logical operation scope with query scope information for logging purposes.</summary>
+    /// <returns>A disposable object that ends the logical operation scope on dispose, or <c>null</c> if the logger does not support scopes.</returns>
+    protected IDisposable? BeginLogScope() => _logger.BeginScope(_dbQueryScope);
 }

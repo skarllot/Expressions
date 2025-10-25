@@ -1187,17 +1187,10 @@
       "Raiqub.Expressions": {
         "type": "Project"
       },
-      "Raiqub.Expressions.Database": {
-        "type": "Project",
-        "dependencies": {
-          "Microsoft.Extensions.Logging.Abstractions": "[8.0.3, )"
-        }
-      },
       "Raiqub.Expressions.Marten": {
         "type": "Project",
         "dependencies": {
           "Marten": "[8.13.1, )",
-          "Raiqub.Expressions.Database": "[1.0.0, )",
           "Raiqub.Expressions.Writing": "[1.0.0, )"
         }
       },

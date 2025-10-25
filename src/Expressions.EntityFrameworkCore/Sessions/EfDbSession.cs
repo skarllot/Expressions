@@ -76,13 +76,16 @@ public class EfDbSession : IDbSession
     /// <inheritdoc />
     public IDbQuery<TEntity> Query<TEntity>() where TEntity : class
     {
-        return new EfDbQuery<TEntity>(_logger, _querySource.GetSet<TEntity>());
+        return new EfDbQuery<TEntity>(_logger, DbQueryScope.Create<TEntity>(), _querySource.GetSet<TEntity>());
     }
 
     /// <inheritdoc />
     public IDbQuery<TEntity> Query<TEntity>(Specification<TEntity> specification) where TEntity : class
     {
-        return new EfDbQuery<TEntity>(_logger, _querySource.GetSet<TEntity>().Where(specification));
+        return new EfDbQuery<TEntity>(
+            _logger,
+            DbQueryScope.Create(specification),
+            _querySource.GetSet<TEntity>().Where(specification));
     }
 
     /// <inheritdoc />
@@ -90,14 +93,17 @@ public class EfDbSession : IDbSession
         where TEntity : class
         where TResult : notnull
     {
-        return new EfDbQuery<TResult>(_logger, queryStrategy.Execute(_querySource.GetSet<TEntity>()));
+        return new EfDbQuery<TResult>(
+            _logger,
+            DbQueryScope.Create(queryStrategy),
+            queryStrategy.Execute(_querySource.GetSet<TEntity>()));
     }
 
     /// <inheritdoc />
     public IDbQuery<TResult> Query<TResult>(IQueryStrategy<TResult> queryStrategy)
         where TResult : notnull
     {
-        return new EfDbQuery<TResult>(_logger, queryStrategy.Execute(_querySource));
+        return new EfDbQuery<TResult>(_logger, DbQueryScope.Create(queryStrategy), queryStrategy.Execute(_querySource));
     }
 
     /// <inheritdoc />
@@ -105,14 +111,20 @@ public class EfDbSession : IDbSession
         where TEntity : class
         where TResult : struct
     {
-        return new EfDbQueryValue<TResult>(_logger, queryStrategy.Execute(_querySource.GetSet<TEntity>()));
+        return new EfDbQueryValue<TResult>(
+            _logger,
+            DbQueryScope.Create(queryStrategy),
+            queryStrategy.Execute(_querySource.GetSet<TEntity>()));
     }
 
     /// <inheritdoc />
     public IDbQueryValue<TResult> QueryValue<TResult>(IQueryStrategy<TResult> queryStrategy)
         where TResult : struct
     {
-        return new EfDbQueryValue<TResult>(_logger, queryStrategy.Execute(_querySource));
+        return new EfDbQueryValue<TResult>(
+            _logger,
+            DbQueryScope.Create(queryStrategy),
+            queryStrategy.Execute(_querySource));
     }
 
     /// <inheritdoc />

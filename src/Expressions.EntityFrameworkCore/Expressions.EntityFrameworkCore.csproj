@@ -7,7 +7,6 @@
     </PackageTags>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Expressions.Database\Expressions.Database.csproj" />
     <ProjectReference Include="..\Expressions.Writing\Expressions.Writing.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -15,6 +14,9 @@
   </ItemGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="Raiqub.Expressions.EntityFrameworkCore.Tests" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Expressions.Database\**\*.cs" LinkBase="Common" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="." />

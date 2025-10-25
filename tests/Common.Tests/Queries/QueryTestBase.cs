@@ -165,6 +165,38 @@ public abstract class QueryTestBase : DatabaseTestBase
         pagedResult3.Count.Should().Be(0);
     }
 
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    [InlineData(-10)]
+    public async Task ToPagedListShouldThrowWhenPageNumberIsInvalid(int pageNumber)
+    {
+        await AddBlogs(GetBlogs());
+        await using var session = CreateSession();
+        var query = session.Query<Blog>();
+
+        await query
+            .Invoking(q => q.ToPagedListAsync(pageNumber, 10))
+            .Should().ThrowExactlyAsync<ArgumentOutOfRangeException>()
+            .WithParameterName("pageNumber");
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    [InlineData(-10)]
+    public async Task ToPagedListShouldThrowWhenPageSizeIsInvalid(int pageSize)
+    {
+        await AddBlogs(GetBlogs());
+        await using var session = CreateSession();
+        var query = session.Query<Blog>();
+
+        await query
+            .Invoking(q => q.ToPagedListAsync(1, pageSize))
+            .Should().ThrowExactlyAsync<ArgumentOutOfRangeException>()
+            .WithParameterName("pageSize");
+    }
+
     [Fact]
     public async Task ToListShouldReturnAll()
     {
@@ -256,6 +288,142 @@ public abstract class QueryTestBase : DatabaseTestBase
         await query
             .Invoking(q => q.SingleOrDefaultAsync())
             .Should().ThrowExactlyAsync<InvalidOperationException>();
+    }
+
+    [Theory]
+    [InlineData("Second", "Thank you")]
+    public async Task SingleAsyncShouldReturnExpected(string name, string expected)
+    {
+        await AddBlogs(GetBlogs());
+        await using var session = CreateSession();
+        var query = session.Query(new GetBlogPostsQueryStrategy(name));
+
+        Post post = await query.SingleAsync();
+
+        post.Title.Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData("First")]
+    [InlineData("Third")]
+    [InlineData("Fourth")]
+    public async Task SingleAsyncShouldThrowWhenNoOrMultipleElements(string name)
+    {
+        await AddBlogs(GetBlogs());
+        await using var session = CreateSession();
+        var query = session.Query(new GetBlogPostsQueryStrategy(name));
+
+        await query
+            .Invoking(q => q.SingleAsync())
+            .Should().ThrowExactlyAsync<InvalidOperationException>();
+    }
+
+    [Theory]
+    [InlineData("Second", false)]
+    public async Task SingleAsyncWithStructShouldReturnExpected(string name, bool isNull)
+    {
+        await AddBlogs(GetBlogs());
+        await using var session = CreateSession();
+        var query = session.QueryValue(
+            QueryStrategy.CreateForEntity((IQueryable<Blog> q) =>
+                q.Where(b => b.Name == name).SelectMany(b => b.Posts).Select(b => b.Timestamp).OrderBy(t => t)));
+
+        DateTimeOffset result = await query.SingleAsync();
+
+        if (isNull)
+            result.Should().Be(default);
+        else
+            result.Should().NotBe(default);
+    }
+
+    [Theory]
+    [InlineData("First")]
+    [InlineData("Third")]
+    [InlineData("Fourth")]
+    public async Task SingleAsyncWithStructShouldThrowWhenNoOrMultipleElements(string name)
+    {
+        await AddBlogs(GetBlogs());
+        await using var session = CreateSession();
+        var query = session.QueryValue(
+            QueryStrategy.CreateForEntity((IQueryable<Blog> q) =>
+                q.Where(b => b.Name == name).SelectMany(b => b.Posts).Select(b => b.Timestamp).OrderBy(t => t)));
+
+        await query
+            .Invoking(q => q.SingleAsync())
+            .Should().ThrowExactlyAsync<InvalidOperationException>();
+    }
+
+    [Fact]
+    public async Task ToAsyncEnumerableShouldReturnAllElements()
+    {
+        await AddBlogs(GetBlogs());
+        await using var session = CreateSession();
+        var query = session.Query(
+            QueryStrategy.CreateForEntity((IQueryable<Blog> source) => source.SelectMany(b => b.Posts)));
+
+        var posts = new List<Post>();
+        await foreach (var post in query.ToAsyncEnumerable())
+        {
+            posts.Add(post);
+        }
+
+        posts.Should().HaveCount(3);
+        posts.Select(p => p.Title).Should().BeEquivalentTo("Nice", "The worst", "Thank you");
+    }
+
+    [Fact]
+    public async Task ToAsyncEnumerableShouldReturnExpectedElements()
+    {
+        await AddBlogs(GetBlogs());
+        await using var session = CreateSession();
+        var query = session.Query(
+            QueryStrategy.CreateForEntity((IQueryable<Blog> source) => source
+                .SelectMany(b => b.Posts)
+                .Where(p => p.Content.StartsWith("You"))));
+
+        var posts = new List<Post>();
+        await foreach (var post in query.ToAsyncEnumerable())
+        {
+            posts.Add(post);
+        }
+
+        posts.Should().HaveCount(2);
+        posts.Select(p => p.Title).Should().BeEquivalentTo("The worst", "Thank you");
+    }
+
+    [Fact]
+    public async Task ToAsyncEnumerableShouldReturnEmpty()
+    {
+        await AddBlogs(GetBlogs());
+        await using var session = CreateSession();
+        var query = session.Query(new GetBlogPostsQueryStrategy("NonExistent"));
+
+        var posts = new List<Post>();
+        await foreach (var post in query.ToAsyncEnumerable())
+        {
+            posts.Add(post);
+        }
+
+        posts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task ToAsyncEnumerableShouldAllowEarlyBreak()
+    {
+        await AddBlogs(GetBlogs());
+        await using var session = CreateSession();
+        var query = session.Query(
+            QueryStrategy.CreateForEntity((IQueryable<Blog> source) => source.SelectMany(b => b.Posts)));
+
+        var posts = new List<Post>();
+        await foreach (var post in query.ToAsyncEnumerable())
+        {
+            posts.Add(post);
+            if (posts.Count >= 2)
+                break;
+        }
+
+        posts.Should().HaveCount(2);
     }
 
     private IDbQuerySession CreateSession() => ServiceProvider.GetRequiredService<IDbQuerySession>();

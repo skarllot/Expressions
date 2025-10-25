@@ -30,13 +30,16 @@ public class MartenDbQuerySession : IDbQuerySession
     /// <inheritdoc />
     public IDbQuery<TEntity> Query<TEntity>() where TEntity : class
     {
-        return new MartenDbQuery<TEntity>(_logger, _session.Query<TEntity>());
+        return new MartenDbQuery<TEntity>(_logger, DbQueryScope.Create<TEntity>(), _session.Query<TEntity>());
     }
 
     /// <inheritdoc />
     public IDbQuery<TEntity> Query<TEntity>(Specification<TEntity> specification) where TEntity : class
     {
-        return new MartenDbQuery<TEntity>(_logger, _session.Query<TEntity>().Where(specification));
+        return new MartenDbQuery<TEntity>(
+            _logger,
+            DbQueryScope.Create(specification),
+            _session.Query<TEntity>().Where(specification));
     }
 
     /// <inheritdoc />
@@ -44,14 +47,20 @@ public class MartenDbQuerySession : IDbQuerySession
         where TEntity : class
         where TResult : notnull
     {
-        return new MartenDbQuery<TResult>(_logger, queryStrategy.Execute(_session.Query<TEntity>()));
+        return new MartenDbQuery<TResult>(
+            _logger,
+            DbQueryScope.Create(queryStrategy),
+            queryStrategy.Execute(_session.Query<TEntity>()));
     }
 
     /// <inheritdoc />
     public IDbQuery<TResult> Query<TResult>(IQueryStrategy<TResult> queryStrategy)
         where TResult : notnull
     {
-        return new MartenDbQuery<TResult>(_logger, queryStrategy.Execute(QuerySource));
+        return new MartenDbQuery<TResult>(
+            _logger,
+            DbQueryScope.Create(queryStrategy),
+            queryStrategy.Execute(QuerySource));
     }
 
     /// <inheritdoc />
@@ -59,14 +68,20 @@ public class MartenDbQuerySession : IDbQuerySession
         where TEntity : class
         where TResult : struct
     {
-        return new MartenDbQueryValue<TResult>(_logger, queryStrategy.Execute(_session.Query<TEntity>()));
+        return new MartenDbQueryValue<TResult>(
+            _logger,
+            DbQueryScope.Create(queryStrategy),
+            queryStrategy.Execute(_session.Query<TEntity>()));
     }
 
     /// <inheritdoc />
     public IDbQueryValue<TResult> QueryValue<TResult>(IQueryStrategy<TResult> queryStrategy)
         where TResult : struct
     {
-        return new MartenDbQueryValue<TResult>(_logger, queryStrategy.Execute(QuerySource));
+        return new MartenDbQueryValue<TResult>(
+            _logger,
+            DbQueryScope.Create(queryStrategy),
+            queryStrategy.Execute(QuerySource));
     }
 
     /// <inheritdoc />

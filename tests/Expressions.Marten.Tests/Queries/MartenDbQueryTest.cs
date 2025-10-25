@@ -1,7 +1,6 @@
 ﻿using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using Raiqub.Common.Tests;
 using Raiqub.Common.Tests.Examples;
 using Raiqub.Common.Tests.Queries;
@@ -14,7 +13,7 @@ public sealed class MartenDbQueryTest : QueryTestBase, IAsyncLifetime
     public MartenDbQueryTest(PostgreSqlFixture fixture)
         : base(
             services => services
-                .AddSingleton<ILoggerFactory>(new NullLoggerFactory())
+                .AddSingleton<ILoggerFactory>(new LoggerFactory())
                 .AddTestMarten<Blog>(fixture.ConnectionString)
                 .AddMartenExpressions()
                 .AddSingleContext())

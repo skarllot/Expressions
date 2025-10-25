@@ -7,11 +7,13 @@
     </PackageTags>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Expressions.Database\Expressions.Database.csproj" />
     <ProjectReference Include="..\Expressions.Writing\Expressions.Writing.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Marten" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Expressions.Database\**\*.cs" LinkBase="Common" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="." />
