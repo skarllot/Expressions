@@ -56,4 +56,69 @@ public abstract class Specification<T>
     public override string ToString() => ToExpression().ToString();
 
     internal bool IsTrueExpression() => ToExpression().IsTrueConstant();
+
+    /// <summary>Combines two expressions with a logical AND operation.</summary>
+    /// <param name="left">The left expression.</param>
+    /// <param name="right">The right expression.</param>
+    /// <returns>A new expression representing the logical AND of both expressions.</returns>
+    protected static Expression<Func<T, bool>> And(Expression<Func<T, bool>> left, Expression<Func<T, bool>> right) =>
+        left.And(right);
+
+    /// <summary>Combines three expressions with a logical AND operation.</summary>
+    /// <param name="first">The first expression.</param>
+    /// <param name="second">The second expression.</param>
+    /// <param name="third">The third expression.</param>
+    /// <returns>A new expression representing the logical AND of all three expressions.</returns>
+    protected static Expression<Func<T, bool>> And(
+        Expression<Func<T, bool>> first,
+        Expression<Func<T, bool>> second,
+        Expression<Func<T, bool>> third
+    ) => ExpressionTreeExtensions.And([first, second, third]);
+
+    /// <summary>Combines multiple expressions with a logical AND operation.</summary>
+    /// <param name="expressions">The array of expressions to combine.</param>
+    /// <returns>A new expression representing the logical AND of all expressions.</returns>
+    protected static Expression<Func<T, bool>> And(params Expression<Func<T, bool>>[] expressions) =>
+        ExpressionTreeExtensions.And([.. expressions]);
+
+    /// <summary>Combines multiple expressions with a logical AND operation.</summary>
+    /// <param name="expressions">The collection of expressions to combine.</param>
+    /// <returns>A new expression representing the logical AND of all expressions.</returns>
+    protected static Expression<Func<T, bool>> And(IEnumerable<Expression<Func<T, bool>>> expressions) =>
+        expressions.And();
+
+    /// <summary>Negates an expression with a logical NOT operation.</summary>
+    /// <param name="expression">The expression to negate.</param>
+    /// <returns>A new expression representing the logical NOT of the expression.</returns>
+    protected static Expression<Func<T, bool>> Not(Expression<Func<T, bool>> expression) => expression.Not();
+
+    /// <summary>Combines two expressions with a logical OR operation.</summary>
+    /// <param name="left">The left expression.</param>
+    /// <param name="right">The right expression.</param>
+    /// <returns>A new expression representing the logical OR of both expressions.</returns>
+    protected static Expression<Func<T, bool>> Or(Expression<Func<T, bool>> left, Expression<Func<T, bool>> right) =>
+        left.Or(right);
+
+    /// <summary>Combines three expressions with a logical OR operation.</summary>
+    /// <param name="first">The first expression.</param>
+    /// <param name="second">The second expression.</param>
+    /// <param name="third">The third expression.</param>
+    /// <returns>A new expression representing the logical OR of all three expressions.</returns>
+    protected static Expression<Func<T, bool>> Or(
+        Expression<Func<T, bool>> first,
+        Expression<Func<T, bool>> second,
+        Expression<Func<T, bool>> third
+    ) => ExpressionTreeExtensions.Or([first, second, third]);
+
+    /// <summary>Combines multiple expressions with a logical OR operation.</summary>
+    /// <param name="expressions">The array of expressions to combine.</param>
+    /// <returns>A new expression representing the logical OR of all expressions.</returns>
+    protected static Expression<Func<T, bool>> Or(params Expression<Func<T, bool>>[] expressions) =>
+        ExpressionTreeExtensions.Or([.. expressions]);
+
+    /// <summary>Combines multiple expressions with a logical OR operation.</summary>
+    /// <param name="expressions">The collection of expressions to combine.</param>
+    /// <returns>A new expression representing the logical OR of all expressions.</returns>
+    protected static Expression<Func<T, bool>> Or(IEnumerable<Expression<Func<T, bool>>> expressions) =>
+        expressions.Or();
 }

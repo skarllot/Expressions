@@ -22,6 +22,11 @@ internal static class ExpressionTreeExtensions
         return Expression.Lambda<Func<T, bool>>(andExpression, left.Parameters);
     }
 
+    public static Expression<Func<T, bool>> And<T>(this ReadOnlySpan<Expression<Func<T, bool>>> expressions)
+    {
+        return expressions.AggregateOrDefault(static (x, y) => x.And(y), AllSpecification<T>.s_expression);
+    }
+
     public static Expression<Func<T, bool>> And<T>(this IEnumerable<Expression<Func<T, bool>>> expressions)
     {
         return expressions.AggregateOrDefault(static (x, y) => x.And(y), AllSpecification<T>.s_expression);
@@ -64,6 +69,11 @@ internal static class ExpressionTreeExtensions
 
         var andExpression = Expression.OrElse(left.Body, newRight);
         return Expression.Lambda<Func<T, bool>>(andExpression, left.Parameters);
+    }
+
+    public static Expression<Func<T, bool>> Or<T>(this ReadOnlySpan<Expression<Func<T, bool>>> expressions)
+    {
+        return expressions.AggregateOrDefault(static (x, y) => x.Or(y), AllSpecification<T>.s_expression);
     }
 
     public static Expression<Func<T, bool>> Or<T>(this IEnumerable<Expression<Func<T, bool>>> expressions)
