@@ -18,6 +18,8 @@ generated_code = true
 
 # C# files
 [*.cs]
+max_line_length = 120
+
 # New line preferences
 csharp_new_line_before_open_brace = all
 csharp_new_line_before_else = true
@@ -157,6 +159,7 @@ dotnet_code_quality.ca1051.exclude_structs = true
 # Xml project files
 [*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,nativeproj,locproj}]
 indent_size = 2
+max_line_length = 120
 
 [*.{csproj,vbproj,proj,nativeproj,locproj}]
 charset = utf-8
@@ -172,6 +175,7 @@ indent_size = 2
 # Xml config files
 [*.{props,targets,config,nuspec}]
 indent_size = 2
+max_line_length = 120
 
 # YAML config files
 [*.{yml,yaml}]

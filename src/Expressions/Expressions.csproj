@@ -9,6 +9,9 @@
   <ItemGroup>
     <InternalsVisibleTo Include="Raiqub.Expressions.Tests" />
   </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Memory" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="." />
   </ItemGroup>
