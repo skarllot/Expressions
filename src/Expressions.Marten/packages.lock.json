@@ -10,9 +10,9 @@
       },
       "Marten": {
         "type": "Direct",
-        "requested": "[8.13.1, )",
-        "resolved": "8.13.1",
-        "contentHash": "AZ6m4PRbaiEw03IiQf5giG8Df8KZ4Tjsn7YhoMS/h74M00b3C6RvO2tCvDmacWtgFUXhgSvkhkorinCvkdsPIw==",
+        "requested": "[8.13.2, )",
+        "resolved": "8.13.2",
+        "contentHash": "cpiWYA15GKd6kJtE0R6Reo85cjDgrHS3ljrezzXsNrb2FCIbefjuTu3tR7QkkidKcrhmNCT8YXTGWkvZ/6ZFVA==",
         "dependencies": {
           "FSharp.Core": "9.0.100",
           "JasperFx": "1.9.0",
