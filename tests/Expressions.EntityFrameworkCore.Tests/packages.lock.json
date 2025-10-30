@@ -38,9 +38,9 @@
       },
       "Portable.System.DateTimeOnly": {
         "type": "Direct",
-        "requested": "[8.0.2, )",
-        "resolved": "8.0.2",
-        "contentHash": "YiEjg6vXK4y2mEwD8F2rKc0XOWW7aRNC1lM+afPUmwQfZ75rX8py6FuC2S0JhBHRHiTl9skKsgPAgSlGipmOPA=="
+        "requested": "[9.0.1, )",
+        "resolved": "9.0.1",
+        "contentHash": "DRzBx/EL1vE9U8Thucwu/oLxpVNH4UXLarAyQbTLOyr4x/X6RT5pEpTZtYAbqLjbrbB99e3YYJW+4pV4DkEn4g=="
       },
       "xunit": {
         "type": "Direct",
