@@ -13,6 +13,6 @@
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageVersion Include="Microsoft.Bcl.AsyncInterfaces" Version="6.0.0" />
-    <PackageVersion Include="System.Memory" Version="4.5.5" />
+    <PackageVersion Include="System.Memory" Version="4.6.3" />
   </ItemGroup>
 </Project>
