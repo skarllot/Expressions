@@ -2,9 +2,11 @@
 
 The database session interfaces abstracts away database operations and integrates with specifications and query strategies.
 
-The **\`Raiqub.Expressions.Reading\`** package provides abstractions for querying data and **\`Raiqub.Expressions.Writing\`** package provides abstractions for saving data.
+The **`Raiqub.Expressions.Reading`** package provides abstractions for querying data and
+**`Raiqub.Expressions.Writing`** package provides abstractions for saving data.
 
-You should add the _Raiqub.Expressions.Reading_ library on projects that only query data (read) and the _Raiqub.Expressions.Writing_ library on projects that query and save data (read and write).
+You should add the `Raiqub.Expressions.Reading` library on projects that only query data (read) and the
+`Raiqub.Expressions.Writing` library on projects that query and save data (read and write).
 
 ::: code-group
 
@@ -22,7 +24,10 @@ paket add nuget Raiqub.Expressions.Writing
 
 :::
 
-You need to register a implementation for database sessions, and the Raiqub Expressions provides implementation for [Entity Framework Core](/ef-core/) and [Marten](/marten/). If you need to use another ORM library, you will need to implement your own database session factory and database session implementing **\`IDbSessionFactory\`** and **\`IDbSession\`** interfaces.
+You need to register a implementation for database sessions, and the Raiqub Expressions provides implementation for
+[Entity Framework Core](/ef-core/) and [Marten](/marten/). If you need to use another ORM library, you will need to
+implement your own database session factory and database session implementing **`IDbSessionFactory`** and
+**`IDbSession`** interfaces.
 
 ::: code-group
 
@@ -44,6 +49,13 @@ Inject the appropriate session interface (`IDbQuerySession` for read sessions, `
 
 ::: code-group
 
+```csharp [C# 12+]
+public class YourService(IDbSession dbSession)
+{
+    // ...
+}
+```
+
 ```csharp [C# classic]
 public class YourService
 {
@@ -54,13 +66,6 @@ public class YourService
         _dbSession = dbSession;
     }
 
-    // ...
-}
-```
-
-```csharp [C# 12]
-public class YourService(IDbSession dbSession)
-{
     // ...
 }
 ```

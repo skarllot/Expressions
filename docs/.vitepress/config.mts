@@ -44,13 +44,21 @@ export default defineConfig({
         {
           text: 'Specification',
           items: [
-            { text: 'Building Specifications', link: '/specification/' }
+            { text: 'Introduction', link: '/specification/' },
+            { text: 'Creating Specifications', link: '/specification/creating-specifications' },
+            { text: 'Usage Patterns', link: '/specification/usage-patterns' },
+            { text: 'Testing', link: '/specification/testing' },
+            { text: 'Best Practices', link: '/specification/best-practices' }
           ]
         },
         {
           text: 'Query Strategy',
           items: [
-            { text: 'Building Query Strategies', link: '/query-strategy/' }
+            { text: 'Introduction', link: '/query-strategy/' },
+            { text: 'Creating Query Strategies', link: '/query-strategy/creating-strategies' },
+            { text: 'Common Patterns', link: '/query-strategy/common-patterns' },
+            { text: 'Testing', link: '/query-strategy/testing' },
+            { text: 'Best Practices', link: '/query-strategy/best-practices' }
           ]
         },
         {
