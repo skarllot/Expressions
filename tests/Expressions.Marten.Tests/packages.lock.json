@@ -4,9 +4,9 @@
     "net8.0": {
       "AwesomeAssertions": {
         "type": "Direct",
-        "requested": "[9.2.1, )",
-        "resolved": "9.2.1",
-        "contentHash": "lbwhyQNXxxEGx4oCbFqNfFy2DsywsvNhN6qoOjY4wwhMgI2L9+YrxjyF/M0io99yrvWV1Cjj12LP2QGcC43Uhw=="
+        "requested": "[9.3.0, )",
+        "resolved": "9.3.0",
+        "contentHash": "8lGLYap2ec2gNLgjf2xKZaKLpQ7j36oJvrYzBVVpNAumqnxRdevqqhEF66qxE92f8y2+zsbQ061DeHG61ZhzaQ=="
       },
       "coverlet.collector": {
         "type": "Direct",
@@ -1174,7 +1174,7 @@
       "Raiqub.Common.Tests": {
         "type": "Project",
         "dependencies": {
-          "AwesomeAssertions": "[9.2.1, )",
+          "AwesomeAssertions": "[9.3.0, )",
           "Microsoft.Extensions.DependencyInjection": "[6.0.2, )",
           "Npgsql": "[7.0.10, )",
           "Raiqub.Expressions": "[1.0.0, )",
