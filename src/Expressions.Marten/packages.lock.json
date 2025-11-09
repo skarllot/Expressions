@@ -10,14 +10,14 @@
       },
       "Marten": {
         "type": "Direct",
-        "requested": "[8.13.3, )",
-        "resolved": "8.13.3",
-        "contentHash": "500lnJv2U+ap4c4S5BO3Q1Hi1UyDg4yjVHelpymgHfo78g4L39/86JTEEEHEwe46JG7Qe9bRhiJLxstJYe0x8g==",
+        "requested": "[8.14.0, )",
+        "resolved": "8.14.0",
+        "contentHash": "quUu+eSqyFJSrTOexQ9+tRO2a/7gJr43zXIz09j0SK0nbMmswVQsD3Kvdz5tgPvk3M39+76jUrrgj/f7LOmZTg==",
         "dependencies": {
           "FSharp.Core": "9.0.100",
           "JasperFx": "1.9.0",
-          "JasperFx.Events": "1.10.2",
-          "JasperFx.RuntimeCompiler": "4.0.0",
+          "JasperFx.Events": "1.11.0",
+          "JasperFx.RuntimeCompiler": "4.1.0",
           "Microsoft.Extensions.Hosting.Abstractions": "8.0.0",
           "Newtonsoft.Json": "13.0.3",
           "Npgsql.Json.NET": "9.0.2",
@@ -69,18 +69,18 @@
       },
       "JasperFx.Events": {
         "type": "Transitive",
-        "resolved": "1.10.2",
-        "contentHash": "VqauFbWWDCKDodGlr4nWg1UPxDb4deobCKelsVttE4+Ph0i3U76DFVUiq6GaYryNUn/m41jS286bhdLfj2MoRw==",
+        "resolved": "1.11.0",
+        "contentHash": "yAwbejcMfbmA6wLI1O7+udNquLAGUUiy8C0413TU7E+1Lz/EBABrRmSAdROijE7E0ppeG5YxndcpnN2OYnlwGQ==",
         "dependencies": {
           "JasperFx": "1.9.0"
         }
       },
       "JasperFx.RuntimeCompiler": {
         "type": "Transitive",
-        "resolved": "4.0.0",
-        "contentHash": "YGIy3WteRE1RPk5yQ5xdBZNe1ld18T/DPaEiABIGXGN7p/VCJyfQKwne74YpQiAmKHdWuoy0iny0mp3uOUe9qQ==",
+        "resolved": "4.1.0",
+        "contentHash": "9EaF3B0tGSqgPLe5DKfbx/vSjnfs+o0PV4tza2/NR2EAOZ6sTOvhURB9z8lcZAyxy8EyC9tAO1vf3Fyd5h5Ffw==",
         "dependencies": {
-          "JasperFx": "1.0.0",
+          "JasperFx": "1.9.0",
           "Microsoft.CodeAnalysis": "4.14.0",
           "Microsoft.CodeAnalysis.CSharp": "4.14.0",
           "Microsoft.CodeAnalysis.Scripting": "4.14.0",
