@@ -245,8 +245,8 @@
       },
       "System.Memory": {
         "type": "Transitive",
-        "resolved": "4.6.0",
-        "contentHash": "OEkbBQoklHngJ8UD8ez2AERSk2g+/qpAaSWWCBFbpH727HxDq5ydVkuncBaKcKfwRqXGWx64dS6G1SUScMsitg=="
+        "resolved": "4.6.3",
+        "contentHash": "qdcDOgnFZY40+Q9876JUHnlHu7bosOHX8XISRoH94fwk6hgaeQGSgfZd8srWRZNt5bV9ZW2TljcegDNxsf+96A=="
       },
       "System.Reflection.Metadata": {
         "type": "Transitive",
@@ -300,7 +300,7 @@
         "type": "Project",
         "dependencies": {
           "Npgsql.EntityFrameworkCore.PostgreSQL": "[8.0.11, )",
-          "RT.Comb": "[4.0.3, )",
+          "RT.Comb": "[4.1.0, )",
           "Raiqub.Expressions.EntityFrameworkCore": "[1.0.0, )",
           "Swashbuckle.AspNetCore": "[9.0.6, )",
           "System.Linq.Async": "[6.0.3, )"
@@ -342,11 +342,11 @@
       },
       "RT.Comb": {
         "type": "CentralTransitive",
-        "requested": "[4.0.3, )",
-        "resolved": "4.0.3",
-        "contentHash": "q+orPpRD4V0lfVGi4ctVtAiIVwcPhHbUhLOb7EASS5oBw6EE2iyvbYXW2p8x99MiCkKxYNrvxf2f0oiEWSBYqw==",
+        "requested": "[4.1.0, )",
+        "resolved": "4.1.0",
+        "contentHash": "IZTdRF7zAW1V7V5ZT4YZZ5zx3zgAvQb4hRrsLhIth0AfdUZz2lA5Ttv1XWZ3Gk0/iuSxhMXDde0mvy597E3aZg==",
         "dependencies": {
-          "System.Memory": "4.6.0"
+          "System.Memory": "4.6.3"
         }
       },
       "Swashbuckle.AspNetCore": {
